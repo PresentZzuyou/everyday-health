@@ -1734,7 +1734,7 @@ function makeSetInpRow(name, setsArr, onChange){
       const inp=document.createElement('input');
       inp.type='text';inp.inputMode='decimal';inp.className='ex-inp-sm';
       inp.style.flex='1';inp.style.textAlign='left';
-      inp.value=setToVal(set);inp.placeholder='kg/회/세트';
+      inp.value=setToVal(set);inp.placeholder='kg.회.세트';
       const empty=!set.w&&!set.r&&!(set.s>1);
       cell.classList.toggle('empty',empty);
       inp.oninput=()=>{
