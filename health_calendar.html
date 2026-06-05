@@ -2494,7 +2494,20 @@ function addCustomEx(){
   renderExMgmt();
 }
 
-renderCal();updateRec();updateStats();updateLegend();
+(async function initApp(){
+  try{
+    const res=await fetch(GS_URL);
+    const json=await res.json();
+    if(json.ok&&json.data&&Object.keys(json.data).length>0){
+      // 시트 데이터와 로컬 데이터 병합 (더 최근 기록 우선)
+      Object.entries(json.data).forEach(([k,v])=>{
+        if(!data[k]||(v.ts&&(!data[k].ts||v.ts>data[k].ts)))data[k]=v;
+      });
+      localStorage.setItem('hcData6',JSON.stringify(data));
+    }
+  }catch(e){}
+  renderCal();updateRec();updateStats();updateLegend();
+})();
 </script>
 </body>
 </html>
