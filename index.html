@@ -1407,10 +1407,16 @@ function buildRecGrid(exList,accentColor){return buildExListRows(exList,null,nul
 
 function formatSetSummary(sets){
   if(!sets||!sets.length)return '';
-  return sets.map(({w,r,s})=>{
+  return sets.map((set)=>{
+    // 혹시 w에 '5.20.3' 형태로 저장됐으면 재파싱
+    let {w,r,s}=set;
+    if(w&&String(w).includes('.')&&!r){
+      const p=String(w).split('.');
+      w=p[0]||'';r=p[1]||'';s=parseInt(p[2])||s||1;
+    }
     let txt='';
     if(w)txt+=w+(String(w).includes('kg')?'':'kg');
-    if(r)txt+=(txt?' ':'')+r+(String(r).includes('개')?'':'개');
+    if(r)txt+=(txt?' ':'')+r+(String(r).includes('개')||String(r).includes('회')?'':'회');
     if(s>1)txt+=` × ${s}세트`;
     return txt.trim();
   }).filter(Boolean).join(' / ');
