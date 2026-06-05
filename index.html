@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Everyday Health</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --lime:#C8F24F; --lime-deep:#A6D62F;
+  --bg:#EFEDE2; --surface:#F6F4EC; --surface-2:#ECE9DC; --inset:#EAE7DB;
+  --line:#E3E0D3; --line-strong:#D6D2C4;
+  --text:#1B1B14; --text-2:#6C6B5E; --text-3:#9B998D;
+  --btn-bg:#17170F; --btn-text:#F4F2E7;
+  --hero-bg:#16160F;
+  --pink:#FF4D8D; --blue:#2F6BFF; --lilac:#CBB2F2; --peach:#F4C58C; --mint:#9DE9C6;
+  --card-lilac:#EFE9FA; --card-peach:#FBF1E4; --card-lime:#C8F24F;
+  --disp:'Poppins','Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  --ui:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Poppins',sans-serif;
+  /* legacy vars referenced by inline JS styles */
+  --white:var(--surface); --yellow:var(--lime); --amber:#E8F5B8; --ink:#1B1B14; --green:#34A06A; --red:#FF5566;
+  --r:24px;
+  --shadow:0 18px 40px -24px rgba(30,30,15,.35);
+  --shadow-sm:0 2px 8px -3px rgba(30,30,15,.18);
+  --outline:1.5px solid var(--line);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#131310; --surface:#1F1F18; --surface-2:#26261E; --inset:#26261E;
+    --line:#2E2E25; --line-strong:#3A3A30;
+    --text:#F1EFE4; --text-2:#A9A79A; --text-3:#747266;
+    --btn-bg:#C8F24F; --btn-text:#17170F;
+    --amber:#3A3A1E;
+    --card-lilac:#231F2E; --card-peach:#2A241B; --card-lime:#C8F24F;
+    --ink:#F1EFE4;
+    --shadow:0 18px 40px -24px rgba(0,0,0,.6);
+    --shadow-sm:0 2px 8px -3px rgba(0,0,0,.4);
+  }
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);
+  font-family:var(--ui);font-size:16px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.wrap{max-width:430px;margin:0 auto;padding:14px 14px 90px}
+.hidden{display:none!important}
+
+/* ===== HERO ===== */
+.hd{position:relative;overflow:hidden;background:var(--hero-bg);color:#F4F2E7;
+  border-radius:30px;padding:26px 24px 24px;margin-bottom:14px}
+.hero-deco{position:absolute;inset:0;pointer-events:none}
+.hero-deco .fl{position:absolute;top:-10px;right:14px}
+.hero-deco .sp{position:absolute;top:64px;right:104px}
+.hero-deco .ci{position:absolute;top:18px;right:128px;width:26px;height:26px;border-radius:50%;background:var(--peach)}
+.hd-left{display:flex;flex-direction:column;gap:4px;position:relative;z-index:1}
+.hd-sub{font-family:var(--disp);font-size:.66rem;font-weight:600;color:#A7A597;letter-spacing:.16em;text-transform:uppercase}
+.hd h1{font-family:var(--disp);font-size:2.1rem;font-weight:800;letter-spacing:-.02em;line-height:1.0;color:#F4F2E7}
+.hd h1 em{font-style:normal;color:var(--lime)}
+.hero-foot{display:flex;align-items:center;gap:10px;margin-top:20px;position:relative;z-index:1}
+.streak{font-family:var(--disp);background:var(--lime);color:#16160F;padding:9px 16px;border-radius:999px;
+  font-size:.82rem;font-weight:700;letter-spacing:-.01em;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+
+/* ===== CARD ===== */
+.card{background:var(--surface);border:var(--outline);border-radius:var(--r);
+  padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.card-blue{background:var(--card-lime);border-color:transparent;
+  --surface:#FBFBF4;--surface-2:#EEF6D2;--inset:#EEF6D2;--line:#B7D94E;--line-strong:#A6CE3C;
+  --text:#16160F;--text-2:#42501C;--text-3:#5E6B33;--btn-bg:#17170F;--btn-text:#F4F2E7}
+.card-pink{background:#CBB2F2;border-color:transparent;
+  --surface:#FBFAF6;--surface-2:#E7DAF7;--inset:#E7DAF7;--line:#BBA0E8;--line-strong:#AE90E2;
+  --text:#16160F;--text-2:#473863;--text-3:#5C4D78;--btn-bg:#17170F;--btn-text:#F4F2E7}
+.card-lav{background:var(--card-lilac);border-color:transparent}
+.card-sage{background:var(--surface)}
+.card-peach{background:var(--card-peach);border-color:transparent;
+  --surface:#FBFAF6;--surface-2:#F5E8D8;--inset:#F5E8D8;--line:#E8C898;--line-strong:#D8A870;
+  --text:#16160F;--text-2:#6B4A20;--text-3:#8A6030}
+.card-title{font-family:var(--disp);font-size:.82rem;font-weight:700;margin-bottom:14px;
+  display:flex;align-items:center;gap:6px;letter-spacing:0;color:var(--text);text-transform:none}
+
+/* ===== RECOMMENDATION ===== */
+.rec-nav{display:flex;align-items:center;gap:6px;margin-bottom:12px}
+.rec-day-label{display:none}
+.rec-day-label .day-name{font-family:var(--disp);font-size:1.05rem;font-weight:800}
+.rec-day-label .day-date{font-size:.8rem;color:var(--text-2);font-weight:600;margin-top:2px}
+.rec-week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;flex:1;min-width:0}
+.rec-week-day{border:1.5px solid var(--line);background:var(--surface);color:var(--text-2);
+  border-radius:11px;padding:6px 2px;font-size:.66rem;font-weight:800;font-family:var(--disp);
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;position:relative}
+.rec-week-day strong{display:block;font:inherit;color:inherit;line-height:1}
+.rec-week-day span{font-size:.58rem;font-weight:700;color:var(--text-3);font-family:var(--ui)}
+.rec-week-day.on{background:rgba(255,255,255,.9);color:#17170F;border-color:transparent}
+.rec-week-day.on span{color:#17170F;opacity:.72}
+.rec-week-day.on::after{content:'';position:absolute;left:50%;bottom:3px;transform:translateX(-50%);
+  width:14px;height:3px;border-radius:999px;background:var(--pink)}
+.rec-week-day.today{background:#17170F!important;color:#fff!important;border-color:transparent;box-shadow:none}
+.rec-week-day.today span{color:#fff!important;opacity:.82}
+.rec-week-day.today.on::after{background:var(--lime)}
+.arr-btn{background:var(--surface);color:var(--text);border:var(--outline);
+  width:34px;height:42px;border-radius:12px;cursor:pointer;font-size:1.1rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.arr-btn:active{opacity:.6;transform:scale(.93)}
+.rec-badge{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;
+  border-radius:999px;font-family:var(--disp);font-size:.9rem;font-weight:700;border:none;margin-bottom:10px}
+.rec-reason{font-size:.84rem;color:var(--text-2);line-height:1.6;margin-bottom:8px;font-weight:500}
+.rec-tip{font-size:.78rem;color:var(--text-2);margin-top:10px;line-height:1.6;
+  background:var(--bg);border-radius:14px;padding:11px 13px;border:1px solid var(--line);font-weight:500}
+/* 리스트형 운동 행 */
+.ex-list-row{display:flex;align-items:center;gap:10px;padding:11px 14px;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:13px;
+  margin-bottom:6px;cursor:pointer;touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;transition:border-color .1s}
+.ex-list-row:active{opacity:.7}
+.ex-list-row.sel{border-color:var(--lime-deep);background:var(--amber)}
+.ex-list-chk{width:22px;height:22px;border-radius:7px;border:1.25px solid #ececea;
+  display:flex;align-items:center;justify-content:center;font-size:.78rem;
+  flex-shrink:0;background:#fff;color:#17170F;font-weight:900;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
+.ex-list-row.sel .ex-list-chk{background:#17170F;border-color:#ececea;color:#fff}
+.ex-list-name{flex:1;font-size:.88rem;font-weight:600;color:var(--text)}
+.ex-list-yt{padding:4px 9px;background:#FF3B3B;color:#fff;border-radius:7px;
+  font-size:.56rem;font-weight:800;text-decoration:none;flex-shrink:0;line-height:1.5}
+/* 부위 칩 */
+.part-chips{display:flex;flex-wrap:nowrap;gap:4px;margin-bottom:10px;
+  overflow:visible;padding-bottom:2px;scrollbar-width:none;justify-content:center}
+.part-chips::-webkit-scrollbar{display:none}
+.part-chip{padding:7px 9px;border-radius:20px;border:1.5px solid transparent;
+  font-size:.7rem;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;
+  background:var(--surface);color:var(--text);touch-action:manipulation;flex:1 1 0;min-width:0}
+.done-btn{width:100%;padding:15px;border-radius:16px;border:none;
+  background:var(--btn-bg);color:var(--btn-text);font-family:var(--disp);font-size:.96rem;font-weight:700;
+  cursor:pointer;margin-top:6px}
+.done-btn:active{opacity:.85;transform:scale(.98)}
+.done-btn.already{background:var(--btn-bg);color:var(--btn-text);border:1.5px solid transparent}
+.done-btn.rest-day{background:var(--surface-2);color:var(--text-2)}
+
+/* ===== CALENDAR ===== */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-month{font-family:var(--disp);font-size:1.4rem;font-weight:800;letter-spacing:-.01em;color:var(--text);white-space:nowrap}
+.nav-btns{display:flex;gap:6px}
+.btn-nav{background:var(--surface);color:var(--text);border:var(--outline);
+  width:36px;height:36px;border-radius:12px;cursor:pointer;font-size:.95rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center}
+.btn-nav:active{opacity:.6}
+.btn-today{width:auto;padding:0 14px;font-family:var(--disp);font-size:.78rem;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.dn{text-align:center;font-size:.66rem;font-weight:700;padding:2px 0 7px;color:var(--text-3)}
+.dn:first-child{color:#FF7FA8} .dn:last-child{color:#7FA8E8}
+.cal-day{background:transparent;border:1.5px solid transparent;border-radius:13px;
+  padding:7px 2px 6px;min-height:50px;cursor:pointer;position:relative;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:3px;justify-content:flex-start}
+.cal-day:active{transform:scale(.93)}
+.cal-day.empty{background:transparent;cursor:default;border:none;pointer-events:none}
+.cal-day.is-today{background:var(--lime);border-color:var(--lime)}
+.cal-day.is-today .dn2{color:#16160F}
+.cal-day.is-plan{background:var(--surface)}
+.cal-day.is-plan-cardio{background:var(--surface)}
+.cal-day.is-sun .dn2{color:#FF7FA8} .cal-day.is-sat .dn2{color:#7FA8E8}
+.dn2{font-family:var(--disp);font-size:.84rem;font-weight:700;line-height:1;color:var(--text)}
+.done-star{position:absolute;top:4px;right:5px;font-size:.62rem;font-weight:900;color:var(--lime-deep)}
+.cal-day.is-today .done-star{color:#16160F}
+.plan-lbl{font-size:.6rem;font-weight:700;color:var(--text-3);line-height:1;margin-top:1px}
+.cal-day.has-entry{background:var(--surface);border-color:var(--line)}
+.cal-bars{display:flex;flex-direction:column;gap:2.5px;width:64%;margin-top:2px}
+.cal-bars i{height:4px;border-radius:3px;display:block;width:100%}
+.cal-day.has-rest{background:var(--surface-2)!important;border-color:var(--line)!important}
+.cal-day.has-rest .dn2{color:var(--text-3)}
+
+/* legend */
+.legend{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;padding-top:14px;border-top:1.5px dashed var(--line-strong)}
+.leg{display:flex;align-items:center;gap:6px;font-size:.74rem;font-weight:600;color:var(--text-2)}
+.leg-dot{width:16px;height:7px;border-radius:4px;border:none}
+
+/* ===== STATS ===== */
+.stats-nav{display:flex;align-items:center;gap:7px;margin-bottom:6px}
+.stats-months{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;flex:1}
+.stat-month{background:var(--surface);border:var(--outline);border-radius:18px;
+  padding:12px 9px;text-align:center}
+.stat-month.current{background:var(--lime);border-color:var(--lime)}
+.stat-m-name{font-family:var(--disp);font-size:.66rem;font-weight:700;margin-bottom:5px;color:var(--text-3)}
+.stat-month.current .stat-m-name{color:#3F5212}
+.stat-m-num{font-family:var(--disp);font-size:1.5rem;font-weight:800;line-height:1;color:var(--text)}
+.stat-month.current .stat-m-num{color:#16160F}
+.stat-m-unit{font-size:.62rem;font-weight:700;margin-left:1px;color:var(--text-3)}
+.stat-month.current .stat-m-unit{color:#4A5A1E}
+.stat-parts{margin-top:9px;display:flex;flex-direction:column;gap:5px;align-items:stretch;padding:0 2px}
+.stat-part-row{display:flex;align-items:center;gap:6px}
+.stat-part-dot{width:12px;height:6px;border-radius:3px;flex-shrink:0;border:none}
+.stat-part-name{font-size:.72rem;font-weight:600;flex:1;text-align:left;color:var(--text-2)}
+.stat-part-cnt{font-size:.72rem;font-weight:700;color:var(--text-3)}
+.stat-month.current .stat-part-name{color:#2E3A12}
+.stat-month.current .stat-part-cnt{color:#4A5A1E}
+.stat-arr{background:var(--surface);color:var(--text);border:var(--outline);
+  width:34px;height:34px;border-radius:12px;cursor:pointer;font-size:.95rem;
+  font-weight:700;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.stat-arr:active{opacity:.6}
+
+/* ===== MODAL ===== */
+.overlay{position:fixed;inset:0;background:rgba(20,20,12,.5);
+  display:flex;align-items:flex-end;justify-content:center;z-index:200;
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.overlay.hidden{display:none}
+.modal{background:var(--bg);border-radius:30px 30px 0 0;border:none;
+  width:100%;max-width:430px;max-height:90vh;overflow-y:auto;padding:12px 18px 36px;
+  box-shadow:0 -10px 40px rgba(0,0,0,.18)}
+.modal-handle{width:42px;height:5px;background:var(--line-strong);border-radius:3px;margin:6px auto 18px}
+.modal-title{font-family:var(--disp);font-size:1.25rem;font-weight:800;margin-bottom:18px;color:var(--text)}
+.view-part-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;
+  font-size:.8rem;font-weight:700;color:#fff;margin-right:6px;margin-bottom:8px}
+.view-ex-row{padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);
+  border-radius:12px;margin-bottom:6px}
+.view-ex-name{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.view-ex-sets{font-size:.78rem;color:var(--text-2);font-weight:500;line-height:1.7}
+.view-done{display:inline-flex;align-items:center;gap:5px;background:var(--lime);
+  color:#16160F;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:800;margin-bottom:12px}
+.view-rest{display:inline-flex;align-items:center;background:var(--surface-2);
+  color:var(--text-2);padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:12px}
+.field-lbl{display:block;font-family:var(--disp);font-size:.72rem;font-weight:700;color:var(--text-3);
+  margin-bottom:9px;letter-spacing:.02em;text-transform:none}
+.part-btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.part-btn{padding:9px 16px;border-radius:14px;border:1.5px solid var(--line-strong);
+  background:var(--surface);color:var(--text-2);cursor:pointer;font-size:.84rem;font-weight:700}
+.part-btn:active{transform:scale(.95)}
+.part-btn.on{border-color:transparent}
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin-bottom:14px;padding:2px}
+.ex-card{border:1.5px solid var(--line);border-radius:16px;overflow:hidden;
+  background:var(--surface);position:relative;cursor:pointer;display:flex;flex-direction:column;
+  touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.ex-card:active{transform:scale(.94)}
+.ex-card.selected{border-color:var(--lime-deep)}
+.ex-card.selected .ex-name-bar{background:var(--lime);color:#16160F}
+.ex-card.selected .sel-mk{display:flex}
+.ex-img-box{flex:1;min-height:60px;background:var(--inset);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ex-img-box img{width:100%;height:100%;object-fit:cover;object-position:top}
+.ex-name-bar{padding:6px 3px;font-size:.62rem;font-weight:600;text-align:center;
+  line-height:1.3;background:var(--surface);min-height:28px;
+  display:flex;align-items:center;justify-content:center;color:var(--text)}
+.yt-lnk{position:absolute;top:5px;right:5px;background:#FF3B3B;
+  color:#fff;border-radius:7px;padding:3px 6px;font-size:.5rem;font-weight:800;
+  text-decoration:none;line-height:1.4;z-index:2}
+.sel-mk{position:absolute;top:5px;left:5px;width:20px;height:20px;
+  background:var(--btn-bg);border-radius:7px;color:var(--btn-text);
+  font-size:.68rem;font-weight:900;display:none;align-items:center;justify-content:center;z-index:2}
+.ex-empty{padding:16px;font-size:.84rem;color:var(--text-3);font-weight:600;text-align:center;
+  border:1.5px dashed var(--line-strong);border-radius:16px;margin-bottom:14px}
+
+/* search */
+.ex-search-wrap{position:relative;margin-bottom:10px}
+.ex-search-inp{width:100%;background:var(--inset);border:var(--outline);border-radius:13px;
+  padding:11px 13px 11px 40px;color:var(--text);font-size:.9rem;outline:none;font-weight:600;font-family:inherit}
+.ex-search-inp:focus{background:var(--surface);border-color:var(--lime-deep)}
+.ex-search-ico{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:.95rem;pointer-events:none}
+.ex-search-results{background:var(--surface);border:var(--outline);border-radius:13px;
+  overflow-y:auto;max-height:180px;margin-bottom:10px;scrollbar-width:thin;
+  scrollbar-color:var(--line-strong) transparent}
+.ex-search-results::-webkit-scrollbar{width:5px}
+.ex-search-results::-webkit-scrollbar-track{background:transparent}
+.ex-search-results::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px}
+.ex-search-row{display:flex;align-items:center;gap:9px;padding:10px 13px;
+  cursor:pointer;border-bottom:1.5px solid var(--line)}
+.ex-search-row:last-child{border-bottom:none}
+.ex-search-row:active{background:var(--inset)}
+.ex-search-part{font-size:.66rem;font-weight:800;color:#fff;padding:3px 9px;
+  border-radius:999px;flex-shrink:0;white-space:nowrap}
+.ex-search-name{font-size:.84rem;font-weight:700;color:var(--text)}
+.ex-search-empty{padding:14px;text-align:center;font-size:.82rem;color:var(--text-3);font-weight:600}
+
+/* per-ex sets */
+.ex-sets-list{margin-bottom:14px}
+.ex-sets-hd{font-family:var(--disp);font-size:.72rem;font-weight:700;color:var(--text-3);
+  margin-bottom:8px}
+.ex-sets-row{display:flex;align-items:center;gap:9px;padding:12px 13px;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:15px;
+  margin-bottom:7px;cursor:pointer}
+.ex-sets-row:active{background:var(--inset)}
+.ex-sets-name{font-size:.84rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)}
+.ex-sets-val{font-size:.7rem;font-weight:600;color:var(--text-2);line-height:1.5}
+.ex-sets-val.unset{color:var(--text-3);font-size:.76rem}
+.ex-sets-ico{font-size:.85rem;color:var(--text-3);flex-shrink:0}
+
+/* drum sets */
+/* ── set text inputs ── */
+/* multi-row set input */
+.ex-sets-mr{background:var(--surface);border:1.5px solid var(--line);
+  border-radius:14px;padding:9px 11px;margin-bottom:7px}
+.ex-sets-mr-name{font-size:.75rem;font-weight:700;color:var(--text);
+  margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 2열 세트 그리드 */
+.ex-sets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px}
+.ex-set-cell{display:flex;align-items:center;gap:3px;background:var(--bg);
+  border:1.5px solid var(--line);border-radius:10px;padding:5px 6px;transition:opacity .15s}
+.ex-set-cell.empty{opacity:.38}
+.ex-set-cell:focus-within{border-color:var(--lime-deep);opacity:1!important}
+.ex-set-num{font-size:.58rem;font-weight:800;color:var(--text-3);min-width:12px;flex-shrink:0}
+.ex-inp-sm{width:0;flex:1;min-width:0;text-align:right;background:transparent;border:none;
+  padding:0 1px;font-size:.8rem;font-weight:700;
+  color:var(--text);font-family:inherit;outline:none;-webkit-appearance:none}
+.ex-inp-sm::placeholder{color:var(--text-3);font-weight:400;font-size:.72rem}
+.ex-inp-sm:placeholder-shown{font-weight:400}
+.ex-unit{font-size:.62rem;font-weight:600;color:var(--text-3);flex-shrink:0;min-width:10px}
+.ex-sets-sep{font-size:.62rem;color:var(--line-strong);font-weight:500;flex-shrink:0}
+.ex-sets-add{background:none;border:1.5px dashed var(--line-strong);color:var(--text-3);
+  border-radius:8px;padding:5px 0;font-size:.7rem;font-weight:700;cursor:pointer;
+  font-family:inherit;width:100%;margin-top:2px}
+.ex-sets-add:active{background:var(--inset)}
+/* rec part section */
+.rec-part-hd{font-size:.72rem;font-weight:800;color:var(--text-2);
+  padding:10px 0 5px;display:flex;align-items:center;gap:6px}
+.rec-part-hd .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.rec-part-divider{border:none;border-top:1.5px dashed var(--line-strong);margin:8px 0}
+/* 운동목록 스크롤 */
+.ex-list-scroll{max-height:232px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  scrollbar-width:thin;scrollbar-color:var(--line-strong) transparent;padding-right:4px}
+.ex-list-scroll::-webkit-scrollbar{width:5px}
+.ex-list-scroll::-webkit-scrollbar-track{background:transparent}
+.ex-list-scroll::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px}
+.rec-ex-list-scroll{max-height:152px;overscroll-behavior:contain;margin-bottom:12px}
+.view-ex-list-full{max-height:none;overflow:visible;padding-right:0}
+/* 추천탭 검색 */
+.rec-search-wrap{position:relative;margin-bottom:10px}
+.rec-search-inp{width:100%;background:var(--inset);border:var(--outline);border-radius:12px;
+  padding:10px 12px 10px 36px;font-size:.86rem;color:var(--text);outline:none;
+  font-family:inherit;font-weight:500}
+.rec-search-ico{position:absolute;left:11px;top:50%;transform:translateY(-50%);
+  font-size:.9rem;pointer-events:none;color:var(--text-3)}
+.prev-load-btn{width:100%;padding:11px 13px;border-radius:13px;border:1.5px dashed var(--line-strong);
+  background:var(--surface);color:var(--text-2);font-size:.82rem;font-weight:700;cursor:pointer;
+  font-family:inherit;margin:-4px 0 14px;display:flex;align-items:center;justify-content:center;gap:6px}
+.prev-load-btn.loaded{background:var(--amber);color:var(--text);border-color:var(--lime-deep)}
+.prev-load-empty{font-size:.8rem;font-weight:700;color:var(--text-3);text-align:center;
+  padding:10px 12px;border:1.5px dashed var(--line);border-radius:13px;margin:-4px 0 14px}
+/* 운동 관리 카드 */
+.ex-mgmt-row{display:flex;align-items:center;gap:8px;padding:9px 12px;
+  background:var(--surface);border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px}
+.ex-mgmt-name{flex:1;font-size:.86rem;font-weight:600;color:var(--text)}
+.ex-mgmt-part{font-size:.66rem;font-weight:700;padding:3px 8px;border-radius:10px;color:#fff}
+.ex-mgmt-del{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:.9rem;padding:2px 4px}
+.ex-mgmt-del:active{color:var(--red)}
+.ex-mgmt-add{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;align-items:stretch}
+.ex-mgmt-add input{flex:1 1 100%;min-width:0;background:var(--inset);border:var(--outline);border-radius:12px;
+  padding:10px 12px;font-size:.86rem;color:var(--text);outline:none;font-family:inherit}
+.ex-mgmt-add select{flex:1 1 0;min-width:0;background:var(--inset);border:var(--outline);border-radius:12px;
+  padding:10px 8px;font-size:.82rem;color:var(--text);outline:none;font-family:inherit}
+.ex-mgmt-add .btn-add{flex:0 0 auto;padding:10px 20px;border-radius:12px;border:none;
+  background:var(--btn-bg);color:var(--btn-text);font-size:.82rem;font-weight:700;
+  cursor:pointer;font-family:inherit;white-space:nowrap}
+/* rec card selected */
+.rec-card.rec-selected{border-color:var(--lime-deep)!important;
+  box-shadow:0 0 0 3px var(--lime),0 4px 16px rgba(180,220,40,.35);
+  transform:scale(1.04);transition:transform .15s,box-shadow .15s}
+.rec-card.rec-selected .rec-name{background:var(--lime);color:#16160F;font-weight:700}
+.rec-card.rec-selected .rec-img::after{content:'✓';position:absolute;
+  top:6px;left:6px;width:22px;height:22px;background:#A6D62F;border-radius:50%;
+  color:#16160F;font-size:.78rem;font-weight:900;display:flex;align-items:center;
+  justify-content:center;line-height:22px;text-align:center;z-index:3;
+  box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.rec-img{position:relative}
+
+.custom-inp{width:100%;background:var(--inset);border:var(--outline);border-radius:14px;
+  padding:13px 14px;color:var(--text);font-size:.9rem;outline:none;margin-bottom:14px;
+  font-weight:600;font-family:inherit}
+.custom-inp:focus{background:var(--surface);border-color:var(--lime-deep)}
+.toggle-row{display:flex;align-items:center;gap:11px;margin-bottom:20px}
+.tog{position:relative;width:48px;height:27px;flex-shrink:0}
+.tog input{display:none}
+.tog-sl{position:absolute;inset:0;background:var(--line-strong);border-radius:14px;cursor:pointer;transition:.2s}
+.tog-sl::after{content:'';position:absolute;width:21px;height:21px;background:#fff;
+  border-radius:50%;top:3px;left:3px;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tog input:checked+.tog-sl{background:var(--lime-deep)}
+.tog input:checked+.tog-sl::after{transform:translateX(21px)}
+.modal-actions{display:flex;gap:9px}
+.btn{flex:1;padding:15px;border-radius:16px;border:none;cursor:pointer;
+  font-family:var(--disp);font-size:.92rem;font-weight:700}
+.btn:active{transform:scale(.97);opacity:.9}
+.btn-primary{background:var(--btn-bg);color:var(--btn-text)}
+.btn-ghost{background:var(--surface-2);color:var(--text-2)}
+.btn-del{background:rgba(255,77,141,.16);color:var(--pink)}
+
+/* Soft surface pass: reduce line-heavy UI in favor of clean filled shapes */
+.card{border:none;box-shadow:none}
+.arr-btn,.btn-nav,.stat-arr{border:none;background:rgba(255,255,255,.52)}
+.card-blue .arr-btn,.card-blue .rec-week-day,.card-blue .rec-search-inp,
+.card-blue .ex-list-row,.card-blue .prev-load-btn{background:rgba(255,255,255,.72)}
+.rec-week-day{border:none}
+.rec-week-day.on,.rec-week-day.today{box-shadow:none}
+.ex-list-row,.view-ex-row,.ex-sets-mr,.ex-set-cell,.ex-search-results,
+.ex-search-inp,.rec-search-inp,.custom-inp,.ex-mgmt-row,.stat-month,
+.part-btn,.prev-load-btn,.prev-load-empty{border:none}
+.ex-list-row,.view-ex-row,.ex-sets-mr,.ex-search-results,.ex-mgmt-row,
+.stat-month,.part-btn,.prev-load-btn,.prev-load-empty{box-shadow:none}
+.ex-list-row{background:rgba(255,255,255,.7)}
+.ex-list-row.sel{background:var(--amber);box-shadow:inset 0 0 0 2px var(--lime-deep)}
+.cal-day.is-plan,.cal-day.is-plan-cardio{border:none;background:#FFF6B8}
+.cal-day.has-entry{border:none;background:#DDF77A}
+.cal-day.has-entry .dn2{color:#17170F}
+.cal-day.has-entry .plan-lbl{color:#445718}
+.cal-bars{width:72%;gap:3px}
+.cal-bars i{height:5px;box-shadow:0 1px 0 rgba(255,255,255,.45)}
+.cal-day.is-today{border:none;background:#17170F}
+.cal-day.is-today .dn2{color:#fff}
+.cal-day.is-today.has-entry{background:#DDF77A;box-shadow:inset 0 0 0 2px #17170F}
+.cal-day.is-today.has-entry .dn2{color:#17170F}
+.cal-day.is-today.is-plan,.cal-day.is-today.is-plan-cardio{background:#FFF6B8;box-shadow:inset 0 0 0 2px #17170F}
+.cal-day.is-today.is-plan .dn2,.cal-day.is-today.is-plan-cardio .dn2{color:#17170F}
+.cal-day.has-rest{border:none!important}
+.legend{border-top:none;padding-top:8px}
+.rec-part-divider{border-top:none;height:8px;margin:6px 0;background:rgba(255,255,255,.38);border-radius:999px}
+.ex-search-row{border-bottom:none}
+.ex-search-row+.ex-search-row{box-shadow:inset 0 1px rgba(0,0,0,.04)}
+.ex-set-cell:focus-within,.ex-search-inp:focus,.rec-search-inp:focus,.custom-inp:focus{
+  box-shadow:inset 0 0 0 2px var(--lime-deep);border:none}
+.calendar-card{background:#fff}
+.calendar-card .btn-nav,
+.calendar-card .cal-day.has-rest{background:#F2F2EA}
+.card-peach .ex-mgmt-row,
+.card-peach .rec-search-inp,
+.card-peach .ex-mgmt-add input,
+.card-peach .ex-mgmt-add select{background:#fff}
+
+/* Reference-inspired visual pass: bold black/lime surfaces, pastel blocks, minimal lines */
+:root{
+  --bg:#DEDDD4;
+  --surface:#FBFAF4;
+  --surface-2:#F0EFE6;
+  --inset:#F0EFE6;
+  --line:#E7E5DA;
+  --line-strong:#D8D5C8;
+  --card-peach:#FBFAF4;
+  --card-lilac:#E7D8FF;
+  --shadow-sm:0 18px 34px -28px rgba(23,23,15,.35);
+}
+.wrap{padding:18px 14px 96px}
+.hd{border-radius:34px;padding:30px 26px 26px;min-height:210px}
+.hd h1{font-size:2.35rem;line-height:1.06}
+.streak{padding:10px 17px;border-radius:18px}
+.card{border-radius:30px;padding:20px;margin-bottom:16px;background:var(--surface)}
+.card-blue{background:var(--lime);border-radius:30px}
+.card-pink{background:#D8C4FA;border-radius:30px}
+.card-peach{background:#FBFAF4;border-radius:30px}
+.card-title{font-size:.9rem;margin-bottom:16px}
+.arr-btn,.btn-nav,.stat-arr{background:#fff;border-radius:15px;color:#17170F}
+.rec-week{gap:5px}
+.rec-week-day{border-radius:14px;background:rgba(255,255,255,.62);padding:7px 2px}
+.rec-week-day.on{background:#fff}
+.rec-week-day.today{background:#17170F!important;color:#fff!important}
+.rec-week-day.on::after{bottom:3px;height:3px}
+.rec-search-inp,.ex-search-inp,.custom-inp,
+.ex-mgmt-add input,.ex-mgmt-add select{background:#fff;border-radius:17px}
+.ex-list-row,.view-ex-row,.ex-mgmt-row{border-radius:18px;background:#fff;padding:13px 15px}
+.card-blue .ex-list-row,.card-blue .rec-search-inp,.card-blue .prev-load-btn{background:rgba(255,255,255,.78)}
+.ex-list-row.sel{background:#EEF8B8;box-shadow:inset 0 0 0 2px #17170F}
+.ex-list-chk{width:24px;height:24px;border-radius:9px;border-width:1.25px;border-color:#ececea}
+.part-chip,.part-btn{border-radius:18px;background:#fff}
+.done-btn{position:relative;min-height:58px;border-radius:22px;background:#E6E6D8;color:#17170F;
+  display:flex;align-items:center;justify-content:center;padding:16px 56px;font-weight:800}
+.done-btn::before{content:'✓';position:absolute;left:8px;top:8px;bottom:8px;width:48px;border-radius:17px;
+  background:#fff;color:#17170F;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.done-btn::after{content:'››';position:absolute;right:18px;top:50%;transform:translateY(-50%);
+  font-family:var(--disp);font-weight:800;color:#17170F;opacity:.72}
+.card-blue .done-btn{background:#17170F;color:#fff}
+.card-blue .done-btn::after{color:#fff}
+.done-btn.already{background:#17170F;color:#fff}
+.done-btn.rest-day{background:#E6E6D8;color:#17170F}
+.btn{border-radius:20px}
+.calendar-card{background:#fff;border-radius:30px}
+.cal-grid{gap:6px}
+.cal-day{border-radius:16px;min-height:53px}
+.cal-day.is-plan,.cal-day.is-plan-cardio{background:#FFF5A9}
+.cal-day.has-entry{background:#DDF77A}
+.cal-bars{width:74%}
+.cal-bars i{height:5px;border-radius:6px}
+.stat-month{border-radius:22px;background:#fff}
+.stat-month.current{background:var(--lime)}
+.modal{border-radius:34px 34px 0 0;background:#F4F3EA}
+.ex-sets-mr{border-radius:18px;background:#fff}
+.ex-set-cell{border-radius:14px;background:#F2F1E8}
+
+/* Dashboard reference pass: sage canvas, Atyp-like bold type, lime/black/off-white system */
+:root{
+  --lime:#C8FF4E;
+  --lime-deep:#AEEB2F;
+  --bg:#B4BAA8;
+  --surface:#F6F7F4;
+  --surface-2:#ECEDE4;
+  --inset:#ECEDE4;
+  --line:#D9DBC9;
+  --line-strong:#C5C9B3;
+  --text:#080806;
+  --text-2:#565A4C;
+  --text-3:#888D7A;
+  --btn-bg:#000;
+  --btn-text:#F6F7F4;
+  --hero-bg:#0A0807;
+  --card-lime:#C8FF4E;
+  --card-lilac:#E6D8FF;
+  --card-peach:#F6F7F4;
+}
+html,body{background:var(--bg);color:var(--text)}
+.wrap{max-width:430px;padding:18px 13px 96px}
+.hd{background:#0A0807;border-radius:32px;min-height:214px;padding:30px 26px 26px}
+.hd-sub{letter-spacing:.12em;color:#B9B7AA}
+.hd h1{font-size:2.42rem;letter-spacing:0;line-height:1.03}
+.hd h1 em{color:var(--lime)}
+.streak{background:var(--lime);color:#000;border-radius:16px}
+.card{background:var(--surface);border-radius:26px;padding:18px;box-shadow:none}
+.card:not(.card-blue):not(.hd){
+  background-color:var(--surface);
+  background-image:
+    linear-gradient(rgba(0,0,0,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,.025) 1px, transparent 1px);
+  background-size:18px 18px;
+}
+.card-blue{background:var(--lime);border-radius:28px}
+.card-pink{background:#E5D8FF}
+.card-peach{background:#F6F7F4}
+.card-title{font-size:.94rem;font-weight:800;color:#0A0807}
+.arr-btn,.btn-nav,.stat-arr{background:#F6F7F4;color:#000;border-radius:14px}
+.rec-week-day{background:rgba(246,247,244,.74);border-radius:13px;color:#1B1B14}
+.rec-week-day.on{background:#F6F7F4}
+.rec-week-day.today{background:#000!important;color:#fff!important}
+.rec-week-day.today.on::after{background:var(--lime)}
+.rec-reason{color:#343829;font-weight:700}
+.part-chip,.part-btn{background:#F6F7F4;border-radius:16px;color:#080806}
+.part-chip{font-size:.68rem;padding:7px 7px}
+.rec-search-inp,.ex-search-inp,.custom-inp,
+.ex-mgmt-add input,.ex-mgmt-add select{background:#F6F7F4;border-radius:16px;color:#080806}
+.ex-list-row,.view-ex-row,.ex-mgmt-row{background:#F6F7F4;border-radius:17px}
+.card-blue .ex-list-row,.card-blue .rec-search-inp,.card-blue .prev-load-btn{background:rgba(246,247,244,.82)}
+.ex-list-row.sel{background:#E8FF9A;box-shadow:inset 0 0 0 2px #000}
+.ex-list-chk{border-color:#ececea;background:#F6F7F4;color:#000}
+.ex-list-row.sel .ex-list-chk{background:#000;border-color:#ececea;color:#fff}
+.done-btn{background:#E4E6D9;color:#000;border-radius:20px}
+.card-blue .done-btn,.done-btn.already{background:#000;color:#fff}
+.calendar-card{background:#F6F7F4;border-radius:28px}
+.cal-day{border-radius:15px}
+.cal-day.is-plan,.cal-day.is-plan-cardio{background:#FFF8B7}
+.cal-day.has-entry{background:#DDFE75}
+.cal-day.is-today{background:#000}
+.cal-day.is-today.has-entry{background:#DDFE75;box-shadow:inset 0 0 0 2px #000}
+.cal-day.is-today.is-plan,.cal-day.is-today.is-plan-cardio{background:#FFF8B7;box-shadow:inset 0 0 0 2px #000}
+.cal-month,.stat-m-num{letter-spacing:0}
+.stat-month{background:#F6F7F4;border-radius:20px}
+.stat-month.current{background:var(--lime)}
+.modal{background:#E9EAE0;border-radius:32px 32px 0 0}
+.ex-sets-mr{background:#F6F7F4;border-radius:18px}
+.ex-set-cell{background:#ECEDE4;border-radius:13px}
+.view-done{background:var(--lime);color:#000}
+
+/* Fitness dashboard pass: brighter workout dashboard tone */
+:root{
+  --lime:#C9F94A;
+  --lime-deep:#9EE22C;
+  --bg:#C9F94A;
+  --surface:#FFFFFF;
+  --surface-2:#F3F4EE;
+  --inset:#F3F4EE;
+  --line:#E5E8DD;
+  --line-strong:#C8CEB8;
+  --text:#10110D;
+  --text-2:#5A5F52;
+  --text-3:#909684;
+  --card-lime:#C9F94A;
+  --card-peach:#FFFFFF;
+  --card-lilac:#E8DBFF;
+}
+html,body{background:var(--bg)}
+.wrap{max-width:430px;padding:16px 12px 96px}
+.hd{min-height:176px;border-radius:28px;background:#080A08;padding:26px 24px 24px}
+.hd h1{font-size:2.22rem}
+.hero-foot{margin-top:18px}
+.card{background:#fff;border-radius:24px;padding:17px;margin-bottom:14px}
+.card:not(.card-blue):not(.hd){
+  background-image:
+    linear-gradient(rgba(158,226,44,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(158,226,44,.035) 1px, transparent 1px);
+  background-size:16px 16px;
+}
+.card-blue{background:#C9F94A;border-radius:26px}
+.card-pink{background:#E9DDFF}
+.card-peach{background:#fff}
+.card-title{font-size:.92rem}
+.rec-week-day,.arr-btn,.btn-nav,.stat-arr{background:#fff}
+.rec-week-day.today{background:#080A08!important;color:#fff!important}
+.rec-week-day.on::after{background:#080A08}
+.rec-reason{color:#25291C}
+.part-chip{background:#fff;border-radius:15px;font-size:.67rem}
+.rec-search-inp,.ex-search-inp,.custom-inp,
+.ex-mgmt-add input,.ex-mgmt-add select{background:#fff;border-radius:15px}
+.ex-list-row,.view-ex-row,.ex-mgmt-row{background:#fff;border-radius:16px}
+.card-blue .ex-list-row,.card-blue .rec-search-inp,.card-blue .prev-load-btn{background:rgba(255,255,255,.86)}
+.ex-list-row.sel{background:#F1FFC4;box-shadow:inset 0 0 0 2px #080A08}
+.done-btn{background:#E9EDDD;color:#080A08;border-radius:18px}
+.card-blue .done-btn,.done-btn.already{background:#080A08;color:#fff}
+.calendar-card{background:#fff;border-radius:24px}
+.cal-day{border-radius:14px}
+.cal-day.is-plan,.cal-day.is-plan-cardio{background:#FFF8B0}
+.cal-day.has-entry{background:#D9FA65}
+.cal-day.is-today{background:#080A08}
+.cal-day.is-today.has-entry{background:#D9FA65;box-shadow:inset 0 0 0 2px #080A08}
+.stat-month{background:#fff;border-radius:18px}
+.stat-month.current{background:#C9F94A}
+.modal{background:#F0F2E8;border-radius:28px 28px 0 0}
+.ex-sets-mr,.ex-set-cell{border-radius:16px}
+
+/* Section unification pass */
+:root{
+  --bg:#ececea;
+  --surface:#fff;
+  --surface-2:#ececea;
+  --inset:#ececea;
+}
+html,body{background:#ececea}
+.calendar-card,.card-peach,.card-pink{background:#fff!important}
+.calendar-card .btn-nav,
+.card-peach .rec-search-inp,
+.card-peach .ex-mgmt-row,
+.card-peach .ex-mgmt-add input,
+.card-peach .ex-mgmt-add select,
+.card-pink .stat-month{background:#ececea}
+.calendar-card .cal-day{background:#fff}
+.calendar-card .cal-day.is-plan,
+.calendar-card .cal-day.is-plan-cardio{background:#ececea}
+.calendar-card .cal-day.has-entry,
+.card-pink .stat-month.current{background:var(--lime)}
+.calendar-card .cal-day.is-today{background:#fff;box-shadow:inset 0 0 0 2px #000}
+.calendar-card .cal-day.is-today .dn2{color:#000}
+.calendar-card .cal-day.is-today.is-plan,
+.calendar-card .cal-day.is-today.is-plan-cardio{background:#ececea;box-shadow:inset 0 0 0 2px #000}
+.calendar-card .cal-day.is-today.has-entry{background:var(--lime);box-shadow:inset 0 0 0 2px #000}
+.card-pink .stat-month.current .stat-m-name,
+.card-pink .stat-month.current .stat-m-unit,
+.card-pink .stat-month.current .stat-part-name,
+.card-pink .stat-month.current .stat-part-cnt{color:#2F3A10}
+.card-peach .btn-add{background:#000}
+.card-peach #exMgmtEditBtn{background:#ececea!important;border-color:transparent!important}
+.card-peach #exMgmtEditBtn.editing{background:#000!important;color:#fff!important}
+.card-blue .done-btn,
+.card-blue .done-btn.already{
+  min-height:50px;
+  padding:14px 18px;
+  border-radius:18px;
+  background:#080A08;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.96rem;
+}
+.card-blue .done-btn::before,
+.card-blue .done-btn::after,
+.card-blue .done-btn.already::before,
+.card-blue .done-btn.already::after{display:none;content:none}
+
+/* Calendar modal unification */
+#viewOverlay .modal,
+#overlay .modal{
+  background:#fff!important;
+  border-radius:30px 30px 0 0;
+  padding:14px 18px 28px;
+  box-shadow:0 -18px 44px rgba(8,10,8,.16);
+}
+#viewOverlay .modal-handle,
+#overlay .modal-handle{background:#ececea;width:46px;height:5px;margin-bottom:18px}
+#viewOverlay .modal-title,
+#overlay .modal-title{color:#080A08;font-size:1.18rem;margin-bottom:16px}
+#viewContent .field-lbl,
+#overlay .field-lbl{color:#5A5F52;font-size:.72rem;margin:12px 0 8px}
+#viewOverlay .view-done{
+  background:var(--lime);
+  color:#10110D;
+  border-radius:999px;
+  padding:7px 13px;
+  margin-bottom:10px;
+}
+#viewOverlay .view-rest,
+#viewOverlay .view-ex-row,
+#overlay .ex-list-row,
+#overlay .ex-sets-mr,
+#overlay .ex-set-cell,
+#overlay .ex-search-inp,
+#overlay .ex-search-results,
+#overlay .custom-inp,
+#overlay .prev-load-empty,
+#overlay .prev-load-btn{
+  background:#ececea;
+  border-color:transparent;
+  box-shadow:none;
+}
+#viewOverlay .view-part-badge{
+  border-radius:999px;
+  padding:7px 12px;
+  color:#fff;
+  margin-bottom:10px;
+}
+#viewOverlay .view-ex-row,
+#overlay .ex-list-row,
+#overlay .ex-sets-mr{
+  border:none;
+  border-radius:18px;
+  padding:13px 14px;
+}
+#viewOverlay .view-ex-name,
+#overlay .ex-list-name,
+#overlay .ex-sets-mr-name{color:#10110D;font-weight:800}
+#viewOverlay .view-ex-sets{color:#5A5F52}
+#overlay .part-btn{
+  background:#ececea;
+  border-color:transparent;
+  border-radius:16px;
+  color:#10110D;
+}
+#overlay .part-btn.on{
+  box-shadow:inset 0 0 0 2px rgba(0,0,0,.1);
+}
+#overlay .ex-list-row.sel{
+  background:var(--lime);
+  box-shadow:none;
+}
+#overlay .ex-list-row.sel .ex-list-chk{
+  background:#080A08;
+  border-color:#ececea;
+  color:#fff;
+}
+#overlay .ex-search-inp:focus,
+#overlay .custom-inp:focus,
+#overlay .ex-set-cell:focus-within{
+  background:#ececea;
+  border-color:transparent;
+  box-shadow:inset 0 0 0 2px #080A08;
+}
+#overlay .rec-part-divider,
+#viewOverlay .rec-part-divider{
+  border-top:1px solid #ececea;
+  margin:12px 0;
+}
+#overlay .rec-part-hd,
+#viewOverlay .rec-part-hd{
+  padding:10px 2px 7px;
+  color:#10110D;
+}
+#overlay .ex-sets-add{
+  background:#fff;
+  border:1px dashed #C8CEB8;
+  border-radius:14px;
+  color:#5A5F52;
+}
+#viewOverlay .modal-actions,
+#overlay .modal-actions{gap:8px;margin-top:16px}
+#viewOverlay .btn,
+#overlay .btn{border-radius:18px;padding:14px 16px}
+#viewOverlay .btn-primary,
+#overlay .btn-primary{background:#080A08;color:#fff}
+#viewOverlay .btn-ghost,
+#overlay .btn-ghost{background:#ececea;color:#10110D}
+#overlay .btn-del{background:#ffe3eb;color:#D92361}
+.ex-list-chk,
+#overlay .ex-list-chk{
+  border:none!important;
+  background:#fff!important;
+  box-shadow:none!important;
+  color:#1B1B14!important;
+  font-size:.9rem!important;
+  font-weight:900!important;
+  -webkit-text-stroke:.3px #1B1B14;
+}
+.card-blue .ex-list-chk{
+  border:none!important;
+  background:var(--lime)!important;
+  box-shadow:none!important;
+  color:#1B1B14!important;
+  font-size:.9rem!important;
+  font-weight:900!important;
+  -webkit-text-stroke:.3px #1B1B14;
+}
+.ex-list-row.sel .ex-list-chk,
+#overlay .ex-list-row.sel .ex-list-chk,
+.card-blue .ex-list-row.sel .ex-list-chk{
+  background:#080A08!important;
+  color:#fff!important;
+  -webkit-text-stroke:.3px #fff;
+}
+/* 부위버튼 외곽선 제거 */
+.part-chip{border:none!important;}
+/* 캘린더 오늘 = 연두색 (no !important so JS inline can override for entries) */
+.calendar-card .cal-day.is-today{background:var(--lime);box-shadow:none;}
+.calendar-card .cal-day.is-today .dn2{color:#080A08;}
+/* 운동 예정일 = 회색 */
+.calendar-card .cal-day.is-plan,
+.calendar-card .cal-day.is-plan-cardio{background:#ececea!important;}
+.calendar-card .cal-day.is-plan .dn2,
+.calendar-card .cal-day.is-plan-cardio .dn2{color:#666!important;}
+.calendar-card .cal-day.is-plan .plan-lbl,
+.calendar-card .cal-day.is-plan-cardio .plan-lbl{color:#888;font-size:.62rem;font-weight:700;margin-top:1px;}
+/* 운동완료 세트정보 인라인 */
+.view-ex-sets-inline{display:block;font-size:.74rem;font-weight:500;color:var(--text-2);margin-top:4px;}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:2px}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Header -->
+  <div class="hd">
+    <div class="hero-deco"><svg class="fl" width="82" height="82" viewBox="0 0 100 100"><g fill="#CBB2F2"><ellipse cx="50" cy="22" rx="11" ry="20"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(45 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(90 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(135 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(180 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(225 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(270 50 50)"/><ellipse cx="50" cy="22" rx="11" ry="20" transform="rotate(315 50 50)"/></g><circle cx="50" cy="50" r="13" fill="#16160F"/></svg><svg class="sp" width="24" height="24" viewBox="0 0 100 100"><path d="M50 2C54 32 68 46 98 50C68 54 54 68 50 98C46 68 32 54 2 50C32 46 46 32 50 2Z" fill="#C8F24F"/></svg><span class="ci"></span></div>
+    <div class="hd-left">
+      <span class="hd-sub">Your daily workout</span>
+      <h1>Everyday<br>Health<em>.</em></h1>
+    </div>
+    <div class="hero-foot">
+      <span class="streak" id="streakBadge">💪 총 0회 운동</span>
+    </div>
+  </div>
+
+  <!-- Recommendation (top) -->
+  <div class="card card-blue" id="recCard">
+    <div class="card-title">⚡ 오늘 운동 기록</div>
+    <div class="rec-nav">
+      <button class="arr-btn" onclick="shiftRec(-1)">‹</button>
+      <div class="rec-week" id="recWeek"></div>
+      <div class="rec-day-label">
+        <div class="day-name" id="recDayName">-</div>
+        <div class="day-date" id="recDayDate">-</div>
+      </div>
+      <button class="arr-btn" onclick="shiftRec(1)">›</button>
+    </div>
+    <div id="recContent"></div>
+  </div>
+
+  <!-- Calendar -->
+  <div class="card calendar-card">
+    <div class="cal-nav">
+      <div class="cal-month" id="calMonth"></div>
+      <div class="nav-btns">
+        <button class="btn-nav" onclick="changeMonth(-1)">‹</button>
+        <button class="btn-nav btn-today" onclick="changeMonth(0)">오늘</button>
+        <button class="btn-nav" onclick="changeMonth(1)">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid">
+      <div class="dn">일</div><div class="dn">월</div><div class="dn">화</div>
+      <div class="dn">수</div><div class="dn">목</div><div class="dn">금</div><div class="dn">토</div>
+    </div>
+    <div class="legend">
+      <div class="leg"><div class="leg-dot" style="background:#0D9488"></div>등</div>
+      <div class="leg"><div class="leg-dot" style="background:#2F6BFF"></div>가슴</div>
+      <div class="leg"><div class="leg-dot" style="background:#9B5DE5"></div>어깨</div>
+      <div class="leg"><div class="leg-dot" style="background:#FF4D8D"></div>하체</div>
+      <div class="leg"><div class="leg-dot" style="background:#F2802B"></div>코어</div>
+      <div class="leg"><div class="leg-dot" style="background:#EFC220"></div>팔</div>
+      <div class="leg"><div class="leg-dot" style="background:#6366F1"></div>유산소</div>
+    </div>
+  </div>
+
+  <!-- Stats: 3 months -->
+  <!-- 운동 관리 -->
+  <div class="card card-peach">
+    <div class="card-title" style="justify-content:space-between">
+      <span>⚙️ 운동 정보 관리</span>
+      <button id="exMgmtEditBtn" onclick="toggleExMgmtEdit()" style="font-size:.75rem;font-weight:700;padding:5px 12px;border-radius:10px;border:1.5px solid var(--line-strong);background:var(--surface);color:var(--text);cursor:pointer;font-family:inherit">편집</button>
+    </div>
+    <div class="rec-search-wrap">
+      <span class="rec-search-ico">🔍</span>
+      <input class="rec-search-inp" id="exMgmtSearch" placeholder="운동 검색..." oninput="renderExMgmt()" autocomplete="off">
+    </div>
+    <div id="exMgmtList"></div>
+    <div class="ex-mgmt-add">
+      <input id="exMgmtName" placeholder="새 운동 이름" autocomplete="off">
+      <select id="exMgmtPart"></select>
+      <button class="btn-add" onclick="addCustomEx()">추가</button>
+    </div>
+  </div>
+
+  <div class="card card-pink">
+    <div class="card-title">📊 월별 통계</div>
+    <div class="stats-nav">
+      <button class="stat-arr" onclick="shiftStats(-1)">‹</button>
+      <div class="stats-months" id="statsMonths"></div>
+      <button class="stat-arr" onclick="shiftStats(1)">›</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- View Modal (read-only) -->
+<div class="overlay hidden" id="viewOverlay" onclick="if(event.target===this)hideView()">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="viewTitle">📋 운동 기록</div>
+    <div id="viewContent"></div>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="btn btn-ghost" onclick="hideView()">닫기</button>
+      <button class="btn btn-primary" onclick="switchToEdit()">✏️ 수정</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Modal -->
+<div class="overlay hidden" id="overlay" onclick="overlayClick(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="modalTitle">📝 운동 기록</div>
+    <span class="field-lbl">운동 부위</span>
+    <div class="part-btns" id="partBtns"></div>
+    <div id="modalPrevLoad"></div>
+    <span class="field-lbl">운동 선택 — 탭 선택, ▶ 영상</span>
+    <div class="ex-search-wrap">
+      <span class="ex-search-ico">🔍</span>
+      <input class="ex-search-inp" id="exSearch" type="text" placeholder="운동 검색... (예: 스쿼트, 풀업)" oninput="searchEx(this.value)" autocomplete="off">
+    </div>
+    <div id="exSearchResults" class="ex-search-results hidden"></div>
+    <div id="exContainer"></div>
+    <div id="exSetsList"></div>
+    <span class="field-lbl">직접 입력</span>
+    <input class="custom-inp" id="custInp" type="text" placeholder="예) 바벨 스쿼트 20kg 10개 3세트">
+    <input type="checkbox" id="doneToggle" class="hidden" checked>
+    <div class="modal-actions">
+      <button class="btn btn-del hidden" id="btnDel" onclick="deleteEntry()">삭제</button>
+      <button class="btn btn-ghost" onclick="hideModal()">취소</button>
+      <button class="btn btn-primary" onclick="saveEntry()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- Drum Roll Overlay -->
+<!-- Add Part Overlay -->
+<div class="overlay hidden" id="addPartOverlay" onclick="if(event.target===this)hideAddPart()">
+  <div class="modal" style="padding-bottom:20px">
+    <div class="modal-handle"></div>
+    <div class="modal-title">➕ 운동 부위 추가</div>
+    <span class="field-lbl">부위 이름</span>
+    <input class="custom-inp" id="newPartName" type="text" placeholder="예) 유연성, 재활, 스트레칭">
+    <span class="field-lbl">색상 선택</span>
+    <div id="colorPalette" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="hideAddPart()">취소</button>
+      <button class="btn btn-primary" onclick="confirmAddPart()">추가</button>
+    </div>
+  </div>
+</div>
+<!-- Add Exercise Overlay -->
+<div class="overlay hidden" id="addExOverlay" onclick="if(event.target===this)hideAddEx()">
+  <div class="modal" style="padding-bottom:20px">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="addExTitle">➕ 운동 추가</div>
+    <span class="field-lbl">운동 이름</span>
+    <input class="custom-inp" id="newExName" type="text" placeholder="예) 전신 스트레칭, 요가 플로우">
+    <div style="font-size:.75rem;color:#aaa;margin-bottom:14px;font-weight:700">YouTube 영상 링크가 자동으로 연결됩니다</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="hideAddEx()">취소</button>
+      <button class="btn btn-primary" onclick="confirmAddEx()">추가</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── SVG 일러스트 시스템 ──
+// 귀여운 스틱피겨 포즈별 SVG
+const _C='#5A4A3A',_S='#FFD9B0'; // skin/outline
+function _face(cx,cy){return `<circle cx="${cx}" cy="${cy}" r="7.5" fill="${_S}" stroke="${_C}" stroke-width="1.5"/><circle cx="${cx-2.5}" cy="${cy-.5}" r="1.1" fill="${_C}"/><circle cx="${cx+2.5}" cy="${cy-.5}" r="1.1" fill="${_C}"/><path d="M${cx-2.5} ${cy+3} Q${cx} ${cy+5.5} ${cx+2.5} ${cy+3}" stroke="${_C}" stroke-width="1.1" fill="none" stroke-linecap="round"/>`;}
+function _body(cx,bg,lc){return `<line x1="${cx}" y1="${bg}" x2="${cx}" y2="${bg+20}" stroke="${lc}" stroke-width="2.5" stroke-linecap="round"/><line x1="${cx}" y1="${bg+20}" x2="${cx-10}" y2="${bg+36}" stroke="${lc}" stroke-width="2.5" stroke-linecap="round"/><line x1="${cx}" y1="${bg+20}" x2="${cx+10}" y2="${bg+36}" stroke="${lc}" stroke-width="2.5" stroke-linecap="round"/>`;}
+function _svg(bg,inner){return `<svg viewBox="0 0 64 76" xmlns="http://www.w3.org/2000/svg"><rect width="64" height="76" fill="${bg}"/>${inner}</svg>`;}
+
+const EX_POSES={
+  // 등 - 랫풀다운 (와이드 풀)
+  pull:bg=>_svg(bg,`<line x1="8" y1="10" x2="56" y2="10" stroke="#7AA4F0" stroke-width="3.5" stroke-linecap="round"/><line x1="18" y1="10" x2="32" y2="22" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="10" x2="32" y2="22" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/>${_face(32,29)}${_body(32,37,'#5A7AAA')}`),
+  // 등 - 시티드로우 (앉아서 케이블 당기기)
+  'row-s':bg=>_svg(bg,`${_face(22,20)}<line x1="22" y1="28" x2="34" y2="40" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="32" x2="52" y2="28" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="32" x2="52" y2="36" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="34" y1="40" x2="24" y2="60" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="34" y1="40" x2="44" y2="60" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><circle cx="56" cy="32" r="5" fill="#7AA4F0" stroke="#5A7AAA" stroke-width="1.5"/>`),
+  // 등 - 벤트오버 로우 (상체 숙여 바 당기기)
+  'row-b':bg=>_svg(bg,`${_face(14,16)}<line x1="14" y1="24" x2="46" y2="36" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="26" x2="10" y2="14" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="26" x2="50" y2="20" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="36" x2="36" y2="58" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="36" x2="56" y2="56" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><circle cx="52" cy="18" r="4" fill="#7AA4F0" stroke="#5A7AAA" stroke-width="1.5"/>`),
+  // 등 - 원암 덤벨 로우 (한쪽 팔만)
+  'row-1':bg=>_svg(bg,`${_face(18,14)}<line x1="18" y1="22" x2="44" y2="34" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="26" y1="24" x2="10" y2="36" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="26" y1="24" x2="52" y2="16" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="34" x2="36" y2="56" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="34" x2="54" y2="54" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><circle cx="54" cy="14" r="4" fill="#7AA4F0" stroke="#5A7AAA" stroke-width="1.5"/>`),
+  // 등 - 풀업 (매달려 당기기)
+  pullup:bg=>_svg(bg,`<line x1="8" y1="8" x2="56" y2="8" stroke="#7AA4F0" stroke-width="3.5" stroke-linecap="round"/><line x1="24" y1="8" x2="32" y2="18" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="40" y1="8" x2="32" y2="18" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/>${_face(32,25)}<line x1="32" y1="33" x2="32" y2="50" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="50" x2="22" y2="64" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="50" x2="42" y2="64" stroke="#5A7AAA" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 가슴 - 벤치프레스 (누워서 바 올리기)
+  bench:bg=>_svg(bg,`<line x1="6" y1="32" x2="58" y2="32" stroke="#F4A0BC" stroke-width="3.5" stroke-linecap="round"/>${_face(32,14)}<line x1="32" y1="22" x2="32" y2="46" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="46" x2="58" y2="46" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="22" x2="8" y2="32" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="22" x2="56" y2="32" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="46" x2="24" y2="64" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="46" x2="40" y2="64" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 가슴 - 펙덱 플라이 (팔 모으기)
+  fly:bg=>_svg(bg,`${_face(32,14)}<line x1="32" y1="22" x2="32" y2="44" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="30" x2="8" y2="40" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="30" x2="56" y2="40" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><circle cx="6" cy="41" r="3.5" fill="#F4A0BC" stroke="#E880A0" stroke-width="1.5"/><circle cx="58" cy="41" r="3.5" fill="#F4A0BC" stroke="#E880A0" stroke-width="1.5"/><line x1="32" y1="44" x2="22" y2="62" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="44" x2="42" y2="62" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 가슴 - 케이블 프레스 (앞으로 밀기)
+  'press-c':bg=>_svg(bg,`${_face(32,12)}<line x1="32" y1="20" x2="32" y2="42" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="26" x2="14" y2="20" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="26" x2="50" y2="20" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="20" x2="6" y2="30" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="20" x2="58" y2="30" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="22" y2="60" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="42" y2="60" stroke="#E880A0" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 어깨 - OHP 바벨 (머리 위로 바 올리기)
+  ohp:bg=>_svg(bg,`<line x1="10" y1="14" x2="54" y2="14" stroke="#E8C040" stroke-width="3.5" stroke-linecap="round"/><line x1="32" y1="28" x2="22" y2="14" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="28" x2="42" y2="14" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/>${_face(32,22)}<line x1="32" y1="30" x2="32" y2="50" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="50" x2="22" y2="66" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="50" x2="42" y2="66" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 어깨 - 덤벨 숄더프레스 (덤벨 위로)
+  'ohp-d':bg=>_svg(bg,`${_face(32,12)}<line x1="32" y1="20" x2="32" y2="42" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="26" x2="16" y2="14" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="26" x2="48" y2="14" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><circle cx="12" cy="12" r="4" fill="#E8C040" stroke="#9A7030" stroke-width="1.5"/><circle cx="52" cy="12" r="4" fill="#E8C040" stroke="#9A7030" stroke-width="1.5"/><line x1="32" y1="42" x2="22" y2="60" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="42" y2="60" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 어깨 - 레터럴 레이즈 (옆으로 올리기)
+  lateral:bg=>_svg(bg,`${_face(32,14)}<line x1="32" y1="22" x2="32" y2="44" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="30" x2="6" y2="30" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="30" x2="58" y2="30" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><circle cx="4" cy="30" r="3.5" fill="#E8C040" stroke="#9A7030" stroke-width="1.5"/><circle cx="60" cy="30" r="3.5" fill="#E8C040" stroke="#9A7030" stroke-width="1.5"/><line x1="32" y1="44" x2="22" y2="62" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="44" x2="42" y2="62" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 어깨 - 리어델트/페이스풀 (뒤로 당기기)
+  rear:bg=>_svg(bg,`${_face(14,14)}<line x1="14" y1="22" x2="44" y2="34" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="24" x2="8" y2="12" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="24" x2="52" y2="18" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="34" x2="34" y2="56" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="34" x2="54" y2="54" stroke="#9A7030" stroke-width="2.5" stroke-linecap="round"/><circle cx="54" cy="16" r="4" fill="#E8C040" stroke="#9A7030" stroke-width="1.5"/>`),
+  // 하체 - 스쿼트 (무릎 굽혀 앉기)
+  squat:bg=>_svg(bg,`${_face(32,8)}<line x1="32" y1="16" x2="32" y2="36" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="14" y2="28" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="50" y2="28" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="36" x2="16" y2="50" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="36" x2="48" y2="50" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="50" x2="10" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="48" y1="50" x2="54" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 데드리프트 (바닥서 들기)
+  dead:bg=>_svg(bg,`${_face(16,10)}<line x1="16" y1="18" x2="48" y2="34" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="20" x2="14" y2="38" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="20" x2="52" y2="14" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="48" y1="34" x2="40" y2="58" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="48" y1="34" x2="58" y2="56" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="60" x2="58" y2="60" stroke="#78C888" stroke-width="3.5" stroke-linecap="round"/>`),
+  // 하체 - 스모 데드 (넓은 발)
+  sumo:bg=>_svg(bg,`${_face(32,8)}<line x1="32" y1="16" x2="32" y2="36" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="18" y2="30" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="46" y2="30" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="36" x2="8" y2="52" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="36" x2="56" y2="52" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="52" x2="8" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="56" y1="52" x2="56" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="30" x2="46" y2="30" stroke="#78C888" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 런지 (한쪽 발 앞으로)
+  lunge:bg=>_svg(bg,`${_face(28,8)}<line x1="28" y1="16" x2="28" y2="36" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="28" y1="22" x2="14" y2="26" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="28" y1="22" x2="42" y2="26" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="28" y1="36" x2="14" y2="52" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="28" y1="36" x2="46" y2="48" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="52" x2="14" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="48" x2="58" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 레그 익스텐션/머신 (앉아 다리 펴기)
+  'leg-e':bg=>_svg(bg,`${_face(18,14)}<line x1="18" y1="22" x2="18" y2="46" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="28" x2="6" y2="30" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="28" x2="30" y2="30" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="46" x2="18" y2="46" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="46" x2="54" y2="44" stroke="#78C888" stroke-width="2.5" stroke-linecap="round"/><circle cx="56" cy="44" r="4" fill="#78C888" stroke="#5AA060" stroke-width="1.5"/>`),
+  // 하체 - 힙쓰러스트 (어깨 벤치, 엉덩이 올리기)
+  'hip-t':bg=>_svg(bg,`${_face(20,26)}<line x1="4" y1="34" x2="36" y2="34" stroke="#78C888" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="34" x2="20" y2="48" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="34" x2="50" y2="46" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="46" x2="46" y2="64" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="20" y1="48" x2="10" y2="64" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 힙 브릿지 (누워서 엉덩이 올리기)
+  bridge:bg=>_svg(bg,`${_face(14,30)}<line x1="14" y1="38" x2="14" y2="58" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="38" x2="46" y2="50" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="50" x2="38" y2="66" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="58" x2="46" y2="58" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 레그컬 (엎드려 무릎 굽히기)
+  'leg-c':bg=>_svg(bg,`${_face(12,26)}<line x1="12" y1="34" x2="52" y2="38" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="34" x2="8" y2="50" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="52" y1="38" x2="60" y2="22" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="52" y1="38" x2="56" y2="54" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 하체 - 클램쉘 (옆으로 누워 무릎 열기)
+  clam:bg=>_svg(bg,`${_face(16,32)}<line x1="16" y1="40" x2="16" y2="58" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="40" x2="46" y2="44" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="44" x2="52" y2="30" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/><line x1="46" y1="44" x2="52" y2="58" stroke="#5AA060" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 코어 - 플랭크
+  plank:bg=>_svg(bg,`${_face(12,32)}<line x1="12" y1="40" x2="54" y2="40" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="40" x2="8" y2="58" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="54" y1="40" x2="54" y2="58" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="8" y1="58" x2="54" y2="58" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 코어 - 슈퍼맨 (엎드려 팔다리 들기)
+  super:bg=>_svg(bg,`${_face(26,32)}<line x1="26" y1="40" x2="52" y2="44" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="26" y1="40" x2="8" y2="38" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="18" y1="38" x2="4" y2="28" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="52" y1="44" x2="62" y2="34" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 코어 - 버드독 (네발기기 팔다리 뻗기)
+  bird:bg=>_svg(bg,`${_face(28,16)}<line x1="28" y1="24" x2="28" y2="44" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="44" x2="44" y2="44" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="44" x2="6" y2="56" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="44" x2="48" y2="56" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="28" y1="28" x2="6" y2="22" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="44" y1="44" x2="60" y2="36" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 코어 - 데드버그 (누워 팔다리)
+  bug:bg=>_svg(bg,`${_face(32,10)}<line x1="32" y1="18" x2="32" y2="42" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="24" x2="10" y2="16" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="24" x2="54" y2="18" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="12" y2="54" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="52" y2="54" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="54" x2="8" y2="68" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/><line x1="52" y1="54" x2="56" y2="42" stroke="#E09858" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 팔 - 트라이셉스 푸시다운
+  push:bg=>_svg(bg,`<line x1="24" y1="8" x2="40" y2="8" stroke="#9878E0" stroke-width="3" stroke-linecap="round"/><line x1="32" y1="8" x2="32" y2="18" stroke="#9878E0" stroke-width="2.5" stroke-linecap="round"/>${_face(32,14)}<line x1="32" y1="22" x2="32" y2="42" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="28" x2="22" y2="24" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="28" x2="42" y2="24" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="22" y1="24" x2="18" y2="46" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="42" y1="24" x2="46" y2="46" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="22" y2="60" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="42" x2="42" y2="60" stroke="#7858C0" stroke-width="2.5" stroke-linecap="round"/>`),
+  // 유산소 - 실내자전거
+  bike:bg=>_svg(bg,`<circle cx="20" cy="56" r="13" fill="none" stroke="#50C8E8" stroke-width="2.5"/><circle cx="44" cy="56" r="13" fill="none" stroke="#50C8E8" stroke-width="2.5"/><line x1="20" y1="56" x2="32" y2="38" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="38" x2="44" y2="56" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="38" x2="32" y2="24" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/>${_face(32,16)}`),
+  // 유산소 - 아크트레이너 (스트라이드)
+  stride:bg=>_svg(bg,`${_face(32,8)}<line x1="32" y1="16" x2="32" y2="38" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="14" y2="14" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="22" x2="50" y2="32" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="38" x2="14" y2="54" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="32" y1="38" x2="50" y2="48" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="14" y1="54" x2="8" y2="68" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/><line x1="50" y1="48" x2="56" y2="64" stroke="#50C8E8" stroke-width="2.5" stroke-linecap="round"/>`)
+};
+
+const PART_ILLUST={
+  '등':   {bg:'#E8EFFE',pose:'pull'},
+  '가슴': {bg:'#FFEAF2',pose:'bench'},
+  '어깨': {bg:'#FFFAE8',pose:'ohp'},
+  '하체': {bg:'#EAFAEE',pose:'squat'},
+  '코어': {bg:'#FFF2E8',pose:'plank'},
+  '팔':   {bg:'#F2EEFF',pose:'push'},
+  '유산소':{bg:'#E4FAFF',pose:'bike'},
+};
+const EX_POSE_OVERRIDE={
+  // 등
+  '시티드로우 머신':'row-s','케이블 시티드로우':'row-s','케이블 하이로우':'row-s',
+  '시티드 케이블 로우':'row-s','스미스머신 로우':'row-s',
+  'T바 로우':'row-b','TRX 인버티드 로우':'row-b','바벨 벤트오버 로우':'row-b','덤벨 벤트오버 로우':'row-b',
+  '덤벨 원 암 로우':'row-1','인클라인 덤벨 로우':'row-1',
+  '어시스트 풀업':'pullup','와이드그립 롱풀':'pullup',
+  '케이블 스트레이트암 풀다운':'pull','흉추 신전 운동':'super',
+  // 가슴
+  '펙덱 플라이':'fly','풀오버':'fly','인클라인 덤벨 플라이':'fly','머신 플라이':'fly','케이블 크로스오버':'fly',
+  '스미스머신 인클라인 프레스':'bench','덤벨 벤치 프레스':'bench','인클라인 체스트 프레스':'bench','디클라인 벤치 프레스':'bench',
+  '케이블 체스트 프레스':'press-c','딥스':'push','딥스 머신':'push','푸시업':'plank',
+  // 어깨
+  'OHP':'ohp','아놀드 프레스':'ohp-d',
+  '덤벨 숄더프레스':'ohp-d','하프 닐링 프레스':'ohp-d',
+  '사이드 레터럴 레이즈':'lateral','루 레이즈':'lateral','밴드 t레이즈':'lateral','Y레이즈':'lateral','케이블 레터럴 레이즈':'lateral',
+  '페이스풀':'rear','밴드 익스터널 로테이션':'rear','리어델트 플라이':'rear','케이블 리어델트 플라이':'rear','밴드 페이스풀':'rear','인터널 로테이션':'rear',
+  '업라이트 로우':'row-s','숄더 쉬러그':'row-s',
+  // 하체
+  '데드리프트':'dead','원 레그 데드리프트':'dead','덤벨 스티프 데드리프트':'dead','루마니안 데드리프트':'dead',
+  '스모 데드리프트':'sumo',
+  '케이블 런지':'lunge','스텝업':'lunge','사이드런지':'lunge','백 런지':'lunge','불가리안 스플릿 스쿼트':'lunge',
+  '레그 익스텐션':'leg-e','이너타이':'leg-e','아웃타이':'leg-e','링크아웃타이':'leg-e',
+  '대퇴직근 활성화':'leg-e','고관절 굴곡근 운동':'leg-e','V스쿼트 머신':'leg-e','파워레그프레스':'leg-e',
+  '레그 프레스':'leg-e','핵 스쿼트':'squat','스미스머신 스쿼트':'squat','덤벨 스쿼트':'squat','카프레이즈':'leg-e',
+  '힙쓰러스트':'hip-t',
+  '힙 브릿지':'bridge','라잉 힙 익스텐션':'bridge',
+  '레그컬':'leg-c','클램쉘':'clam',
+  // 코어
+  '슈퍼맨':'super','복근 롤아웃':'plank','할로우 바디 홀드':'bug',
+  '벤치 버드독':'bird',
+  '데드버그':'bug','짐볼 데드버그':'bug','리버스 크런치':'bug','브이업':'bug',
+  '플랭크':'plank','푸시업플러스':'plank','사이드 플랭크':'plank',
+  '행잉 레그레이즈':'pullup','케이블 우드촙':'lateral','케이블 크런치':'push',
+  // 팔
+  '오버헤드 트라이셉스 익스텐션':'push','트라이셉스 킥백':'push',
+  '덤벨 컬':'ohp-d','바벨 컬':'ohp-d','해머 컬':'ohp-d','케이블 컬':'push','인클라인 덤벨 컬':'ohp-d','컨센트레이션 컬':'ohp-d','리버스 컬':'ohp-d',
+  // 유산소
+  '실내 자전거':'bike','아크트레이너':'stride',
+};
+
+
+// 운동명 → 부위 탐색
+function _exPartOf(name){
+  for(const[p,list]of Object.entries(PART_EX)){if(list.includes(name))return p;}
+  for(const[p,cp]of Object.entries(customParts)){if((cp.exercises||[]).some(e=>(e.name||e)===name))return p;}
+  return '등';
+}
+// 운동명 → {bg, svg} 일러스트 반환
+function getExIllust(name){
+  const pose=EX_POSE_OVERRIDE[name];
+  if(pose&&EX_POSES[pose]){
+    const part=_exPartOf(name);
+    const bg=(PART_ILLUST[part]||PART_ILLUST['등']).bg;
+    return {bg,svg:EX_POSES[pose](bg)};
+  }
+  const part=_exPartOf(name);
+  const pi=PART_ILLUST[part]||PART_ILLUST['등'];
+  return {bg:pi.bg,svg:EX_POSES[pi.pose](pi.bg)};
+}
+const EX_IMG={};
+
+
+const PART_EMOJI={}; // 이모지 없음
+const PARTS={
+  '등':   {color:'#0D9488'}, '가슴':{color:'#2F6BFF'},
+  '어깨': {color:'#9B5DE5'}, '하체':{color:'#FF4D8D'},
+  '코어': {color:'#F2802B'}, '팔':  {color:'#EFC220'},
+  '유산소':{color:'#6366F1'},
+};
+function isLightColor(hex){
+  try{const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return(r*299+g*587+b*114)/1000>155;}catch(e){return false;}
+}
+
+const PART_EX={
+  '등':['시티드로우 머신','케이블 시티드로우','맥그립 랫풀다운','케이블 하이로우','암풀다운','랫풀다운','패러럴그립 랫풀다운','클로즈그립 랫풀다운','T바 로우','바벨 벤트오버 로우','덤벨 벤트오버 로우','TRX 인버티드 로우','덤벨 원 암 로우','어시스트 풀업','와이드그립 롱풀','케이블 스트레이트암 풀다운','시티드 케이블 로우','스미스머신 로우','인클라인 덤벨 로우','흉추 신전 운동'],
+  '가슴':['체스트 프레스 머신','펙덱 플라이','스미스머신 인클라인 프레스','덤벨 벤치 프레스','케이블 체스트 프레스','풀오버','인클라인 체스트 프레스','인클라인 덤벨 플라이','딥스','케이블 크로스오버','머신 플라이','디클라인 벤치 프레스','딥스 머신','푸시업'],
+  '어깨':['덤벨 숄더프레스','OHP','Y레이즈','리어델트 플라이','밴드 익스터널 로테이션','페이스풀','사이드 레터럴 레이즈','루 레이즈','하프 닐링 프레스','밴드 t레이즈','케이블 레터럴 레이즈','케이블 리어델트 플라이','밴드 페이스풀','아놀드 프레스','업라이트 로우','숄더 쉬러그','인터널 로테이션'],
+  '하체':['고블릿 스쿼트','바벨 스쿼트','레그 익스텐션','이너타이','아웃타이','링크아웃타이','데드리프트','스모 데드리프트','원 레그 데드리프트','덤벨 스티프 데드리프트','루마니안 데드리프트','케이블 런지','스텝업','사이드런지','백 런지','불가리안 스플릿 스쿼트','힙쓰러스트','힙 브릿지','라잉 힙 익스텐션','레그컬','클램쉘','대퇴직근 활성화','고관절 굴곡근 운동','V스쿼트 머신','파워레그프레스','핵 스쿼트','레그 프레스','스미스머신 스쿼트','카프레이즈','덤벨 스쿼트'],
+  '코어':['데드버그','짐볼 데드버그','플랭크','사이드 플랭크','슈퍼맨','벤치 버드독','푸시업플러스','복근 롤아웃','행잉 레그레이즈','케이블 우드촙','케이블 크런치','리버스 크런치','브이업','할로우 바디 홀드'],
+  '팔':['트라이셉스 푸시다운','케이블 푸시다운','밴드 트라이셉스 푸시다운','오버헤드 트라이셉스 익스텐션','트라이셉스 킥백','덤벨 컬','바벨 컬','해머 컬','케이블 컬','인클라인 덤벨 컬','컨센트레이션 컬','리버스 컬'],
+  '유산소':['실내 자전거','아크트레이너','러닝머신','로잉머신','스텝밀','줄넘기'],
+};
+
+const EX_YT={
+  '시티드로우 머신':'시티드로우 머신 운동법','케이블 시티드로우':'케이블 시티드로우 운동법',
+  '맥그립 랫풀다운':'맥그립 랫풀다운 운동법','케이블 하이로우':'케이블 하이로우 운동법',
+  '암풀다운':'암풀다운 운동법','랫풀다운':'랫풀다운 운동법',
+  '패러럴그립 랫풀다운':'패러럴그립 랫풀다운','T바 로우':'티바로우 운동법',
+  'TRX 인버티드 로우':'TRX 인버티드로우','덤벨 원 암 로우':'덤벨 원암로우 운동법',
+  '어시스트 풀업':'어시스트 풀업 운동법','와이드그립 롱풀':'와이드그립 케이블로우',
+  '클로즈그립 랫풀다운':'클로즈그립 랫풀다운','시티드 오버헤드슈러그':'오버헤드 슈러그',
+  '체스트 프레스 머신':'체스트 프레스 머신 운동법','펙덱 플라이':'펙덱플라이 운동법',
+  '스미스머신 인클라인 프레스':'스미스머신 인클라인 프레스','덤벨 벤치 프레스':'덤벨 벤치프레스',
+  '케이블 체스트 프레스':'케이블 체스트 프레스','풀오버':'덤벨 풀오버',
+  '인클라인 체스트 프레스':'인클라인 체스트 프레스','덤벨 숄더프레스':'덤벨 숄더프레스',
+  'OHP':'OHP 오버헤드프레스 운동법','Y레이즈':'Y레이즈 운동법',
+  '리어델트 플라이':'리어델트 플라이 운동법','밴드 익스터널 로테이션':'밴드 익스터널 로테이션',
+  '페이스풀':'페이스풀 운동법','사이드 레터럴 레이즈':'사이드 레터럴 레이즈',
+  '루 레이즈':'루레이즈 운동법','하프 닐링 프레스':'하프 닐링 숄더 프레스',
+  '밴드 t레이즈':'밴드 T레이즈','고블릿 스쿼트':'고블릿 스쿼트 운동법',
+  '바벨 스쿼트':'바벨 스쿼트 운동법','레그 익스텐션':'레그 익스텐션 운동법',
+  '이너타이':'이너타이 운동법','아웃타이':'아웃타이 운동법',
+  '링크아웃타이':'링크 아웃타이 운동법','데드리프트':'데드리프트 운동법',
+  '스모 데드리프트':'스모 데드리프트 운동법','원 레그 데드리프트':'원레그 데드리프트',
+  '덤벨 스티프 데드리프트':'스티프레그 데드리프트','케이블 런지':'케이블 런지 운동법',
+  '스텝업':'스텝업 운동법','사이드런지':'사이드런지 운동법','백 런지':'백런지 운동법',
+  '힙쓰러스트':'힙쓰러스트 운동법','힙 브릿지':'힙브릿지 운동법',
+  '라잉 힙 익스텐션':'라잉 힙 익스텐션','레그컬':'레그컬 운동법','클램쉘':'클램쉘 운동법',
+  '대퇴직근 활성화':'대퇴직근 활성화 운동','고관절 굴곡근 운동':'고관절 굴곡근 운동',
+  'V스쿼트 머신':'브이 스쿼트 머신','파워레그프레스':'레그프레스 운동법',
+  '데드버그':'데드버그 운동법','짐볼 데드버그':'짐볼 데드버그',
+  '플랭크':'플랭크 자세 올바르게','슈퍼맨':'슈퍼맨 운동법',
+  '벤치 버드독':'버드독 운동법','푸시업플러스':'푸시업플러스 전거근',
+  '트라이셉스 푸시다운':'트라이셉스 푸시다운','케이블 푸시다운':'케이블 푸시다운',
+  '밴드 트라이셉스 푸시다운':'밴드 트라이셉스 운동',
+  '실내 자전거':'실내 자전거 유산소','아크트레이너':'아크트레이너 유산소 운동',
+  '바벨 벤트오버 로우':'바벨 벤트오버 로우 운동법','덤벨 벤트오버 로우':'덤벨 벤트오버 로우',
+  '케이블 스트레이트암 풀다운':'스트레이트암 풀다운','시티드 케이블 로우':'시티드 케이블 로우',
+  '스미스머신 로우':'스미스머신 로우 운동법','인클라인 덤벨 로우':'인클라인 덤벨 로우',
+  '흉추 신전 운동':'흉추 신전 스트레칭',
+  '인클라인 덤벨 플라이':'인클라인 덤벨 플라이','딥스':'딥스 운동법','케이블 크로스오버':'케이블 크로스오버',
+  '머신 플라이':'머신 체스트 플라이','디클라인 벤치 프레스':'디클라인 벤치 프레스','딥스 머신':'딥스 머신 운동법','푸시업':'푸시업 자세',
+  '케이블 레터럴 레이즈':'케이블 레터럴 레이즈','케이블 리어델트 플라이':'케이블 리어델트 플라이',
+  '밴드 페이스풀':'밴드 페이스풀','아놀드 프레스':'아놀드 프레스 운동법','업라이트 로우':'업라이트 로우 운동법',
+  '숄더 쉬러그':'숄더 쉬러그 운동법','인터널 로테이션':'어깨 내회전 운동',
+  '불가리안 스플릿 스쿼트':'불가리안 스플릿 스쿼트','루마니안 데드리프트':'루마니안 데드리프트',
+  '핵 스쿼트':'핵 스쿼트 운동법','레그 프레스':'레그 프레스 운동법',
+  '스미스머신 스쿼트':'스미스머신 스쿼트','카프레이즈':'카프레이즈 운동법','덤벨 스쿼트':'덤벨 스쿼트',
+  '사이드 플랭크':'사이드 플랭크 운동법','복근 롤아웃':'복근 롤아웃 운동법',
+  '행잉 레그레이즈':'행잉 레그레이즈','케이블 우드촙':'케이블 우드촙','케이블 크런치':'케이블 크런치',
+  '리버스 크런치':'리버스 크런치 운동법','브이업':'브이업 운동법','할로우 바디 홀드':'할로우 바디 홀드',
+  '오버헤드 트라이셉스 익스텐션':'오버헤드 트라이셉스 익스텐션','트라이셉스 킥백':'트라이셉스 킥백',
+  '덤벨 컬':'덤벨 컬 운동법','바벨 컬':'바벨 컬 운동법','해머 컬':'해머 컬 운동법',
+  '케이블 컬':'케이블 컬 운동법','인클라인 덤벨 컬':'인클라인 덤벨 컬','컨센트레이션 컬':'컨센트레이션 컬',
+  '리버스 컬':'리버스 컬 운동법',
+  '러닝머신':'러닝머신 유산소 운동','로잉머신':'로잉머신 유산소','스텝밀':'스텝밀 유산소','줄넘기':'줄넘기 운동',
+};
+
+const TIPS={
+  '등':   '"팔꿈치를 뒷주머니에 넣는다"고 상상하며 수축하세요.',
+  '가슴': '흉추를 활짝 열어 어깨가 앞으로 말리지 않도록.',
+  '어깨': '밴드 익스터널 로테이션으로 회전근개 워밍업 먼저!',
+  '하체': '데드리프트 전 고관절 힌지 패턴 확인 필수!',
+  '코어': '복압을 "안에서 밀어내는" 느낌으로 유지하세요.',
+  '팔':   '팔꿈치 고정이 삼두 고립의 핵심입니다.',
+  '유산소':'심박수 120-140bpm 유지가 지방 연소 최적!',
+};
+
+// 6월 22일 이전: 월/금 근력, 일 유산소
+// 6월 22일 이후: 월/수/금 근력, 일 유산소
+function getSchedule(dateStr){
+  const d=new Date(dateStr+'T00:00:00');
+  const cutoff=new Date('2026-06-22T00:00:00');
+  const dow=d.getDay();
+  if(d>=cutoff){return {1:'근력',3:'근력',5:'근력',0:'유산소'}[dow]||'';}
+  return {1:'근력',5:'근력',0:'유산소'}[dow]||'';
+}
+const SCHEDULE={1:'근력',3:'근력',5:'근력',0:'유산소'}; // used for display purposes
+const DAY_KR=['일','월','화','수','목','금','토'];
+const MONTH_KR=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+const SCHED_LABEL={근력:'💪 근력',유산소:'🏃 유산소'};
+
+const SEED_DATA = { '2026-06-01': {"parts": ["\ub4f1"], "exercises": ["\uc554\ud480\ub2e4\uc6b4", "\ub364\ubca8 \uc6d0 \uc554 \ub85c\uc6b0", "\ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4"], "custom": "\uc554\ud480\ub2e4\uc6b4 5kg 20\uac1c 7kg 18\uac1c 10kg 15~12\uac1c 2set / \ub364\ubca8 \ub85c\uc6b0 3kg 20\uac1c 4kg 20\uac1c 5kg 16\uac1c 2set / \ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4 12kg 20\uac1c 15kg 15\uac1c 2set", "done": true} };
+
+// Init data: merge seed into localStorage
+let raw = JSON.parse(localStorage.getItem('hcData6')||'{}');
+// Only inject seed if the date key is missing (first time)
+Object.entries(SEED_DATA).forEach(([k,v])=>{ if(!raw[k]) raw[k]=v; });
+let data = raw;
+localStorage.setItem('hcData6', JSON.stringify(data));
+
+// ── Custom Parts ──
+let customParts=JSON.parse(localStorage.getItem('hcCustomParts')||'{}');
+const saveCustomParts=()=>localStorage.setItem('hcCustomParts',JSON.stringify(customParts));
+// Merge custom parts into PARTS, PART_EX, EX_YT on startup
+(function(){
+  Object.entries(customParts).forEach(([name,{color,exercises=[]}])=>{
+    PARTS[name]={color};
+    PART_EX[name]=exercises.map(e=>e.name||e);
+    exercises.forEach(e=>{const n=e.name||e;if(!EX_YT[n])EX_YT[n]=`${n} 운동법`;});
+  });
+})();
+
+let curY,curM,selDate=null,selParts=new Set(),selExercises=new Set();
+let perExSets={};           // {exerciseName: {weight,reps,sets}}
+let modalPartSetsContainers={};
+// (drum state managed by drumSetCount)
+let recOffset=0;
+let statsOffset=0;
+
+const today=new Date();
+curY=today.getFullYear();curM=today.getMonth();
+
+const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+const todayDk=()=>dk(today.getFullYear(),today.getMonth(),today.getDate());
+const persist=()=>localStorage.setItem('hcData6',JSON.stringify(data));
+
+function offsetDate(offset){const d=new Date(today);d.setDate(d.getDate()+offset);return d;}
+function dateToDk(d){return dk(d.getFullYear(),d.getMonth(),d.getDate());}
+
+/* ── Recommendation ── */
+function getWeekOffsetBounds(){
+  const dow=today.getDay();
+  const mon=dow===0?-6:1-dow;
+  return [mon,mon+6];
+}
+function shiftRec(dir){
+  const [min,max]=getWeekOffsetBounds();
+  recOffset=Math.max(min,Math.min(max,recOffset+dir));
+  updateRec();
+}
+
+function renderRecWeek(){
+  const c=document.getElementById('recWeek');
+  if(!c)return;
+  c.innerHTML='';
+  const [min]=getWeekOffsetBounds();
+  for(let i=0;i<7;i++){
+    const offset=min+i;
+    const d=offsetDate(offset);
+    const btn=document.createElement('button');
+    btn.className='rec-week-day'+(offset===recOffset?' on':'')+(offset===0?' today':'');
+    const day=document.createElement('strong');day.textContent=DAY_KR[d.getDay()];
+    const date=document.createElement('span');date.textContent=d.getDate();
+    btn.appendChild(day);btn.appendChild(date);
+    btn.onclick=()=>{recOffset=offset;updateRec();};
+    c.appendChild(btn);
+  }
+}
+
+function getBestPart(targetDate){
+  const sorted=Object.keys(data).sort().reverse();
+  const lastTrained={};
+  sorted.forEach(key=>{
+    const diff=Math.floor((targetDate-new Date(key))/86400000);
+    if(diff<0)return;
+    (data[key].parts||[]).forEach(p=>{if(lastTrained[p]===undefined)lastTrained[p]=diff;});
+  });
+  const parts=['등','가슴','어깨','하체','코어','팔'];
+  return parts.sort((a,b)=>(lastTrained[b]??9999)-(lastTrained[a]??9999))[0]||'등';
+}
+
+function updateRec(){
+  const el=document.getElementById('recContent');
+  const dt=offsetDate(recOffset);
+  const dow=dt.getDay();
+  const targetKey=dateToDk(dt);
+  const sched=getSchedule(targetKey);
+
+  renderRecWeek();
+  document.getElementById('recDayName').textContent=recOffset===0?'오늘':`${DAY_KR[dow]}요일`;
+  document.getElementById('recDayDate').textContent=
+    `${dt.getMonth()+1}월 ${dt.getDate()}일 (${DAY_KR[dow]})${sched?' · '+SCHED_LABEL[sched]:''}`;
+
+  el.innerHTML='';
+
+  const entry=data[targetKey];
+  if(entry){
+    const col=PARTS[entry.parts?.[0]]?.color||'#1a1a1a';
+    const badge=document.createElement('div');
+    badge.className='rec-badge';badge.style.cssText=`background:${col};color:#fff;margin-bottom:6px`;
+    badge.textContent='✓ '+(entry.parts||[]).join(' + ');
+    el.appendChild(badge);
+    const reason=document.createElement('div');reason.className='rec-reason';
+    reason.textContent=entry.done?'완료된 운동입니다 🎉':'기록되어 있어요. 완료 체크가 안 됐어요!';
+    el.appendChild(reason);
+    if(entry.exercises?.length){el.appendChild(buildEntryExerciseSummary(entry,'rec-complete-summary'));}
+    const editBtn=document.createElement('button');editBtn.className='done-btn already';
+    editBtn.textContent='✏️ 수정';editBtn.onclick=()=>openModal(targetKey,dt.getDate());
+    el.appendChild(editBtn);
+    return;
+  }
+
+  if(sched==='유산소'){
+    const col=PARTS['유산소'].color;
+    const badge=document.createElement('div');badge.className='rec-badge';
+    badge.style.cssText=`background:${col};color:#fff;margin-bottom:6px`;
+    badge.textContent='🏃 유산소 30분';el.appendChild(badge);
+    const reason=document.createElement('div');reason.className='rec-reason';
+    reason.textContent='실내 자전거 또는 아크트레이너 30분!';el.appendChild(reason);
+    el.appendChild(makeDoneBtn(targetKey,'유산소',['실내 자전거','아크트레이너'],true));
+    return;
+  }
+
+  if(!sched){
+    const isScheduledRest=(dow===2||dow===4||dow===6);
+    if(isScheduledRest){
+      const reason=document.createElement('div');reason.className='rec-reason';
+      reason.textContent='오늘은 회복하는 날이에요. 근육이 운동 사이에 쉬어야 더 강해져요 💪';el.appendChild(reason);
+      const exerciseBtn=document.createElement('button');exerciseBtn.className='done-btn rest-day';
+      exerciseBtn.textContent='🏋️ 운동하기';
+      exerciseBtn.onclick=()=>{
+        el.innerHTML='';
+        const rec=getBestPart(dt);
+        const exList=PART_EX[rec]?.slice(0,8)||[];
+        el.appendChild(makeDoneBtn(targetKey,rec,exList,false));
+      };
+      el.appendChild(exerciseBtn);
+      return;
+    }
+    let consec=0;const chk=new Date(dt);chk.setDate(chk.getDate()-1);
+    for(let i=0;i<6;i++){const k=dateToDk(chk);if(data[k]){consec++;chk.setDate(chk.getDate()-1);}else break;}
+    if(consec>=3){
+      const badge=document.createElement('div');badge.className='rec-badge';
+      badge.style.cssText='background:#888;color:#fff;margin-bottom:6px';
+      badge.textContent='😴 휴식 권장';el.appendChild(badge);
+      const reason=document.createElement('div');reason.className='rec-reason';
+      reason.textContent=`${consec}일 연속! 오늘은 스트레칭으로 마무리해요.`;el.appendChild(reason);
+      const btn=document.createElement('button');btn.className='done-btn rest-day';
+      btn.textContent='휴식일로 기록';
+      btn.onclick=()=>{data[targetKey]={parts:['휴식'],exercises:[],done:true,ts:Date.now()};persist();renderCal();updateRec();updateStats();};
+      el.appendChild(btn);return;
+    }
+  }
+
+  const rec=getBestPart(dt);
+  const col=PARTS[rec].color;
+  const exList=PART_EX[rec]?.slice(0,8)||[];
+
+  const reason=document.createElement('div');reason.className='rec-reason';
+  reason.textContent=`가장 오래 쉰 부위인 ${rec} 운동을 추천드려요!`;
+  el.appendChild(reason);
+
+  el.appendChild(makeDoneBtn(targetKey,rec,exList,false));
+}
+
+// 운동별 사용 빈도 계산
+function getExFreqMap(){
+  const freq={};
+  Object.values(data).forEach(entry=>{
+    (entry.exercises||[]).forEach(n=>{freq[n]=(freq[n]||0)+1;});
+  });
+  return freq;
+}
+function isFrequentExercise(name){return (getExFreqMap()[name]||0)>=3;}
+
+// 이모지+이름+유튜브 한 줄 리스트 생성 (read-only or selectable)
+function buildExListRows(exList, selSet, onToggle, partKey){
+  const wrap=document.createElement('div');
+  exList.forEach(name=>{
+    const row=document.createElement('div');
+    const isSel=selSet&&selSet.has(name);
+    row.className='ex-list-row'+(isSel?' sel':'');
+    // 체크박스
+    const chk=document.createElement('div');chk.className='ex-list-chk';chk.textContent=isSel?'✔':'';
+    // 이름
+    const nm=document.createElement('span');nm.className='ex-list-name';
+    nm.textContent=name;
+    // 유튜브
+    const yt=EX_YT[name];
+    row.appendChild(chk);row.appendChild(nm);
+    if(yt){
+      const a=document.createElement('a');a.className='ex-list-yt';a.textContent='▶';
+      a.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(yt)}`;
+      a.target='_blank';a.rel='noopener';a.onclick=e=>e.stopPropagation();
+      row.appendChild(a);
+    }
+    if(onToggle){
+      row.onclick=()=>{
+        if(selSet.has(name)){selSet.delete(name);}else{selSet.add(name);}
+        const s=selSet.has(name);
+        row.classList.toggle('sel',s);chk.textContent=s?'✔':'';
+        onToggle();
+      };
+    }
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+// 기존 호환용 (기록된 운동 표시)
+function buildRecGrid(exList,accentColor){return buildExListRows(exList,null,null,'등');}
+
+function formatSetSummary(sets){
+  if(!sets||!sets.length)return '';
+  return sets.map(({w,r,s})=>{
+    let txt='';
+    if(w)txt+=w+(String(w).includes('kg')?'':'kg');
+    if(r)txt+=(txt?' ':'')+r+(String(r).includes('개')?'':'개');
+    if(s>1)txt+=` × ${s}세트`;
+    return txt.trim();
+  }).filter(Boolean).join(' / ');
+}
+
+function buildEntryExerciseSummary(entry, extraClass=''){
+  const wrap=document.createElement('div');
+  const exercises=entry.exercises||[];
+  const setsInfo=entry.sets_info||{};
+  const partMap=buildExPart();
+  const entryParts=(entry.parts||[]).filter(p=>p!=='휴식');
+  let rendered=false;
+
+  function appendPartSection(part, names){
+    if(!names.length)return;
+    if(rendered){
+      const hr=document.createElement('hr');hr.className='rec-part-divider';
+      wrap.appendChild(hr);
+    }
+    rendered=true;
+    const hd=document.createElement('div');hd.className='rec-part-hd';
+    const dot=document.createElement('span');dot.className='dot';
+    dot.style.background=PARTS[part]?.color||'var(--text-3)';
+    const lbl=document.createElement('span');
+    lbl.textContent=part;lbl.style.color=PARTS[part]?.color||'';
+    hd.appendChild(dot);hd.appendChild(lbl);wrap.appendChild(hd);
+
+    const list=document.createElement('div');
+    list.className=`ex-list-scroll view-ex-list-full ${extraClass}`.trim();
+    names.forEach(name=>{
+      const row=document.createElement('div');row.className='view-ex-row';
+      const nm=document.createElement('div');nm.className='view-ex-name';
+      const setText=formatSetSummary(setsInfo[name]);
+      nm.textContent=name;
+      row.appendChild(nm);
+      if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
+      list.appendChild(row);
+    });
+    wrap.appendChild(list);
+  }
+
+  entryParts.forEach(part=>appendPartSection(part,exercises.filter(name=>partMap[name]===part)));
+  const uncategorized=exercises.filter(name=>!entryParts.some(part=>partMap[name]===part));
+  appendPartSection('기타',uncategorized);
+  return wrap;
+}
+
+function makeDoneBtn(targetKey, part, exList, isCardio){
+  const wrap=document.createElement('div');
+  const recSelEx=new Set();
+  const recSetsData={};
+  const activeParts=new Set([isCardio?'유산소':part]);
+  let recSearch='';
+
+  // ── 이전 운동 불러오기 ──
+  function getPrevEntry(){
+    return findPrevWorkoutEntry(targetKey);
+  }
+
+  const prevEntry=getPrevEntry();
+  if(prevEntry){
+    const [prevKey,prev]=prevEntry;
+    const d=new Date(prevKey+'T00:00:00');
+    const label=`${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')} 불러오기`;
+    const prevBtn=document.createElement('button');
+    prevBtn.style.cssText='width:100%;padding:11px;border-radius:13px;border:1.5px dashed var(--line-strong);background:var(--surface);color:var(--text-2);font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px';
+    prevBtn.innerHTML='📋 <span>'+label+'</span>';
+    prevBtn.onclick=()=>{
+      const prevParts=(prev.parts||[]).filter(p=>PARTS[p]);
+      activeParts.clear();
+      recSelEx.clear();
+      Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
+      // 이전 기록의 부위만 활성화
+      (prevParts.length?prevParts:[isCardio?'유산소':part]).forEach(p=>activeParts.add(p));
+      // 이전 기록의 운동만 선택
+      (prev.exercises||[]).forEach(n=>recSelEx.add(n));
+      // 세트 정보 복사 (깊은 복사)
+      Object.entries(prev.sets_info||{}).forEach(([k,v])=>{
+        recSetsData[k]=Array.isArray(v)?v.map(s=>({...s})):[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
+      });
+      renderChips();renderAll();
+      activeParts.forEach(p=>updateSetsFor(p));
+      prevBtn.style.background='var(--amber)';
+      prevBtn.querySelector('span').textContent='불러오기 완료 ✓';
+      setTimeout(()=>{
+        prevBtn.style.background='var(--surface)';
+        prevBtn.querySelector('span').textContent=label;
+      },2000);
+    };
+    wrap.appendChild(prevBtn);
+  }
+
+  // 검색창
+  const srchWrap=document.createElement('div');srchWrap.className='rec-search-wrap';
+  const srchIco=document.createElement('span');srchIco.className='rec-search-ico';srchIco.textContent='🔍';
+  const srchInp=document.createElement('input');srchInp.className='rec-search-inp';
+  srchInp.placeholder='운동 검색...';srchInp.autocomplete='off';
+  const srchResults=document.createElement('div');
+  srchResults.style.cssText='display:none;margin-top:4px';
+
+  function renderSrchResults(){
+    const q=recSearch.trim();
+    srchResults.innerHTML='';
+    if(!q){srchResults.style.display='none';contentWrap.style.display='';return;}
+    srchResults.style.display='';
+    contentWrap.style.display='none';
+    // 전체 부위에서 검색
+    const matches=[];
+    Object.entries(PART_EX).forEach(([p,exs])=>{
+      exs.forEach(name=>{if(name.includes(q))matches.push({name,p});});
+    });
+    if(!matches.length){
+      const e=document.createElement('div');
+      e.style.cssText='font-size:.82rem;color:var(--text-3);padding:8px 0';
+      e.textContent='검색 결과 없음';srchResults.appendChild(e);return;
+    }
+    matches.sort((a,b)=>(_recFreqMap[b.name]||0)-(_recFreqMap[a.name]||0));
+    matches.slice(0,30).forEach(({name,p})=>{
+      const row=document.createElement('div');row.className='ex-mgmt-row';
+      row.style.cursor='pointer';
+      const isSel=recSelEx.has(name);
+      if(isSel)row.style.borderColor='var(--lime-deep)';
+      const chk=document.createElement('div');chk.className='ex-list-chk';
+      chk.style.cssText='width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-size:.65rem;flex-shrink:0;background:var(--bg)';
+      if(isSel){chk.style.background='var(--lime-deep)';chk.style.borderColor='var(--lime-deep)';}
+      chk.textContent=isSel?'✔':'';
+      const nm=document.createElement('span');nm.className='ex-mgmt-name';nm.textContent=name;
+      const freq=_recFreqMap[name]||0;
+      if(freq>=3){const fb=document.createElement('span');fb.textContent='🔥';fb.style.cssText='font-size:.85rem';nm.appendChild(document.createTextNode(' '));nm.appendChild(fb);}
+      const badge=document.createElement('span');badge.className='ex-mgmt-part';
+      badge.textContent=p;badge.style.background=PARTS[p]?.color||'#888';
+      const yt=EX_YT[name];
+      row.appendChild(chk);row.appendChild(nm);row.appendChild(badge);
+      if(yt){
+        const a=document.createElement('a');a.className='ex-list-yt';a.textContent='▶';
+        a.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(yt)}`;
+        a.target='_blank';a.rel='noopener';a.onclick=e=>e.stopPropagation();
+        row.appendChild(a);
+      }
+      row.onclick=()=>{
+        if(recSelEx.has(name)){recSelEx.delete(name);delete recSetsData[name];}
+        else recSelEx.add(name);
+        const s=recSelEx.has(name);
+        chk.textContent=s?'✔':'';
+        if(s){chk.style.background='var(--lime-deep)';chk.style.borderColor='var(--lime-deep)';row.style.borderColor='var(--lime-deep)';}
+        else{chk.style.background='var(--bg)';chk.style.borderColor='';row.style.borderColor='';}
+        updateSetsFor(p);
+      };
+      srchResults.appendChild(row);
+    });
+  }
+
+  srchInp.oninput=()=>{recSearch=srchInp.value;renderSrchResults();};
+  srchWrap.appendChild(srchIco);srchWrap.appendChild(srchInp);
+
+  const contentWrap=document.createElement('div');
+
+  function makeExRow(name, p){
+    const row=document.createElement('div');
+    const isSel=recSelEx.has(name);
+    row.className='ex-list-row'+(isSel?' sel':'');
+    const chk=document.createElement('div');chk.className='ex-list-chk';chk.textContent=isSel?'✔':'';
+    const nm=document.createElement('span');nm.className='ex-list-name';nm.textContent=name;
+    const yt=EX_YT[name];
+    row.appendChild(chk);row.appendChild(nm);
+    // 빈도 표시 (3회 이상 → 🔥)
+    const freq=_recFreqMap&&_recFreqMap[name]||0;
+    if(freq>=3){
+      const fb=document.createElement('span');
+      fb.style.cssText='font-size:.9rem;flex-shrink:0;line-height:1';
+      fb.textContent='🔥';row.appendChild(fb);
+    }
+    if(yt){
+      const a=document.createElement('a');a.className='ex-list-yt';a.textContent='▶';
+      a.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(yt)}`;
+      a.target='_blank';a.rel='noopener';a.onclick=e=>e.stopPropagation();
+      row.appendChild(a);
+    }
+    row.onclick=()=>{
+      if(recSelEx.has(name)){recSelEx.delete(name);delete recSetsData[name];}
+      else recSelEx.add(name);
+      const s=recSelEx.has(name);
+      row.classList.toggle('sel',s);chk.textContent=s?'✔':'';
+      // 해당 부위 세트 컨테이너만 업데이트
+      updateSetsFor(p);
+    };
+    return row;
+  }
+
+  const partSetsContainers={};
+
+  function updateSetsFor(p){
+    const c=partSetsContainers[p];
+    if(!c)return;
+    c.innerHTML='';
+    const pExList=PART_EX[p]||[];
+    const sel=pExList.filter(n=>recSelEx.has(n));
+    if(!sel.length)return;
+    const hd=document.createElement('div');hd.className='ex-sets-hd';
+    hd.textContent='세트 기록';c.appendChild(hd);
+    sel.forEach(name=>{
+      if(!recSetsData[name])recSetsData[name]=[{w:'',r:'',s:1}];
+      c.appendChild(makeSetInpRow(name,recSetsData[name]));
+    });
+  }
+
+  let _recFreqMap=getExFreqMap();
+
+  function renderAll(){
+    _recFreqMap=getExFreqMap();
+    contentWrap.innerHTML='';
+    Object.keys(partSetsContainers).forEach(k=>delete partSetsContainers[k]);
+    const parts=isCardio?['유산소']:
+      [part,...Object.keys(PARTS).filter(p=>p!==part)];
+    let firstActive=true;
+    parts.filter(p=>activeParts.has(p)).forEach(p=>{
+      const rawList=(PART_EX[p]||[]).filter(n=>!recSearch||n.includes(recSearch));
+      // 빈도순 정렬 (빈도 같으면 원래 순서 유지)
+      const pExList=[...rawList].sort((a,b)=>(_recFreqMap[b]||0)-(_recFreqMap[a]||0));
+      if(!pExList.length)return;
+      // 구분선 (2번째 부위부터)
+      if(!firstActive){
+        const hr=document.createElement('hr');hr.className='rec-part-divider';
+        contentWrap.appendChild(hr);
+      }
+      firstActive=false;
+      // 부위 헤더 (여러 부위 선택 시)
+      if(activeParts.size>1){
+        const phd=document.createElement('div');phd.className='rec-part-hd';
+        const dot=document.createElement('span');dot.className='dot';
+        dot.style.background=PARTS[p]?.color||'#888';
+        const lbl=document.createElement('span');
+        lbl.textContent=p+(p===part?' ★':'');
+        lbl.style.color=PARTS[p]?.color||'';
+        phd.appendChild(dot);phd.appendChild(lbl);
+        contentWrap.appendChild(phd);
+      }
+      // 오늘 운동 기록 목록: 3개까지만 보이고 나머지는 내부 스크롤
+      const scroll=document.createElement('div');scroll.className='ex-list-scroll rec-ex-list-scroll';
+      pExList.forEach(name=>scroll.appendChild(makeExRow(name,p)));
+      contentWrap.appendChild(scroll);
+      // 세트 기록 컨테이너
+      const sc=document.createElement('div');
+      partSetsContainers[p]=sc;
+      contentWrap.appendChild(sc);
+      updateSetsFor(p);
+    });
+  }
+
+  // 부위 칩
+  if(!isCardio){
+    const chips=document.createElement('div');chips.className='part-chips';
+    function renderChips(){
+      chips.innerHTML='';
+      Object.entries(PARTS).forEach(([p,pi])=>{
+        const chip=document.createElement('button');chip.className='part-chip';
+        const isActive=activeParts.has(p);
+        chip.style.background=isActive?pi.color:'var(--surface)';
+        chip.style.color=isActive?'#fff':'var(--text)';
+        chip.style.border='none';
+        chip.textContent=p+(p===part?' ★':'');
+        chip.onclick=()=>{
+          if(activeParts.has(p)&&activeParts.size>1)activeParts.delete(p);
+          else activeParts.add(p);
+          renderChips();renderAll();
+        };
+        chips.appendChild(chip);
+      });
+    }
+    renderChips();
+    wrap.appendChild(chips);
+  }
+
+  wrap.appendChild(srchWrap);
+  wrap.appendChild(srchResults);
+  wrap.appendChild(contentWrap);
+  renderAll();
+
+  const btn=document.createElement('button');btn.className='done-btn';
+  btn.style.marginTop='10px';
+  btn.textContent='🎉 완료!';
+  btn.onclick=()=>{
+    const exArr=[...recSelEx];
+    const sInfo={};
+    exArr.forEach(n=>{if(recSetsData[n]?.length)sInfo[n]=recSetsData[n];});
+    const usedParts=[...new Set(exArr.map(n=>{
+      for(const[p,l]of Object.entries(PART_EX))if(l.includes(n))return p;return part;
+    }))];
+    data[targetKey]={parts:usedParts.length?usedParts:[part],exercises:exArr,done:true,sets_info:sInfo,ts:Date.now()};
+    persist();renderCal();updateRec();updateStats();
+  };
+  wrap.appendChild(btn);
+  return wrap;
+}
+
+
+/* ── 세트 텍스트 입력 ── */
+// 운동별 다중 세트 행 (무게×횟수×세트수)
+function makeSetInpRow(name, setsArr, onChange){
+  const wrap=document.createElement('div');wrap.className='ex-sets-mr';
+  const nm=document.createElement('div');nm.className='ex-sets-mr-name';nm.textContent=name;
+  wrap.appendChild(nm);
+  // 기본 4세트 확보
+  while(setsArr.length<4)setsArr.push({w:'',r:'',s:1});
+  const grid=document.createElement('div');grid.className='ex-sets-grid';
+  function setToVal(set){
+    if(!set.w&&!set.r&&!(set.s>1))return '';
+    return [set.w||'',set.r||'',set.s>1?set.s:1].join('/');
+  }
+  function parseVal(str,set){
+    const p=str.split('/');
+    set.w=p[0]?.trim()||'';
+    set.r=p[1]?.trim()||'';
+    set.s=parseInt(p[2]?.trim())||1;
+  }
+  function renderCells(){
+    grid.innerHTML='';
+    setsArr.forEach((set,i)=>{
+      const cell=document.createElement('div');cell.className='ex-set-cell';
+      const num=document.createElement('span');num.className='ex-set-num';num.textContent=i+1;
+      const inp=document.createElement('input');
+      inp.type='text';inp.inputMode='decimal';inp.className='ex-inp-sm';
+      inp.style.flex='1';inp.style.textAlign='left';
+      inp.value=setToVal(set);inp.placeholder='kg/회/세트';
+      const empty=!set.w&&!set.r&&!(set.s>1);
+      cell.classList.toggle('empty',empty);
+      inp.oninput=()=>{
+        parseVal(inp.value,set);
+        cell.classList.toggle('empty',!set.w&&!set.r&&!(set.s>1));
+        if(onChange)onChange();
+      };
+      inp.onfocus=()=>inp.select();
+      cell.appendChild(num);cell.appendChild(inp);
+      grid.appendChild(cell);
+    });
+  }
+  renderCells();
+  wrap.appendChild(grid);
+  const btnRow=document.createElement('div');
+  btnRow.style.cssText='display:flex;gap:6px;margin-top:2px';
+  const addBtn=document.createElement('button');addBtn.className='ex-sets-add';
+  addBtn.style.flex='1';
+  addBtn.textContent='+ 2세트 추가';
+  addBtn.onclick=()=>{
+    setsArr.push({w:'',r:'',s:1},{w:'',r:'',s:1});
+    renderCells();if(onChange)onChange();
+  };
+  const delBtn=document.createElement('button');delBtn.className='ex-sets-add';
+  delBtn.style.cssText='flex:1;color:var(--text-3);border-color:var(--line-strong)';
+  delBtn.textContent='− 2세트 삭제';
+  delBtn.onclick=()=>{
+    if(setsArr.length>2){setsArr.splice(-2,2);renderCells();if(onChange)onChange();}
+  };
+  btnRow.appendChild(addBtn);btnRow.appendChild(delBtn);
+  wrap.appendChild(btnRow);
+  return wrap;
+}
+
+function renderExSetsList(){
+  const c=document.getElementById('exSetsList');
+  if(!c)return;
+  c.innerHTML='';
+  const exArr=[...selExercises];
+  if(!exArr.length)return;
+  const hd=document.createElement('div');hd.className='ex-sets-hd';
+  hd.textContent='세트 기록';c.appendChild(hd);
+  exArr.forEach(name=>{
+    if(!perExSets[name]||!Array.isArray(perExSets[name]))
+      perExSets[name]=[{w:'',r:'',s:1}];
+    c.appendChild(makeSetInpRow(name,perExSets[name]));
+  });
+}
+
+/* ── Exercise Search ── */
+function buildExPart(){
+  const map={};
+  Object.entries(PART_EX).forEach(([part,list])=>{list.forEach(ex=>{if(!map[ex])map[ex]=part;});});
+  return map;
+}
+function getPartExercises(part, query=''){
+  const q=query.trim();
+  const seen=new Set();
+  return (PART_EX[part]||[]).filter(name=>{
+    if(seen.has(name))return false;
+    seen.add(name);
+    return !q||name.includes(q);
+  });
+}
+function pruneModalSelections(){
+  const partMap=buildExPart();
+  [...selExercises].forEach(name=>{
+    const p=partMap[name];
+    if(!p||!selParts.has(p)){
+      selExercises.delete(name);
+      delete perExSets[name];
+    }
+  });
+  if(!selParts.size){
+    selExercises.clear();
+    perExSets={};
+  }
+}
+function makeModalExRow(name, part){
+  const row=document.createElement('div');
+  const isSel=selExercises.has(name);
+  row.className='ex-list-row'+(isSel?' sel':'');
+  const chk=document.createElement('div');chk.className='ex-list-chk';chk.textContent=isSel?'✔':'';
+  const nm=document.createElement('span');nm.className='ex-list-name';
+  nm.textContent=name;
+  if(isFrequentExercise(name)){
+    nm.appendChild(document.createTextNode(' '));
+    const fb=document.createElement('span');fb.textContent='🔥';fb.style.cssText='font-size:.9rem';
+    nm.appendChild(fb);
+  }
+  const yt=EX_YT[name];
+  row.appendChild(chk);row.appendChild(nm);
+  if(yt){
+    const a=document.createElement('a');a.className='ex-list-yt';a.textContent='▶';
+    a.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(yt)}`;
+    a.target='_blank';a.rel='noopener';a.onclick=e=>e.stopPropagation();
+    row.appendChild(a);
+  }
+  row.onclick=()=>{
+    if(selExercises.has(name)){selExercises.delete(name);delete perExSets[name];}
+    else{selParts.add(part);selExercises.add(name);}
+    const sel=selExercises.has(name);
+    row.classList.toggle('sel',sel);chk.textContent=sel?'✔':'';
+    renderPartBtns();renderExGrid();
+  };
+  return row;
+}
+function updateModalSetsFor(part){
+  const c=modalPartSetsContainers[part];
+  if(!c)return;
+  c.innerHTML='';
+  const selected=getPartExercises(part).filter(name=>selExercises.has(name));
+  if(!selected.length)return;
+  const hd=document.createElement('div');hd.className='ex-sets-hd';
+  hd.textContent='세트 기록';c.appendChild(hd);
+  selected.forEach(name=>{
+    if(!perExSets[name]||!Array.isArray(perExSets[name]))
+      perExSets[name]=[{w:'',r:'',s:1}];
+    c.appendChild(makeSetInpRow(name,perExSets[name]));
+  });
+}
+function searchEx(q){
+  const results=document.getElementById('exSearchResults');
+  if(!q.trim()){results.classList.add('hidden');results.innerHTML='';return;}
+  const map=buildExPart();
+  const matches=Object.keys(map).filter(name=>name.includes(q));
+  results.innerHTML='';
+  if(!matches.length){
+    results.innerHTML='<div class="ex-search-empty">검색 결과 없음</div>';
+    results.classList.remove('hidden');return;
+  }
+  matches.forEach((name,idx)=>{
+    const part=map[name];const color=PARTS[part]?.color||'#888';
+    const row=document.createElement('div');row.className='ex-search-row';
+    if(idx>0)row.style.borderTop='1.5px dashed var(--line-strong)';
+    row.innerHTML=`<span class="ex-search-part" style="background:${color}">${part}</span><span class="ex-search-name">${name}</span>`;
+    row.onclick=()=>{
+      selParts.add(part);selExercises.add(name);
+      document.getElementById('exSearch').value='';
+      results.classList.add('hidden');results.innerHTML='';
+      renderPartBtns();renderExGrid();
+    };
+    results.appendChild(row);
+  });
+  results.classList.remove('hidden');
+}
+
+/* ── Custom Part / Exercise ── */
+const CUSTOM_COLORS=['#FF6B6B','#FF8E53','#FFD93D','#6BCB77','#4D96FF','#C77DFF','#F72585','#90E0EF','#FF9A3C','#B5838D'];
+let addPartSelColor=CUSTOM_COLORS[0];
+let addExTargetPart='';
+
+function showAddPart(){
+  addPartSelColor=CUSTOM_COLORS[0];
+  document.getElementById('newPartName').value='';
+  renderColorPalette();
+  document.getElementById('addPartOverlay').classList.remove('hidden');
+}
+function renderColorPalette(){
+  const pal=document.getElementById('colorPalette');
+  pal.innerHTML='';
+  CUSTOM_COLORS.forEach(c=>{
+    const dot=document.createElement('div');
+    dot.style.cssText=`width:30px;height:30px;border-radius:50%;background:${c};cursor:pointer;border:3px solid ${c===addPartSelColor?'#1a1a1a':'transparent'};flex-shrink:0`;
+    dot.onclick=()=>{addPartSelColor=c;renderColorPalette();};
+    pal.appendChild(dot);
+  });
+}
+function hideAddPart(){document.getElementById('addPartOverlay').classList.add('hidden');}
+function confirmAddPart(){
+  const name=document.getElementById('newPartName').value.trim();
+  if(!name){alert('부위 이름을 입력해주세요');return;}
+  if(PARTS[name]){alert('이미 있는 부위예요');return;}
+  customParts[name]={color:addPartSelColor,exercises:[]};
+  PARTS[name]={color:addPartSelColor};
+  PART_EX[name]=[];
+  saveCustomParts();
+  updateLegend();
+  hideAddPart();
+  renderPartBtns();
+}
+
+function showAddEx(){
+  addExTargetPart=[...selParts].find(p=>customParts[p])||'';
+  if(!addExTargetPart){alert('먼저 커스텀 부위를 선택해주세요');return;}
+  document.getElementById('addExTitle').textContent=`➕ ${addExTargetPart} 운동 추가`;
+  document.getElementById('newExName').value='';
+  document.getElementById('addExOverlay').classList.remove('hidden');
+}
+function hideAddEx(){document.getElementById('addExOverlay').classList.add('hidden');}
+function confirmAddEx(){
+  const name=document.getElementById('newExName').value.trim();
+  if(!name){alert('운동 이름을 입력해주세요');return;}
+  if(!customParts[addExTargetPart])return;
+  const exList=customParts[addExTargetPart].exercises;
+  if(!exList.find(e=>(e.name||e)===name)){
+    exList.push({name});
+    PART_EX[addExTargetPart]=exList.map(e=>e.name||e);
+    EX_YT[name]=`${name} 운동법`;
+    saveCustomParts();
+  }
+  hideAddEx();
+  renderExGrid();
+}
+
+function updateLegend(){
+  const leg=document.querySelector('.legend');
+  if(!leg)return;
+  // Remove previously added custom legend items
+  leg.querySelectorAll('.leg-custom').forEach(el=>el.remove());
+  Object.entries(customParts).forEach(([name,{color}])=>{
+    const div=document.createElement('div');div.className='leg leg-custom';
+    div.innerHTML=`<div class="leg-dot" style="background:${color}"></div>${name}`;
+    leg.appendChild(div);
+  });
+}
+
+/* ── Calendar ── */
+function renderCal(){
+  const grid=document.getElementById('calGrid');
+  while(grid.children.length>7)grid.removeChild(grid.lastChild);
+  document.getElementById('calMonth').textContent=`${curY}년 ${MONTH_KR[curM]}`;
+  const firstDay=new Date(curY,curM,1).getDay();
+  const lastDay=new Date(curY,curM+1,0).getDate();
+  const tk=todayDk();
+  for(let i=0;i<firstDay;i++){const e=document.createElement('div');e.className='cal-day empty';grid.appendChild(e);}
+  for(let d=1;d<=lastDay;d++){
+    const key=dk(curY,curM,d);
+    const dow=new Date(curY,curM,d).getDay();
+    const entry=data[key];
+    const sched=getSchedule(key);
+    const cell=document.createElement('div');
+    cell.className='cal-day'
+      +(key===tk?' is-today':'')
+      +(dow===0?' is-sun':dow===6?' is-sat':'')
+      +(!entry&&sched==='근력'&&key!==tk?' is-plan':'')
+      +(!entry&&sched==='유산소'&&key!==tk?' is-plan-cardio':'');
+    cell.onclick=()=>{if(data[key])openView(key,d);else openModal(key,d);};
+    const num=document.createElement('div');num.className='dn2';num.textContent=d;cell.appendChild(num);
+    if(!entry&&sched&&key!==tk){
+      const pl=document.createElement('div');pl.className='plan-lbl';
+      pl.textContent=sched==='근력'?'근력':'유산소';cell.appendChild(pl);
+    }
+    if(entry){
+      if(entry.parts?.length&&entry.parts[0]!=='휴식'){
+        cell.classList.add('has-entry');
+        const p0=entry.parts[0];
+        const p1=entry.parts[1];
+        const bgColor=PARTS[p0]?.color||'#DDF77A';
+        cell.style.background=bgColor;
+        num.style.color='#fff';
+        if(p1&&PARTS[p1]){
+          const bars=document.createElement('div');bars.className='cal-bars';
+          const b=document.createElement('i');b.style.background=PARTS[p1].color;
+          bars.appendChild(b);cell.appendChild(bars);
+        } else {
+          const lbl=document.createElement('div');
+          lbl.style.cssText='font-size:.72rem;font-weight:800;margin-top:2px;line-height:1;opacity:.88;color:#fff';
+          lbl.textContent=p0;cell.appendChild(lbl);
+        }
+      } else if(entry.parts?.[0]==='휴식'){
+        cell.classList.add('has-rest');
+        const pl=document.createElement('div');pl.className='plan-lbl';pl.textContent='휴식';cell.appendChild(pl);
+      }
+    }
+    grid.appendChild(cell);
+  }
+}
+
+function changeMonth(dir){
+  if(dir===0){curY=today.getFullYear();curM=today.getMonth();}
+  else{curM+=dir;if(curM<0){curM=11;curY--;}if(curM>11){curM=0;curY++;}}
+  renderCal();
+}
+
+/* ── Stats ── */
+function shiftStats(dir){statsOffset+=dir;updateStats();}
+function updateStats(){
+  const c=document.getElementById('statsMonths');c.innerHTML='';
+  for(let i=-1;i<=1;i++){
+    const mOffset=statsOffset+i;
+    const d=new Date(today.getFullYear(),today.getMonth()+mOffset,1);
+    const y=d.getFullYear();const m=d.getMonth();
+    const px=`${y}-${String(m+1).padStart(2,'0')}`;
+    const keys=Object.keys(data).filter(k=>k.startsWith(px)&&data[k].parts?.[0]!=='휴식');
+    const total=keys.length;
+    const isNow=(mOffset===0);
+
+    // Count per part
+    const partCount={};
+    keys.forEach(k=>{(data[k].parts||[]).forEach(p=>{if(PARTS[p])partCount[p]=(partCount[p]||0)+1;});});
+    const partRows=Object.entries(partCount).sort((a,b)=>b[1]-a[1])
+      .map(([p,cnt])=>`<div class="stat-part-row"><span class="stat-part-dot" style="background:${PARTS[p].color}"></span><span class="stat-part-name">${p}</span><span class="stat-part-cnt">${cnt}</span></div>`).join('');
+
+    const box=document.createElement('div');
+    box.className='stat-month'+(isNow?' current':'');
+    box.innerHTML=`<div class="stat-m-name">${y}년 ${MONTH_KR[m]}</div>
+      <div class="stat-m-num">${total}<span class="stat-m-unit">회</span></div>
+      <div class="stat-parts">${partRows}</div>`;
+    c.appendChild(box);
+  }
+  const totalCount=Object.values(data).filter(v=>v.parts?.[0]!=='휴식').length;
+  document.getElementById('streakBadge').textContent=`💪 총 ${totalCount}회 운동`;
+}
+
+/* ── Log Modal ── */
+/* ── 달력 뷰 모달 (읽기 전용) ── */
+let viewKey=null,viewD=null;
+
+function openView(key,d){
+  viewKey=key;viewD=d;
+  const entry=data[key];
+  const mIdx=parseInt(key.split('-')[1])-1;
+  const yIdx=parseInt(key.split('-')[0]);
+  document.getElementById('viewTitle').textContent=`${yIdx}년 ${MONTH_KR[mIdx]} ${d}일`;
+  const c=document.getElementById('viewContent');c.innerHTML='';
+
+  // 완료/부위 뱃지
+  const badgeRow=document.createElement('div');badgeRow.style.marginBottom='4px';
+  if(entry.done){
+    const done=document.createElement('span');done.className='view-done';
+    done.textContent='🎉 완료';badgeRow.appendChild(done);
+  }
+  (entry.parts||[]).forEach(p=>{
+    if(p==='휴식'){
+      const r=document.createElement('span');r.className='view-rest';r.textContent='😴 휴식일';badgeRow.appendChild(r);
+    } else if(PARTS[p]){
+      const b=document.createElement('span');b.className='view-part-badge';
+      b.style.background=PARTS[p].color;b.textContent=p;badgeRow.appendChild(b);
+    }
+  });
+  c.appendChild(badgeRow);
+
+  // 운동 목록
+  const exercises=entry.exercises||[];
+  const setsInfo=entry.sets_info||{};
+  if(exercises.length){
+    const exHd=document.createElement('div');exHd.className='field-lbl';exHd.textContent='운동 목록';c.appendChild(exHd);
+    const partMap=buildExPart();
+    let rendered=false;
+    (entry.parts||[]).filter(p=>p!=='휴식').forEach(part=>{
+      const partExercises=exercises.filter(name=>partMap[name]===part);
+      if(!partExercises.length)return;
+      if(rendered){
+        const hr=document.createElement('hr');hr.className='rec-part-divider';
+        c.appendChild(hr);
+      }
+      rendered=true;
+      const hd=document.createElement('div');hd.className='rec-part-hd';
+      const dot=document.createElement('span');dot.className='dot';
+      dot.style.background=PARTS[part]?.color||'#888';
+      const lbl=document.createElement('span');
+      lbl.textContent=part;lbl.style.color=PARTS[part]?.color||'';
+      hd.appendChild(dot);hd.appendChild(lbl);c.appendChild(hd);
+
+      const exScroll=document.createElement('div');
+      exScroll.className='ex-list-scroll view-ex-list-full';
+      c.appendChild(exScroll);
+      partExercises.forEach(name=>{
+        const row=document.createElement('div');row.className='view-ex-row';
+        const nm=document.createElement('div');nm.className='view-ex-name';
+        const setText=formatSetSummary(setsInfo[name]);
+        nm.textContent=name;
+        row.appendChild(nm);
+        if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
+        exScroll.appendChild(row);
+      });
+    });
+    const uncategorized=exercises.filter(name=>!(entry.parts||[]).some(p=>partMap[name]===p));
+    if(uncategorized.length){
+      if(rendered){
+        const hr=document.createElement('hr');hr.className='rec-part-divider';
+        c.appendChild(hr);
+      }
+      const hd=document.createElement('div');hd.className='rec-part-hd';
+      const dot=document.createElement('span');dot.className='dot';
+      dot.style.background='var(--text-3)';
+      const lbl=document.createElement('span');lbl.textContent='기타';
+      hd.appendChild(dot);hd.appendChild(lbl);c.appendChild(hd);
+      const exScroll=document.createElement('div');
+      exScroll.className='ex-list-scroll view-ex-list-full';
+      c.appendChild(exScroll);
+      uncategorized.forEach(name=>{
+        const row=document.createElement('div');row.className='view-ex-row';
+        const nm=document.createElement('div');nm.className='view-ex-name';
+        const setText=formatSetSummary(setsInfo[name]);
+        nm.textContent=name;
+        row.appendChild(nm);
+        if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
+        exScroll.appendChild(row);
+      });
+    }
+  } else if((entry.parts||[]).includes('휴식')){
+    // 휴식일 표시
+  } else {
+    const empty=document.createElement('div');
+    empty.style.cssText='font-size:.82rem;color:var(--text-3);padding:6px 0';
+    empty.textContent='운동 목록 없음';c.appendChild(empty);
+  }
+
+  // 메모
+  if(entry.custom){
+    const mHd=document.createElement('div');mHd.className='field-lbl';mHd.style.marginTop='10px';mHd.textContent='메모';c.appendChild(mHd);
+    const memo=document.createElement('div');memo.style.cssText='font-size:.86rem;color:var(--text-2);padding:12px 14px;background:#ececea;border-radius:16px;border:none;font-weight:600;line-height:1.6';
+    memo.textContent=entry.custom;c.appendChild(memo);
+  }
+
+  document.getElementById('viewOverlay').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+
+function hideView(){
+  document.getElementById('viewOverlay').classList.add('hidden');
+  document.body.style.overflow='';viewKey=null;viewD=null;
+}
+
+function switchToEdit(){
+  const k=viewKey,day=viewD;
+  hideView();
+  if(k!==null)openModal(k,day);
+}
+
+function findPrevWorkoutEntry(targetKey){
+  const entries=Object.entries(data)
+    .filter(([k,v])=>k<targetKey&&v?.exercises?.length)
+    .sort(([a],[b])=>b.localeCompare(a));
+  return entries.length?entries[0]:null;
+}
+
+function copySetsInfo(src){
+  const copied={};
+  Object.entries(src||{}).forEach(([k,v])=>{
+    copied[k]=Array.isArray(v)?v.map(s=>({...s})):[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
+  });
+  return copied;
+}
+
+function renderModalPrevLoader(targetKey){
+  const mount=document.getElementById('modalPrevLoad');
+  if(!mount)return;
+  mount.innerHTML='';
+  const prevEntry=findPrevWorkoutEntry(targetKey);
+  if(!prevEntry){
+    const empty=document.createElement('div');
+    empty.className='prev-load-empty';
+    empty.textContent='불러올 이전 운동 기록이 없어요';
+    mount.appendChild(empty);
+    return;
+  }
+  const [prevKey,prev]=prevEntry;
+  const d=new Date(prevKey+'T00:00:00');
+  const label=`📋 ${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')} 불러오기`;
+  const btn=document.createElement('button');
+  btn.className='prev-load-btn';
+  btn.textContent=label;
+  btn.onclick=()=>{
+    selParts=new Set((prev.parts||[]).filter(p=>PARTS[p]));
+    selExercises=new Set(prev.exercises||[]);
+    perExSets=copySetsInfo(prev.sets_info);
+    document.getElementById('doneToggle').checked=true;
+    document.getElementById('exSearch').value='';
+    const results=document.getElementById('exSearchResults');
+    results.classList.add('hidden');results.innerHTML='';
+    renderPartBtns();renderExGrid();
+    btn.textContent='불러오기 완료 ✓';
+    btn.classList.add('loaded');
+    setTimeout(()=>{btn.textContent=label;btn.classList.remove('loaded');},2000);
+  };
+  mount.appendChild(btn);
+}
+
+function openModal(key,d){
+  selDate=key;selParts=new Set();
+  const entry=data[key];
+  const dow=new Date(key).getDay();
+  const mIdx=parseInt(key.split('-')[1])-1;
+  const yIdx=parseInt(key.split('-')[0]);
+  document.getElementById('modalTitle').textContent=`📝 ${yIdx}년 ${MONTH_KR[mIdx]} ${d}일`;
+  document.getElementById('custInp').value=entry?.custom||'';
+  document.getElementById('doneToggle').checked=true;
+  document.getElementById('btnDel').classList.toggle('hidden',!entry);
+  selExercises=new Set(entry?.exercises||[]);
+  if(entry?.parts)entry.parts.forEach(p=>selParts.add(p));
+  if(!entry&&getSchedule(key)==='유산소')selParts.add('유산소');
+  // 기존 데이터 → [{w,r,s}] 배열로 마이그레이션
+  const raw=entry?.sets_info||{};
+  perExSets={};
+  Object.entries(raw).forEach(([k,v])=>{
+    if(Array.isArray(v))perExSets[k]=v;
+    else if(v&&(v.w||v.weight))perExSets[k]=[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
+  });
+  document.getElementById('exSearch').value='';
+  document.getElementById('exSearchResults').classList.add('hidden');
+  document.getElementById('exSetsList').innerHTML='';
+  renderModalPrevLoader(key);
+  renderPartBtns();renderExGrid();
+  document.getElementById('overlay').classList.remove('hidden');
+  document.body.style.overflow='hidden';
+}
+
+function renderPartBtns(){
+  const c=document.getElementById('partBtns');c.innerHTML='';
+  Object.entries(PARTS).forEach(([name,{color}])=>{
+    const btn=document.createElement('button');
+    btn.className='part-btn'+(selParts.has(name)?' on':'');
+    btn.textContent=name;
+    if(selParts.has(name)){btn.style.background=color;btn.style.color='#fff';btn.style.borderColor=color;}
+    btn.onclick=()=>{
+      selParts.has(name)?selParts.delete(name):selParts.add(name);
+      pruneModalSelections();
+      const q=document.getElementById('exSearch');
+      if(q)q.value='';
+      const results=document.getElementById('exSearchResults');
+      if(results){results.classList.add('hidden');results.innerHTML='';}
+      renderPartBtns();renderExGrid();
+      if(selParts.has(name)){
+        // 운동 목록이 화면에 보이도록 스크롤
+        setTimeout(()=>{
+          const modal=document.querySelector('#overlay .modal');
+          const ec=document.getElementById('exContainer');
+          if(modal&&ec){modal.scrollTop=ec.offsetTop-50;}
+        },60);
+      }
+    };
+    c.appendChild(btn);
+  });
+  // "+ 부위 추가" button
+  const addBtn=document.createElement('button');
+  addBtn.className='part-btn';
+  addBtn.style.cssText='border-style:dashed;color:#5A5F52;border-color:#C8CEB8;background:#ececea';
+  addBtn.textContent='+ 추가';
+  addBtn.onclick=()=>showAddPart();
+  c.appendChild(addBtn);
+}
+
+function renderExGrid(){
+  const c=document.getElementById('exContainer');c.innerHTML='';
+  modalPartSetsContainers={};
+  document.getElementById('exSetsList').innerHTML='';
+  pruneModalSelections();
+  const hasCustomPart=[...selParts].some(p=>customParts[p]);
+  if(!selParts.size){
+    c.innerHTML='<div class="ex-empty">부위를 선택하면 목록이 표시됩니다</div>';
+    return;
+  }
+  let rendered=false;
+  [...selParts].forEach((part,idx)=>{
+    const list=getPartExercises(part);
+    if(!list.length)return;
+    if(rendered){
+      const hr=document.createElement('hr');hr.className='rec-part-divider';
+      c.appendChild(hr);
+    }
+    rendered=true;
+    const hd=document.createElement('div');hd.className='rec-part-hd';
+    const dot=document.createElement('span');dot.className='dot';
+    dot.style.background=PARTS[part]?.color||'#888';
+    const lbl=document.createElement('span');
+    lbl.textContent=part;
+    lbl.style.color=PARTS[part]?.color||'';
+    hd.appendChild(dot);hd.appendChild(lbl);
+    c.appendChild(hd);
+
+    const scroll=document.createElement('div');
+    scroll.className='ex-list-scroll rec-ex-list-scroll';
+    list.forEach(name=>scroll.appendChild(makeModalExRow(name,part)));
+    c.appendChild(scroll);
+
+    const sets=document.createElement('div');
+    modalPartSetsContainers[part]=sets;
+    c.appendChild(sets);
+    updateModalSetsFor(part);
+  });
+  if(!rendered){
+    c.innerHTML='<div class="ex-empty">선택한 부위에 등록된 운동이 없습니다</div>';
+  }
+  if(hasCustomPart){
+    const addBtn=document.createElement('button');addBtn.className='btn btn-ghost';
+    addBtn.style.cssText='width:100%;margin-top:6px;font-size:.82rem';
+    addBtn.textContent='+ 운동 추가';addBtn.onclick=()=>showAddEx();c.appendChild(addBtn);
+  }
+}
+
+function saveEntry(){
+  pruneModalSelections();
+  const cleanSets={};
+  [...selExercises].forEach(name=>{
+    if(perExSets[name])cleanSets[name]=perExSets[name];
+  });
+  data[selDate]={
+    parts:[...selParts],exercises:[...selExercises],
+    custom:document.getElementById('custInp').value.trim(),
+    done:document.getElementById('doneToggle').checked,
+    sets_info:cleanSets,
+    ts:Date.now()
+  };
+  persist();hideModal();renderCal();updateRec();updateStats();
+}
+function deleteEntry(){if(!confirm('삭제할까요?'))return;delete data[selDate];persist();hideModal();renderCal();updateRec();updateStats();}
+function hideModal(){document.getElementById('overlay').classList.add('hidden');document.body.style.overflow='';selDate=null;}
+function overlayClick(e){if(e.target===document.getElementById('overlay'))hideModal();}
+
+/* ── 운동 정보 관리 ── */
+let customExercises=JSON.parse(localStorage.getItem('hcCustomEx')||'{}');
+let hiddenExercises=new Set(JSON.parse(localStorage.getItem('hcHiddenEx')||'[]'));
+let exMgmtEditMode=false;
+
+function toggleExMgmtEdit(){
+  exMgmtEditMode=!exMgmtEditMode;
+  const btn=document.getElementById('exMgmtEditBtn');
+  if(btn){
+    btn.textContent=exMgmtEditMode?'완료':'편집';
+    btn.classList.toggle('editing',exMgmtEditMode);
+    btn.style.background=exMgmtEditMode?'var(--btn-bg)':'var(--surface)';
+    btn.style.color=exMgmtEditMode?'var(--btn-text)':'var(--text)';
+    btn.style.borderColor=exMgmtEditMode?'transparent':'var(--line-strong)';
+  }
+  renderExMgmt();
+}
+
+function deleteExercise(name){
+  const isCustom=!!customExercises[name];
+  if(isCustom){
+    const p=customExercises[name]?.part;
+    delete customExercises[name];
+    localStorage.setItem('hcCustomEx',JSON.stringify(customExercises));
+    if(p&&PART_EX[p])PART_EX[p]=PART_EX[p].filter(n=>n!==name);
+  } else {
+    // 기본 운동은 숨기기
+    hiddenExercises.add(name);
+    localStorage.setItem('hcHiddenEx',JSON.stringify([...hiddenExercises]));
+    Object.keys(PART_EX).forEach(p=>{PART_EX[p]=PART_EX[p].filter(n=>n!==name);});
+  }
+  renderExMgmt();
+}
+
+(function(){
+  // 숨겨진 운동 제거
+  hiddenExercises.forEach(name=>{
+    Object.keys(PART_EX).forEach(p=>{PART_EX[p]=PART_EX[p].filter(n=>n!==name);});
+  });
+  // 커스텀 운동 추가
+  Object.entries(customExercises).forEach(([name,{part}])=>{
+    if(!PART_EX[part])PART_EX[part]=[];
+    if(!PART_EX[part].includes(name))PART_EX[part].push(name);
+    if(!EX_YT[name])EX_YT[name]=name+' 운동법';
+  });
+  const sel=document.getElementById('exMgmtPart');
+  if(sel){
+    Object.keys(PARTS).forEach(p=>{
+      const o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);
+    });
+  }
+  renderExMgmt();
+})();
+
+function renderExMgmt(){
+  const q=(document.getElementById('exMgmtSearch')?.value||'').trim();
+  const list=document.getElementById('exMgmtList');
+  if(!list)return;
+  list.innerHTML='';
+  if(!q&&!exMgmtEditMode)return;
+  const allEx=[];
+  Object.entries(PART_EX).forEach(([part,exs])=>{
+    exs.forEach(name=>{
+      if(!q||name.includes(q))allEx.push({name,part,isCustom:!!customExercises[name]});
+    });
+  });
+  if(!allEx.length&&q){
+    const e=document.createElement('div');
+    e.style.cssText='font-size:.82rem;color:var(--text-3);padding:8px 0';
+    e.textContent='검색 결과 없음';list.appendChild(e);return;
+  }
+  allEx.slice(0,30).forEach(({name,part,isCustom})=>{
+    const row=document.createElement('div');row.className='ex-mgmt-row';
+    if(exMgmtEditMode)row.style.borderColor='var(--line-strong)';
+    const nm=document.createElement('span');nm.className='ex-mgmt-name';nm.textContent=name;
+    if(isFrequentExercise(name)){
+      nm.appendChild(document.createTextNode(' '));
+      const fb=document.createElement('span');fb.textContent='🔥';fb.style.cssText='font-size:.85rem';
+      nm.appendChild(fb);
+    }
+    const badge=document.createElement('span');badge.className='ex-mgmt-part';
+    badge.textContent=part;badge.style.background=PARTS[part]?.color||'#888';
+    row.appendChild(nm);row.appendChild(badge);
+    if(exMgmtEditMode){
+      const del=document.createElement('button');
+      del.style.cssText='background:none;border:none;cursor:pointer;font-size:1.1rem;padding:2px 4px;flex-shrink:0;line-height:1';
+      del.textContent='−';
+      del.style.color='var(--red)';
+      del.onclick=()=>deleteExercise(name);
+      row.appendChild(del);
+    }
+    list.appendChild(row);
+  });
+  // 편집 모드에서 숨김 운동 복원 버튼 표시
+  if(exMgmtEditMode&&hiddenExercises.size>0){
+    const restore=document.createElement('button');
+    restore.style.cssText='width:100%;margin-top:8px;padding:9px;border-radius:10px;border:1.5px dashed var(--line-strong);background:none;color:var(--text-2);font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit';
+    restore.textContent=`숨긴 운동 복원 (${hiddenExercises.size}개)`;
+    restore.onclick=()=>{
+      hiddenExercises.forEach(name=>{
+        const origPart=Object.keys(PART_EX).find(p=>EX_YT[name])||null;
+        // EX_YT에서 부위 추정은 어려우므로 그냥 전체 원본 목록에서 복원
+        // 단순히 hidden 목록만 지움
+      });
+      hiddenExercises.clear();
+      localStorage.removeItem('hcHiddenEx');
+      location.reload(); // 페이지 새로고침으로 원본 복원
+    };
+    list.appendChild(restore);
+  }
+}
+
+function addCustomEx(){
+  const nameEl=document.getElementById('exMgmtName');
+  const partEl=document.getElementById('exMgmtPart');
+  const name=nameEl?.value.trim();
+  const part=partEl?.value;
+  if(!name||!part)return;
+  if(customExercises[name]){alert('이미 존재하는 운동입니다.');return;}
+  customExercises[name]={part};
+  if(!PART_EX[part])PART_EX[part]=[];
+  if(!PART_EX[part].includes(name))PART_EX[part].push(name);
+  EX_YT[name]=name+' 운동법';
+  localStorage.setItem('hcCustomEx',JSON.stringify(customExercises));
+  if(nameEl)nameEl.value='';
+  renderExMgmt();
+}
+
+renderCal();updateRec();updateStats();updateLegend();
+</script>
+</body>
+</html>
