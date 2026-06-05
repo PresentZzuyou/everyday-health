@@ -1230,7 +1230,10 @@ curY=today.getFullYear();curM=today.getMonth();
 
 const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const todayDk=()=>dk(today.getFullYear(),today.getMonth(),today.getDate());
-const persist=()=>localStorage.setItem('hcData6',JSON.stringify(data));
+const persist=()=>{
+  localStorage.setItem('hcData6',JSON.stringify(data));
+  fetch(GS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({data})}).catch(()=>{});
+};
 
 function offsetDate(offset){const d=new Date(today);d.setDate(d.getDate()+offset);return d;}
 function dateToDk(d){return dk(d.getFullYear(),d.getMonth(),d.getDate());}
