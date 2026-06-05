@@ -1718,10 +1718,10 @@ function makeSetInpRow(name, setsArr, onChange){
   const grid=document.createElement('div');grid.className='ex-sets-grid';
   function setToVal(set){
     if(!set.w&&!set.r&&!(set.s>1))return '';
-    return [set.w||'',set.r||'',set.s>1?set.s:1].join('/');
+    return [set.w||'',set.r||'',set.s>1?set.s:1].join('.');
   }
   function parseVal(str,set){
-    const p=str.split('/');
+    const p=str.split('.');
     set.w=p[0]?.trim()||'';
     set.r=p[1]?.trim()||'';
     set.s=parseInt(p[2]?.trim())||1;
