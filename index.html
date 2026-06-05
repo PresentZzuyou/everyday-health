@@ -1417,7 +1417,7 @@ function formatSetSummary(sets){
     let txt='';
     if(w)txt+=w+(String(w).includes('kg')?'':'kg');
     if(r)txt+=(txt?' ':'')+r+(String(r).includes('개')||String(r).includes('회')?'':'회');
-    if(s)txt+=` × ${s}세트`;
+    if(txt&&s)txt+=` × ${s}세트`;
     return txt.trim();
   }).filter(Boolean).join(' / ');
 }
