@@ -1699,6 +1699,15 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   btn.style.marginTop='10px';
   btn.textContent='🎉 완료!';
   btn.onclick=()=>{
+    // 저장 전 DOM에서 입력값 강제 재파싱 (iOS 대응)
+    wrap.querySelectorAll('.ex-sets-mr').forEach(mr=>{
+      const name=mr.querySelector('.ex-sets-mr-name')?.textContent;
+      if(!name||!recSetsData[name])return;
+      mr.querySelectorAll('.ex-set-cell').forEach((cell,i)=>{
+        const inp=cell.querySelector('input');
+        if(inp&&recSetsData[name][i])parseVal(inp.value,recSetsData[name][i]);
+      });
+    });
     const exArr=[...recSelEx];
     const sInfo={};
     exArr.forEach(n=>{if(recSetsData[n]?.length)sInfo[n]=recSetsData[n];});
