@@ -1732,8 +1732,12 @@ function makeSetInpRow(name, setsArr, onChange){
   while(setsArr.length<4)setsArr.push({w:'',r:'',s:1});
   const grid=document.createElement('div');grid.className='ex-sets-grid';
   function setToVal(set){
-    if(!set.w&&!set.r&&!(set.s>1))return '';
-    return [set.w||'',set.r||'',set.s>1?set.s:1].join('.');
+    let {w,r,s}=set;
+    // 이전 형식으로 w에 '2.20.2' 처럼 저장됐으면 재파싱
+    const dots=w?(String(w).match(/\./g)||[]).length:0;
+    if(dots>=2&&!r){const p=String(w).split('.');w=p[0]||'';r=p[1]||'';s=parseInt(p[2])||s||1;}
+    if(!w&&!r&&!(s>1))return '';
+    return [w||'',r||'',s>1?s:1].join('.');
   }
   function parseVal(str,set){
     const p=str.split('.');
