@@ -1197,9 +1197,11 @@ const SCHED_LABEL={근력:'💪 근력',유산소:'🏃 유산소'};
 
 const SEED_DATA = { '2026-06-01': {"parts": ["\ub4f1"], "exercises": ["\uc554\ud480\ub2e4\uc6b4", "\ub364\ubca8 \uc6d0 \uc554 \ub85c\uc6b0", "\ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4"], "custom": "\uc554\ud480\ub2e4\uc6b4 5kg 20\uac1c 7kg 18\uac1c 10kg 15~12\uac1c 2set / \ub364\ubca8 \ub85c\uc6b0 3kg 20\uac1c 4kg 20\uac1c 5kg 16\uac1c 2set / \ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4 12kg 20\uac1c 15kg 15\uac1c 2set", "done": true} };
 
+// ── Google Sheets 동기화 ──
+const GS_URL='https://script.google.com/macros/s/AKfycbx2LgP_HJWWpCNXT1JHQLw5jt92boWYzdjivqZeEOCWp2SOXW026KXQIKSgWfNk5W1w/exec';
+
 // Init data: merge seed into localStorage
 let raw = JSON.parse(localStorage.getItem('hcData6')||'{}');
-// Only inject seed if the date key is missing (first time)
 Object.entries(SEED_DATA).forEach(([k,v])=>{ if(!raw[k]) raw[k]=v; });
 let data = raw;
 localStorage.setItem('hcData6', JSON.stringify(data));
