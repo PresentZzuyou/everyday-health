@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#ececea">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Everyday Health">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Everyday Health</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1199,12 +1204,21 @@ const SEED_DATA = { '2026-06-01': {"parts": ["\ub4f1"], "exercises": ["\uc554\ud
 
 // ── Google Sheets 동기화 ──
 const GS_URL='https://script.google.com/macros/s/AKfycbx2LgP_HJWWpCNXT1JHQLw5jt92boWYzdjivqZeEOCWp2SOXW026KXQIKSgWfNk5W1w/exec';
+const HC_STORE_KEY='hcData6';
+const GS_TIMEOUT_MS=12000;
 
 // Init data: merge seed into localStorage
-let raw = JSON.parse(localStorage.getItem('hcData6')||'{}');
+function readStoredData(){
+  try{return JSON.parse(localStorage.getItem(HC_STORE_KEY)||'{}')||{};}
+  catch(e){return {};}
+}
+function hasWorkoutData(obj){
+  return Object.keys(obj||{}).some(k=>k!=='undefined'&&obj[k]&&typeof obj[k]==='object');
+}
+let raw = readStoredData();
 Object.entries(SEED_DATA).forEach(([k,v])=>{ if(!raw[k]) raw[k]=v; });
 let data = raw;
-localStorage.setItem('hcData6', JSON.stringify(data));
+localStorage.setItem(HC_STORE_KEY, JSON.stringify(data));
 
 // ── Custom Parts ──
 let customParts=JSON.parse(localStorage.getItem('hcCustomParts')||'{}');
@@ -1230,9 +1244,48 @@ curY=today.getFullYear();curM=today.getMonth();
 
 const dk=(y,m,d)=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 const todayDk=()=>dk(today.getFullYear(),today.getMonth(),today.getDate());
+function mergeSheetData(sheetData){
+  let changed=false;
+  Object.entries(sheetData||{}).forEach(([k,v])=>{
+    if(!k||k==='undefined'||!v||typeof v!=='object')return;
+    if(!data[k]){
+      data[k]=v;changed=true;return;
+    }
+    const remoteTs=parseInt(v.ts)||0;
+    const localTs=parseInt(data[k].ts)||0;
+    if(remoteTs&&remoteTs>localTs){
+      data[k]=v;changed=true;
+    }
+  });
+  if(changed)localStorage.setItem(HC_STORE_KEY,JSON.stringify(data));
+  return changed;
+}
+async function fetchSheetData(){
+  const ctrl=typeof AbortController!=='undefined'?new AbortController():null;
+  const timer=ctrl?setTimeout(()=>ctrl.abort(),GS_TIMEOUT_MS):null;
+  try{
+    const url=GS_URL+(GS_URL.includes('?')?'&':'?')+'t='+Date.now();
+    const res=await fetch(url,{method:'GET',cache:'no-store',redirect:'follow',signal:ctrl?.signal});
+    const text=await res.text();
+    if(!res.ok)throw new Error('sheet_http_'+res.status);
+    const json=JSON.parse(text);
+    return json?.data||{};
+  }finally{
+    if(timer)clearTimeout(timer);
+  }
+}
+function uploadSheetData(payload=data){
+  return fetch(GS_URL,{
+    method:'POST',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({data:payload})
+  });
+}
 const persist=()=>{
-  localStorage.setItem('hcData6',JSON.stringify(data));
-  fetch(GS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({data})}).catch(()=>{});
+  localStorage.setItem(HC_STORE_KEY,JSON.stringify(data));
+  uploadSheetData().catch(e=>{
+    window.__hcLastSyncError=String(e&&e.message||e);
+  });
 };
 
 function offsetDate(offset){const d=new Date(today);d.setDate(d.getDate()+offset);return d;}
@@ -1331,9 +1384,10 @@ function updateRec(){
       exerciseBtn.textContent='🏋️ 운동하기';
       exerciseBtn.onclick=()=>{
         el.innerHTML='';
-        const rec=getBestPart(dt);
-        const exList=PART_EX[rec]?.slice(0,8)||[];
-        el.appendChild(makeDoneBtn(targetKey,rec,exList,false));
+        const reason=document.createElement('div');reason.className='rec-reason';
+        reason.textContent='운동할 부위를 선택해 기록하세요.';
+        el.appendChild(reason);
+        el.appendChild(makeDoneBtn(targetKey,'',[],false));
       };
       el.appendChild(exerciseBtn);
       return;
@@ -1353,15 +1407,11 @@ function updateRec(){
     }
   }
 
-  const rec=getBestPart(dt);
-  const col=PARTS[rec].color;
-  const exList=PART_EX[rec]?.slice(0,8)||[];
-
   const reason=document.createElement('div');reason.className='rec-reason';
-  reason.textContent=`가장 오래 쉰 부위인 ${rec} 운동을 추천드려요!`;
+  reason.textContent='운동할 부위를 선택해 기록하세요.';
   el.appendChild(reason);
 
-  el.appendChild(makeDoneBtn(targetKey,rec,exList,false));
+  el.appendChild(makeDoneBtn(targetKey,'',[],false));
 }
 
 // 운동별 사용 빈도 계산
@@ -1473,7 +1523,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   const wrap=document.createElement('div');
   const recSelEx=new Set();
   const recSetsData={};
-  const activeParts=new Set([isCardio?'유산소':part]);
+  const activeParts=new Set(isCardio?['유산소']:(part?[part]:[]));
   let recSearch='';
 
   // ── 이전 운동 불러오기 ──
@@ -1495,7 +1545,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       recSelEx.clear();
       Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
       // 이전 기록의 부위만 활성화
-      (prevParts.length?prevParts:[isCardio?'유산소':part]).forEach(p=>activeParts.add(p));
+      (prevParts.length?prevParts:(isCardio?['유산소']:[])).forEach(p=>activeParts.add(p));
       // 이전 기록의 운동만 선택
       (prev.exercises||[]).forEach(n=>recSelEx.add(n));
       // 세트 정보 복사 (깊은 복사)
@@ -1563,12 +1613,12 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       }
       row.onclick=()=>{
         if(recSelEx.has(name)){recSelEx.delete(name);delete recSetsData[name];}
-        else recSelEx.add(name);
+        else{activeParts.add(p);recSelEx.add(name);}
         const s=recSelEx.has(name);
         chk.textContent=s?'✔':'';
         if(s){chk.style.background='var(--lime-deep)';chk.style.borderColor='var(--lime-deep)';row.style.borderColor='var(--lime-deep)';}
         else{chk.style.background='var(--bg)';chk.style.borderColor='';row.style.borderColor='';}
-        updateSetsFor(p);
+        renderChips();renderAll();renderSrchResults();
       };
       srchResults.appendChild(row);
     });
@@ -1612,13 +1662,25 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   }
 
   const partSetsContainers={};
+  let renderChips=()=>{};
+
+  function pruneRecSelectionsForInactive(){
+    const partMap=buildExPart();
+    [...recSelEx].forEach(name=>{
+      const p=partMap[name];
+      if(!p||!activeParts.has(p)){
+        recSelEx.delete(name);
+        delete recSetsData[name];
+      }
+    });
+  }
 
   function updateSetsFor(p){
     const c=partSetsContainers[p];
     if(!c)return;
     c.innerHTML='';
-    const pExList=PART_EX[p]||[];
-    const sel=pExList.filter(n=>recSelEx.has(n));
+    const partMap=buildExPart();
+    const sel=[...recSelEx].filter(n=>partMap[n]===p);
     if(!sel.length)return;
     const hd=document.createElement('div');hd.className='ex-sets-hd';
     hd.textContent='세트 기록';c.appendChild(hd);
@@ -1632,6 +1694,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
 
   function renderAll(){
     _recFreqMap=getExFreqMap();
+    pruneRecSelectionsForInactive();
     contentWrap.innerHTML='';
     Object.keys(partSetsContainers).forEach(k=>delete partSetsContainers[k]);
     const parts=isCardio?['유산소']:
@@ -1669,12 +1732,18 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       contentWrap.appendChild(sc);
       updateSetsFor(p);
     });
+    if(firstActive){
+      const empty=document.createElement('div');
+      empty.className='ex-empty';
+      empty.textContent='부위를 선택하면 운동 목록이 표시됩니다';
+      contentWrap.appendChild(empty);
+    }
   }
 
   // 부위 칩
   if(!isCardio){
     const chips=document.createElement('div');chips.className='part-chips';
-    function renderChips(){
+    renderChips=()=>{
       chips.innerHTML='';
       Object.entries(PARTS).forEach(([p,pi])=>{
         const chip=document.createElement('button');chip.className='part-chip';
@@ -1682,15 +1751,15 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
         chip.style.background=isActive?pi.color:'var(--surface)';
         chip.style.color=isActive?'#fff':'var(--text)';
         chip.style.border='none';
-        chip.textContent=p+(p===part?' ★':'');
+        chip.textContent=p;
         chip.onclick=()=>{
-          if(activeParts.has(p)&&activeParts.size>1)activeParts.delete(p);
+          if(activeParts.has(p))activeParts.delete(p);
           else activeParts.add(p);
           renderChips();renderAll();
         };
         chips.appendChild(chip);
       });
-    }
+    };
     renderChips();
     wrap.appendChild(chips);
   }
@@ -1718,8 +1787,9 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
     exArr.forEach(n=>{if(recSetsData[n]?.length)sInfo[n]=recSetsData[n];});
     const usedParts=[...new Set(exArr.map(n=>{
       for(const[p,l]of Object.entries(PART_EX))if(l.includes(n))return p;return part;
-    }))];
-    data[targetKey]={parts:usedParts.length?usedParts:[part],exercises:exArr,done:true,sets_info:sInfo,ts:Date.now()};
+    }).filter(Boolean))];
+    const selectedParts=usedParts.length?usedParts:[...activeParts];
+    data[targetKey]={parts:selectedParts,exercises:exArr,done:true,sets_info:sInfo,ts:Date.now()};
     persist();renderCal();updateRec();updateStats();
   };
   wrap.appendChild(btn);
@@ -1875,7 +1945,8 @@ function updateModalSetsFor(part){
   const c=modalPartSetsContainers[part];
   if(!c)return;
   c.innerHTML='';
-  const selected=getPartExercises(part).filter(name=>selExercises.has(name));
+  const partMap=buildExPart();
+  const selected=[...selExercises].filter(name=>partMap[name]===part);
   if(!selected.length)return;
   const hd=document.createElement('div');hd.className='ex-sets-hd';
   hd.textContent='세트 기록';c.appendChild(hd);
@@ -2247,7 +2318,6 @@ function openModal(key,d){
   document.getElementById('btnDel').classList.toggle('hidden',!entry);
   selExercises=new Set(entry?.exercises||[]);
   if(entry?.parts)entry.parts.forEach(p=>selParts.add(p));
-  if(!entry&&getSchedule(key)==='유산소')selParts.add('유산소');
   // 기존 데이터 → [{w,r,s}] 배열로 마이그레이션
   const raw=entry?.sets_info||{};
   perExSets={};
@@ -2495,21 +2565,21 @@ function addCustomEx(){
 }
 
 (async function initApp(){
-  try{
-    const res=await fetch(GS_URL);
-    const json=await res.json();
-    if(json.ok&&json.data&&Object.keys(json.data).length>0){
-      // 시트 데이터와 로컬 데이터 병합 (더 최근 기록 우선)
-      Object.entries(json.data).forEach(([k,v])=>{
-        if(!data[k]||(v.ts&&(!data[k].ts||v.ts>data[k].ts)))data[k]=v;
-      });
-      localStorage.setItem('hcData6',JSON.stringify(data));
-    } else if(Object.keys(data).filter(k=>k!=='undefined').length>0){
-      // 시트가 비어있고 로컬에 데이터 있으면 → 시트에 업로드
-      fetch(GS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({data})}).catch(()=>{});
-    }
-  }catch(e){}
   renderCal();updateRec();updateStats();updateLegend();
+  try{
+    const sheetData=await fetchSheetData();
+    if(hasWorkoutData(sheetData)){
+      // 시트 데이터와 로컬 데이터 병합 (더 최근 기록 우선)
+      const changed=mergeSheetData(sheetData);
+      if(changed){renderCal();updateRec();updateStats();updateLegend();}
+    } else if(hasWorkoutData(data)){
+      // 시트가 비어있고 로컬에 데이터 있으면 → 시트에 업로드
+      uploadSheetData().catch(()=>{});
+    }
+    window.__hcLastSyncError='';
+  }catch(e){
+    window.__hcLastSyncError=String(e&&e.message||e);
+  }
 })();
 </script>
 </body>
