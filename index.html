@@ -320,6 +320,28 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
 .ex-list-scroll::-webkit-scrollbar-track{background:transparent}
 .ex-list-scroll::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px}
 .rec-ex-list-scroll{max-height:152px;overscroll-behavior:contain;margin-bottom:12px}
+.card-blue .rec-ex-list-scroll{
+  max-height:174px!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+}
+.card-blue .rec-ex-list-scroll .ex-list-row,
+.card-blue .rec-search-results-scroll .ex-mgmt-row{
+  min-height:52px;
+}
+.rec-search-results-scroll{
+  max-height:174px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  padding-right:4px;
+  margin:4px 0 12px;
+  scrollbar-width:thin;
+  scrollbar-color:var(--line-strong) transparent;
+}
+.rec-search-results-scroll::-webkit-scrollbar{width:5px}
+.rec-search-results-scroll::-webkit-scrollbar-track{background:transparent}
+.rec-search-results-scroll::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:999px}
 .view-ex-list-full{max-height:none;overflow:visible;padding-right:0}
 /* 추천탭 검색 */
 .rec-search-wrap{position:relative;margin-bottom:10px}
@@ -850,13 +872,13 @@ html,body{background:#ececea}
       <div class="dn">수</div><div class="dn">목</div><div class="dn">금</div><div class="dn">토</div>
     </div>
     <div class="legend">
-      <div class="leg"><div class="leg-dot" style="background:#0D9488"></div>등</div>
-      <div class="leg"><div class="leg-dot" style="background:#2F6BFF"></div>가슴</div>
-      <div class="leg"><div class="leg-dot" style="background:#9B5DE5"></div>어깨</div>
-      <div class="leg"><div class="leg-dot" style="background:#FF4D8D"></div>하체</div>
-      <div class="leg"><div class="leg-dot" style="background:#F2802B"></div>코어</div>
-      <div class="leg"><div class="leg-dot" style="background:#EFC220"></div>팔</div>
-      <div class="leg"><div class="leg-dot" style="background:#6366F1"></div>유산소</div>
+      <div class="leg"><div class="leg-dot" style="background:#00B8FF"></div>등</div>
+      <div class="leg"><div class="leg-dot" style="background:#FF4FD8"></div>가슴</div>
+      <div class="leg"><div class="leg-dot" style="background:#7A00FF"></div>어깨</div>
+      <div class="leg"><div class="leg-dot" style="background:#FF003D"></div>하체</div>
+      <div class="leg"><div class="leg-dot" style="background:#FF7A00"></div>코어</div>
+      <div class="leg"><div class="leg-dot" style="background:#FFD000"></div>팔</div>
+      <div class="leg"><div class="leg-dot" style="background:#00D084"></div>유산소</div>
     </div>
   </div>
 
@@ -1030,7 +1052,7 @@ const EX_POSES={
 
 const PART_ILLUST={
   '등':   {bg:'#E8EFFE',pose:'pull'},
-  '가슴': {bg:'#FFEAF2',pose:'bench'},
+  '가슴': {bg:'#F1E3D4',pose:'bench'},
   '어깨': {bg:'#FFFAE8',pose:'ohp'},
   '하체': {bg:'#EAFAEE',pose:'squat'},
   '코어': {bg:'#FFF2E8',pose:'plank'},
@@ -1102,10 +1124,10 @@ const EX_IMG={};
 
 const PART_EMOJI={}; // 이모지 없음
 const PARTS={
-  '등':   {color:'#0D9488'}, '가슴':{color:'#2F6BFF'},
-  '어깨': {color:'#9B5DE5'}, '하체':{color:'#FF4D8D'},
-  '코어': {color:'#F2802B'}, '팔':  {color:'#EFC220'},
-  '유산소':{color:'#6366F1'},
+  '등':   {color:'#00B8FF'}, '가슴':{color:'#FF4FD8'},
+  '어깨': {color:'#7A00FF'}, '하체':{color:'#FF003D'},
+  '코어': {color:'#FF7A00'}, '팔':  {color:'#FFD000'},
+  '유산소':{color:'#00D084'},
 };
 function isLightColor(hex){
   try{const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return(r*299+g*587+b*114)/1000>155;}catch(e){return false;}
@@ -1463,6 +1485,8 @@ function buildRecGrid(exList,accentColor){return buildExListRows(exList,null,nul
 function formatSetSummary(sets){
   if(!sets||!sets.length)return '';
   return sets.map((set)=>{
+    const minutes=set.m||set.min||set.minutes||set.duration;
+    if(minutes)return `${minutes}분`;
     // 혹시 w에 '5.20.3' 형태로 저장됐으면 재파싱
     let {w,r,s}=set;
     if(w&&String(w).includes('.')&&!r){
@@ -1475,6 +1499,23 @@ function formatSetSummary(sets){
     if(txt&&s)txt+=` × ${s}세트`;
     return txt.trim();
   }).filter(Boolean).join(' / ');
+}
+
+function getExercisePart(name){
+  for(const[p,list]of Object.entries(PART_EX)){
+    if((list||[]).includes(name))return p;
+  }
+  return '';
+}
+function isCardioExercise(name){return getExercisePart(name)==='유산소';}
+function makeDefaultSetInfo(name){
+  return isCardioExercise(name)?[{m:''}]:[{w:'',r:'',s:1}];
+}
+function parseSetValue(str,set){
+  const p=String(str||'').split('.');
+  set.w=p[0]?.trim()||'';
+  set.r=p[1]?.trim()||'';
+  set.s=parseInt(p[2]?.trim())||1;
 }
 
 function buildEntryExerciseSummary(entry, extraClass=''){
@@ -1570,6 +1611,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   const srchInp=document.createElement('input');srchInp.className='rec-search-inp';
   srchInp.placeholder='운동 검색...';srchInp.autocomplete='off';
   const srchResults=document.createElement('div');
+  srchResults.className='rec-search-results-scroll';
   srchResults.style.cssText='display:none;margin-top:4px';
 
   function renderSrchResults(){
@@ -1628,6 +1670,20 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   srchWrap.appendChild(srchIco);srchWrap.appendChild(srchInp);
 
   const contentWrap=document.createElement('div');
+  const selectedSetsWrap=document.createElement('div');
+
+  function renderSelectedInputs(){
+    selectedSetsWrap.innerHTML='';
+    const exArr=[...recSelEx];
+    if(!exArr.length)return;
+    const hd=document.createElement('div');hd.className='ex-sets-hd';
+    hd.textContent=isCardio?'시간 기록':'세트 기록';
+    selectedSetsWrap.appendChild(hd);
+    exArr.forEach(name=>{
+      if(!recSetsData[name])recSetsData[name]=makeDefaultSetInfo(name);
+      selectedSetsWrap.appendChild(makeExerciseInputRow(name,recSetsData[name]));
+    });
+  }
 
   function makeExRow(name, p){
     const row=document.createElement('div');
@@ -1655,8 +1711,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       else recSelEx.add(name);
       const s=recSelEx.has(name);
       row.classList.toggle('sel',s);chk.textContent=s?'✔':'';
-      // 해당 부위 세트 컨테이너만 업데이트
-      updateSetsFor(p);
+      renderSelectedInputs();
     };
     return row;
   }
@@ -1676,18 +1731,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   }
 
   function updateSetsFor(p){
-    const c=partSetsContainers[p];
-    if(!c)return;
-    c.innerHTML='';
-    const partMap=buildExPart();
-    const sel=[...recSelEx].filter(n=>partMap[n]===p);
-    if(!sel.length)return;
-    const hd=document.createElement('div');hd.className='ex-sets-hd';
-    hd.textContent='세트 기록';c.appendChild(hd);
-    sel.forEach(name=>{
-      if(!recSetsData[name])recSetsData[name]=[{w:'',r:'',s:1}];
-      c.appendChild(makeSetInpRow(name,recSetsData[name]));
-    });
+    renderSelectedInputs();
   }
 
   let _recFreqMap=getExFreqMap();
@@ -1730,7 +1774,6 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       const sc=document.createElement('div');
       partSetsContainers[p]=sc;
       contentWrap.appendChild(sc);
-      updateSetsFor(p);
     });
     if(firstActive){
       const empty=document.createElement('div');
@@ -1738,6 +1781,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       empty.textContent='부위를 선택하면 운동 목록이 표시됩니다';
       contentWrap.appendChild(empty);
     }
+    renderSelectedInputs();
   }
 
   // 부위 칩
@@ -1755,7 +1799,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
         chip.onclick=()=>{
           if(activeParts.has(p))activeParts.delete(p);
           else activeParts.add(p);
-          renderChips();renderAll();
+          renderChips();renderAll();renderSelectedInputs();
         };
         chips.appendChild(chip);
       });
@@ -1767,6 +1811,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   wrap.appendChild(srchWrap);
   wrap.appendChild(srchResults);
   wrap.appendChild(contentWrap);
+  wrap.appendChild(selectedSetsWrap);
   renderAll();
 
   const btn=document.createElement('button');btn.className='done-btn';
@@ -1777,10 +1822,15 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
     wrap.querySelectorAll('.ex-sets-mr').forEach(mr=>{
       const name=mr.querySelector('.ex-sets-mr-name')?.textContent;
       if(!name||!recSetsData[name])return;
-      mr.querySelectorAll('.ex-set-cell').forEach((cell,i)=>{
-        const inp=cell.querySelector('input');
-        if(inp&&recSetsData[name][i])parseVal(inp.value,recSetsData[name][i]);
-      });
+      if(mr.dataset.kind==='cardio'){
+        const inp=mr.querySelector('input');
+        recSetsData[name]=[{m:inp?.value.trim()||''}];
+      }else{
+        mr.querySelectorAll('.ex-set-cell').forEach((cell,i)=>{
+          const inp=cell.querySelector('input');
+          if(inp&&recSetsData[name][i])parseSetValue(inp.value,recSetsData[name][i]);
+        });
+      }
     });
     const exArr=[...recSelEx];
     const sInfo={};
@@ -1801,6 +1851,8 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
 // 운동별 다중 세트 행 (무게×횟수×세트수)
 function makeSetInpRow(name, setsArr, onChange){
   const wrap=document.createElement('div');wrap.className='ex-sets-mr';
+  wrap.dataset.exercise=name;
+  wrap.dataset.kind='strength';
   const nm=document.createElement('div');nm.className='ex-sets-mr-name';nm.textContent=name;
   wrap.appendChild(nm);
   // 기본 4세트 확보
@@ -1813,12 +1865,6 @@ function makeSetInpRow(name, setsArr, onChange){
     if(dots>=2&&!r){const p=String(w).split('.');w=p[0]||'';r=p[1]||'';s=parseInt(p[2])||s||1;}
     if(!w&&!r&&!(s>1))return '';
     return [w||'',r||'',s>1?s:1].join('.');
-  }
-  function parseVal(str,set){
-    const p=str.split('.');
-    set.w=p[0]?.trim()||'';
-    set.r=p[1]?.trim()||'';
-    set.s=parseInt(p[2]?.trim())||1;
   }
   function renderCells(){
     grid.innerHTML='';
@@ -1835,7 +1881,7 @@ function makeSetInpRow(name, setsArr, onChange){
       const empty=!set.w&&!set.r&&!(set.s>1);
       cell.classList.toggle('empty',empty);
       const handleInp=()=>{
-        parseVal(inp.value,set);
+        parseSetValue(inp.value,set);
         cell.classList.toggle('empty',!set.w&&!set.r&&!(set.s>1));
         if(onChange)onChange();
       };
@@ -1868,6 +1914,46 @@ function makeSetInpRow(name, setsArr, onChange){
   return wrap;
 }
 
+function makeCardioInpRow(name, setsArr, onChange){
+  const wrap=document.createElement('div');wrap.className='ex-sets-mr';
+  wrap.dataset.exercise=name;
+  wrap.dataset.kind='cardio';
+  const nm=document.createElement('div');nm.className='ex-sets-mr-name';nm.textContent=name;
+  wrap.appendChild(nm);
+  if(!setsArr.length)setsArr.push({m:''});
+  if(!setsArr[0].m){
+    setsArr[0].m=setsArr[0].min||setsArr[0].minutes||setsArr[0].duration||setsArr[0].w||'';
+  }
+  const cell=document.createElement('div');cell.className='ex-set-cell';
+  cell.style.marginBottom='4px';
+  const inp=document.createElement('input');
+  inp.type='text';inp.inputMode='numeric';inp.className='ex-inp-sm cardio-min';
+  inp.style.flex='1';inp.style.textAlign='left';
+  inp.placeholder='몇 분 탔나요?';
+  inp.value=setsArr[0].m||'';
+  inp.setAttribute('autocorrect','off');
+  inp.setAttribute('autocapitalize','none');
+  inp.setAttribute('spellcheck','false');
+  const unit=document.createElement('span');unit.className='ex-unit';unit.textContent='분';
+  const handleInp=()=>{
+    setsArr.splice(0,setsArr.length,{m:inp.value.trim()});
+    cell.classList.toggle('empty',!inp.value.trim());
+    if(onChange)onChange();
+  };
+  inp.addEventListener('input',handleInp);
+  inp.addEventListener('change',handleInp);
+  cell.classList.toggle('empty',!inp.value.trim());
+  cell.appendChild(inp);cell.appendChild(unit);
+  wrap.appendChild(cell);
+  return wrap;
+}
+
+function makeExerciseInputRow(name, setsArr, onChange){
+  return isCardioExercise(name)
+    ? makeCardioInpRow(name,setsArr,onChange)
+    : makeSetInpRow(name,setsArr,onChange);
+}
+
 function renderExSetsList(){
   const c=document.getElementById('exSetsList');
   if(!c)return;
@@ -1878,8 +1964,8 @@ function renderExSetsList(){
   hd.textContent='세트 기록';c.appendChild(hd);
   exArr.forEach(name=>{
     if(!perExSets[name]||!Array.isArray(perExSets[name]))
-      perExSets[name]=[{w:'',r:'',s:1}];
-    c.appendChild(makeSetInpRow(name,perExSets[name]));
+      perExSets[name]=makeDefaultSetInfo(name);
+    c.appendChild(makeExerciseInputRow(name,perExSets[name]));
   });
 }
 
@@ -1952,8 +2038,8 @@ function updateModalSetsFor(part){
   hd.textContent='세트 기록';c.appendChild(hd);
   selected.forEach(name=>{
     if(!perExSets[name]||!Array.isArray(perExSets[name]))
-      perExSets[name]=[{w:'',r:'',s:1}];
-    c.appendChild(makeSetInpRow(name,perExSets[name]));
+      perExSets[name]=makeDefaultSetInfo(name);
+    c.appendChild(makeExerciseInputRow(name,perExSets[name]));
   });
 }
 function searchEx(q){
@@ -2053,6 +2139,23 @@ function updateLegend(){
 }
 
 /* ── Calendar ── */
+function getEntryDominantPart(entry){
+  const partMap=buildExPart();
+  const counts={};
+  (entry.exercises||[]).forEach(name=>{
+    const part=partMap[name]||(entry.parts||[]).find(p=>PARTS[p]);
+    if(part&&PARTS[part])counts[part]=(counts[part]||0)+1;
+  });
+  const partOrder=(entry.parts||[]).filter(p=>PARTS[p]);
+  partOrder.forEach(p=>{if(!counts[p])counts[p]=0;});
+  return Object.keys(counts).sort((a,b)=>{
+    const diff=(counts[b]||0)-(counts[a]||0);
+    if(diff)return diff;
+    const ai=partOrder.indexOf(a),bi=partOrder.indexOf(b);
+    return (ai<0?999:ai)-(bi<0?999:bi);
+  })[0]||partOrder[0]||'등';
+}
+
 function renderCal(){
   const grid=document.getElementById('calGrid');
   while(grid.children.length>7)grid.removeChild(grid.lastChild);
@@ -2081,19 +2184,21 @@ function renderCal(){
     if(entry){
       if(entry.parts?.length&&entry.parts[0]!=='휴식'){
         cell.classList.add('has-entry');
-        const p0=entry.parts[0];
-        const p1=entry.parts[1];
-        const bgColor=PARTS[p0]?.color||'#DDF77A';
+        const dominantPart=getEntryDominantPart(entry);
+        const bgColor=PARTS[dominantPart]?.color||'#DDF77A';
         cell.style.background=bgColor;
         num.style.color='#fff';
-        if(p1&&PARTS[p1]){
+        const otherParts=[...new Set((entry.parts||[]).filter(p=>p!==dominantPart&&PARTS[p]))];
+        const lbl=document.createElement('div');
+        lbl.style.cssText='font-size:.72rem;font-weight:800;margin-top:2px;line-height:1;opacity:.9;color:#fff';
+        lbl.textContent=dominantPart;cell.appendChild(lbl);
+        if(otherParts.length){
           const bars=document.createElement('div');bars.className='cal-bars';
-          const b=document.createElement('i');b.style.background=PARTS[p1].color;
-          bars.appendChild(b);cell.appendChild(bars);
-        } else {
-          const lbl=document.createElement('div');
-          lbl.style.cssText='font-size:.72rem;font-weight:800;margin-top:2px;line-height:1;opacity:.88;color:#fff';
-          lbl.textContent=p0;cell.appendChild(lbl);
+          otherParts.slice(0,2).forEach(p=>{
+            const b=document.createElement('i');b.style.background=PARTS[p].color;
+            bars.appendChild(b);
+          });
+          cell.appendChild(bars);
         }
       } else if(entry.parts?.[0]==='휴식'){
         cell.classList.add('has-rest');
@@ -2267,7 +2372,9 @@ function findPrevWorkoutEntry(targetKey){
 function copySetsInfo(src){
   const copied={};
   Object.entries(src||{}).forEach(([k,v])=>{
-    copied[k]=Array.isArray(v)?v.map(s=>({...s})):[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
+    copied[k]=Array.isArray(v)
+      ? v.map(s=>({...s}))
+      : [{m:v.m||v.min||v.minutes||v.duration||'',w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
   });
   return copied;
 }
@@ -2323,7 +2430,8 @@ function openModal(key,d){
   perExSets={};
   Object.entries(raw).forEach(([k,v])=>{
     if(Array.isArray(v))perExSets[k]=v;
-    else if(v&&(v.w||v.weight))perExSets[k]=[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
+    else if(v&&(v.m||v.min||v.minutes||v.duration||v.w||v.weight))
+      perExSets[k]=[{m:v.m||v.min||v.minutes||v.duration||'',w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
   });
   document.getElementById('exSearch').value='';
   document.getElementById('exSearchResults').classList.add('hidden');
