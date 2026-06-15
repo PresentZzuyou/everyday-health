@@ -1508,6 +1508,14 @@ function getExercisePart(name){
   return '';
 }
 function isCardioExercise(name){return getExercisePart(name)==='유산소';}
+function normalizeSearchText(text){
+  return String(text||'').toLowerCase().replace(/\s+/g,'');
+}
+function matchesExerciseSearch(name, query){
+  const q=normalizeSearchText(query);
+  if(!q)return true;
+  return normalizeSearchText(name).includes(q);
+}
 function makeDefaultSetInfo(name){
   return isCardioExercise(name)?[{m:''}]:[{w:'',r:'',s:1}];
 }
@@ -1623,7 +1631,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
     // 전체 부위에서 검색
     const matches=[];
     Object.entries(PART_EX).forEach(([p,exs])=>{
-      exs.forEach(name=>{if(name.includes(q))matches.push({name,p});});
+      exs.forEach(name=>{if(matchesExerciseSearch(name,q))matches.push({name,p});});
     });
     if(!matches.length){
       const e=document.createElement('div');
@@ -1745,7 +1753,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       [part,...Object.keys(PARTS).filter(p=>p!==part)];
     let firstActive=true;
     parts.filter(p=>activeParts.has(p)).forEach(p=>{
-      const rawList=(PART_EX[p]||[]).filter(n=>!recSearch||n.includes(recSearch));
+      const rawList=(PART_EX[p]||[]).filter(n=>matchesExerciseSearch(n,recSearch));
       // 빈도순 정렬 (빈도 같으면 원래 순서 유지)
       const pExList=[...rawList].sort((a,b)=>(_recFreqMap[b]||0)-(_recFreqMap[a]||0));
       if(!pExList.length)return;
@@ -1981,7 +1989,7 @@ function getPartExercises(part, query=''){
   return (PART_EX[part]||[]).filter(name=>{
     if(seen.has(name))return false;
     seen.add(name);
-    return !q||name.includes(q);
+    return matchesExerciseSearch(name,q);
   });
 }
 function pruneModalSelections(){
@@ -2046,7 +2054,7 @@ function searchEx(q){
   const results=document.getElementById('exSearchResults');
   if(!q.trim()){results.classList.add('hidden');results.innerHTML='';return;}
   const map=buildExPart();
-  const matches=Object.keys(map).filter(name=>name.includes(q));
+  const matches=Object.keys(map).filter(name=>matchesExerciseSearch(name,q));
   results.innerHTML='';
   if(!matches.length){
     results.innerHTML='<div class="ex-search-empty">검색 결과 없음</div>';
@@ -2607,7 +2615,7 @@ function renderExMgmt(){
   const allEx=[];
   Object.entries(PART_EX).forEach(([part,exs])=>{
     exs.forEach(name=>{
-      if(!q||name.includes(q))allEx.push({name,part,isCustom:!!customExercises[name]});
+      if(matchesExerciseSearch(name,q))allEx.push({name,part,isCustom:!!customExercises[name]});
     });
   });
   if(!allEx.length&&q){
