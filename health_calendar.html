@@ -1933,8 +1933,11 @@ function makeCardioInpRow(name, setsArr, onChange){
   const wrap=document.createElement('div');wrap.className='ex-sets-mr';
   wrap.dataset.exercise=name;
   wrap.dataset.kind='cardio';
+  const hd=document.createElement('div');hd.className='ex-sets-mr-hd';
   const nm=document.createElement('div');nm.className='ex-sets-mr-name';nm.textContent=name;
-  wrap.appendChild(nm);
+  const closeBtn=document.createElement('button');closeBtn.className='ex-sets-mr-close';closeBtn.textContent='×';
+  closeBtn.onclick=()=>{selExercises.delete(name);delete perExSets[name];wrap.remove();};
+  hd.appendChild(nm);hd.appendChild(closeBtn);wrap.appendChild(hd);
   if(!setsArr.length)setsArr.push({m:''});
   if(!setsArr[0].m){
     setsArr[0].m=setsArr[0].min||setsArr[0].minutes||setsArr[0].duration||setsArr[0].w||'';
