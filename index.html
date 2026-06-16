@@ -288,8 +288,12 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
 /* multi-row set input */
 .ex-sets-mr{background:var(--surface);border:1.5px solid var(--line);
   border-radius:14px;padding:9px 11px;margin-bottom:7px}
+.ex-sets-mr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:7px}
 .ex-sets-mr-name{font-size:.75rem;font-weight:700;color:var(--text);
-  margin-bottom:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.ex-sets-mr-close{background:none;border:none;padding:0 0 0 6px;cursor:pointer;
+  color:var(--text-3);font-size:1.1rem;line-height:1;flex-shrink:0}
+.ex-sets-mr-close:active{color:var(--text)}
 /* 2열 세트 그리드 */
 .ex-sets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:5px}
 .ex-set-cell{display:flex;align-items:center;gap:3px;background:var(--bg);
