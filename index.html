@@ -1865,8 +1865,11 @@ function makeSetInpRow(name, setsArr, onChange){
   const wrap=document.createElement('div');wrap.className='ex-sets-mr';
   wrap.dataset.exercise=name;
   wrap.dataset.kind='strength';
+  const hd=document.createElement('div');hd.className='ex-sets-mr-hd';
   const nm=document.createElement('div');nm.className='ex-sets-mr-name';nm.textContent=name;
-  wrap.appendChild(nm);
+  const closeBtn=document.createElement('button');closeBtn.className='ex-sets-mr-close';closeBtn.textContent='×';
+  closeBtn.onclick=()=>{selExercises.delete(name);delete perExSets[name];wrap.remove();};
+  hd.appendChild(nm);hd.appendChild(closeBtn);wrap.appendChild(hd);
   // 기본 4세트 확보
   while(setsArr.length<4)setsArr.push({w:'',r:'',s:1});
   const grid=document.createElement('div');grid.className='ex-sets-grid';
