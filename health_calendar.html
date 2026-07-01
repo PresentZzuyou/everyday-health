@@ -214,7 +214,8 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
   font-size:.8rem;font-weight:700;color:#fff;margin-right:6px;margin-bottom:8px}
 .view-ex-row{padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);
   border-radius:12px;margin-bottom:6px}
-.view-ex-name{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.view-ex-head{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.view-ex-name{flex:1;min-width:0;font-size:.88rem;font-weight:700;color:var(--text)}
 .view-ex-sets{font-size:.78rem;color:var(--text-2);font-weight:500;line-height:1.7}
 .view-done{display:inline-flex;align-items:center;gap:5px;background:var(--lime);
   color:#16160F;padding:5px 12px;border-radius:20px;font-size:.78rem;font-weight:800;margin-bottom:12px}
@@ -359,13 +360,19 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
   background:var(--surface);color:var(--text-2);font-size:.82rem;font-weight:700;cursor:pointer;
   font-family:inherit;margin:-4px 0 14px;display:flex;align-items:center;justify-content:center;gap:6px}
 .prev-load-btn.loaded{background:var(--amber);color:var(--text);border-color:var(--lime-deep)}
+.prev-load-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:-4px 0 14px}
+.prev-load-list .prev-load-btn{min-width:0;margin:0;padding:9px 4px;border-radius:10px;
+  font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prev-load-empty{font-size:.8rem;font-weight:700;color:var(--text-3);text-align:center;
   padding:10px 12px;border:1.5px dashed var(--line);border-radius:13px;margin:-4px 0 14px}
+.rec-custom-summary{margin-top:12px;padding:12px 0 0;border-top:1px solid var(--line-strong);
+  color:var(--text-2);font-size:.82rem;font-weight:600;line-height:1.55;white-space:pre-wrap}
+.rec-custom-summary strong{display:block;margin-bottom:3px;color:var(--text);font-size:.72rem}
 /* 운동 관리 카드 */
 .ex-mgmt-row{display:flex;align-items:center;gap:8px;padding:9px 12px;
   background:var(--surface);border:1.5px solid var(--line);border-radius:12px;margin-bottom:6px}
 .ex-mgmt-name{flex:1;font-size:.86rem;font-weight:600;color:var(--text)}
-.ex-mgmt-part{font-size:.66rem;font-weight:700;padding:3px 8px;border-radius:10px;color:#fff}
+.ex-mgmt-part{font-size:.66rem;font-weight:800;padding:4px 8px;border-radius:10px;color:#fff;white-space:nowrap}
 .ex-mgmt-del{background:none;border:none;color:var(--text-3);cursor:pointer;font-size:.9rem;padding:2px 4px}
 .ex-mgmt-del:active{color:var(--red)}
 .ex-mgmt-add{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px;align-items:stretch}
@@ -376,6 +383,9 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
 .ex-mgmt-add .btn-add{flex:0 0 auto;padding:10px 20px;border-radius:12px;border:none;
   background:var(--btn-bg);color:var(--btn-text);font-size:.82rem;font-weight:700;
   cursor:pointer;font-family:inherit;white-space:nowrap}
+.ex-mgmt-suggest{display:none;flex:1 1 100%;margin-top:-2px;padding:0 3px;
+  color:var(--text-2);font-size:.72rem;font-weight:700}
+.ex-mgmt-suggest.show{display:block}
 /* rec card selected */
 .rec-card.rec-selected{border-color:var(--lime-deep)!important;
   box-shadow:0 0 0 3px var(--lime),0 4px 16px rgba(180,220,40,.35);
@@ -900,8 +910,9 @@ html,body{background:#ececea}
     </div>
     <div id="exMgmtList"></div>
     <div class="ex-mgmt-add">
-      <input id="exMgmtName" placeholder="새 운동 이름" autocomplete="off">
-      <select id="exMgmtPart"></select>
+      <input id="exMgmtName" placeholder="새 운동 이름" autocomplete="off" oninput="suggestExercisePart(this.value)">
+      <div class="ex-mgmt-suggest" id="exMgmtSuggest" aria-live="polite"></div>
+      <select id="exMgmtPart" aria-label="운동 부위"></select>
       <button class="btn-add" onclick="addCustomEx()">추가</button>
     </div>
   </div>
@@ -1213,19 +1224,15 @@ const TIPS={
   '유산소':'심박수 120-140bpm 유지가 지방 연소 최적!',
 };
 
-// 6월 22일 이전: 월/금 근력, 일 유산소
-// 6월 22일 이후: 월/수/금 근력, 일 유산소
 function getSchedule(dateStr){
   const d=new Date(dateStr+'T00:00:00');
-  const cutoff=new Date('2026-06-22T00:00:00');
   const dow=d.getDay();
-  if(d>=cutoff){return {1:'근력',3:'근력',5:'근력',0:'유산소'}[dow]||'';}
-  return {1:'근력',5:'근력',0:'유산소'}[dow]||'';
+  return {0:'유산소',1:'등',3:'어깨',5:'하체'}[dow]||'';
 }
-const SCHEDULE={1:'근력',3:'근력',5:'근력',0:'유산소'}; // used for display purposes
+const SCHEDULE={0:'유산소',1:'등',3:'어깨',5:'하체'}; // used for display purposes
 const DAY_KR=['일','월','화','수','목','금','토'];
 const MONTH_KR=['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-const SCHED_LABEL={근력:'💪 근력',유산소:'🏃 유산소'};
+const SCHED_LABEL={유산소:'🏃 유산소',등:'등',어깨:'어깨',하체:'하체'};
 
 const SEED_DATA = { '2026-06-01': {"parts": ["\ub4f1"], "exercises": ["\uc554\ud480\ub2e4\uc6b4", "\ub364\ubca8 \uc6d0 \uc554 \ub85c\uc6b0", "\ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4"], "custom": "\uc554\ud480\ub2e4\uc6b4 5kg 20\uac1c 7kg 18\uac1c 10kg 15~12\uac1c 2set / \ub364\ubca8 \ub85c\uc6b0 3kg 20\uac1c 4kg 20\uac1c 5kg 16\uac1c 2set / \ub9e5\uadf8\ub9bd \ub7ab\ud480\ub2e4\uc6b4 12kg 20\uac1c 15kg 15\uac1c 2set", "done": true} };
 
@@ -1384,7 +1391,7 @@ function updateRec(){
     const reason=document.createElement('div');reason.className='rec-reason';
     reason.textContent=entry.done?'완료된 운동입니다 🎉':'기록되어 있어요. 완료 체크가 안 됐어요!';
     el.appendChild(reason);
-    if(entry.exercises?.length){el.appendChild(buildEntryExerciseSummary(entry,'rec-complete-summary'));}
+    if(entry.exercises?.length||entry.custom){el.appendChild(buildEntryExerciseSummary(entry,'rec-complete-summary'));}
     const editBtn=document.createElement('button');editBtn.className='done-btn already';
     editBtn.textContent='✏️ 수정';editBtn.onclick=()=>openModal(targetKey,dt.getDate());
     el.appendChild(editBtn);
@@ -1411,9 +1418,6 @@ function updateRec(){
       exerciseBtn.textContent='🏋️ 운동하기';
       exerciseBtn.onclick=()=>{
         el.innerHTML='';
-        const reason=document.createElement('div');reason.className='rec-reason';
-        reason.textContent='운동할 부위를 선택해 기록하세요.';
-        el.appendChild(reason);
         el.appendChild(makeDoneBtn(targetKey,'',[],false));
       };
       el.appendChild(exerciseBtn);
@@ -1433,10 +1437,6 @@ function updateRec(){
       el.appendChild(btn);return;
     }
   }
-
-  const reason=document.createElement('div');reason.className='rec-reason';
-  reason.textContent='운동할 부위를 선택해 기록하세요.';
-  el.appendChild(reason);
 
   el.appendChild(makeDoneBtn(targetKey,'',[],false));
 }
@@ -1521,6 +1521,14 @@ function matchesExerciseSearch(name, query){
   if(!q)return true;
   return normalizeSearchText(name).includes(q);
 }
+function makeYouTubeLink(name){
+  const yt=EX_YT[name]||`${name} 운동법`;
+  const link=document.createElement('a');link.className='ex-list-yt';link.textContent='▶';
+  link.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(yt)}`;
+  link.target='_blank';link.rel='noopener';link.title=`${name} 영상 검색`;
+  link.onclick=e=>e.stopPropagation();
+  return link;
+}
 function makeDefaultSetInfo(name){
   return isCardioExercise(name)?[{m:''}]:[{w:'',r:'',s:1}];
 }
@@ -1537,6 +1545,8 @@ function buildEntryExerciseSummary(entry, extraClass=''){
   const setsInfo=entry.sets_info||{};
   const partMap=buildExPart();
   const entryParts=(entry.parts||[]).filter(p=>p!=='휴식');
+  const exerciseParts=exercises.map(name=>partMap[name]).filter(Boolean);
+  const sectionParts=[...new Set([...entryParts,...exerciseParts])];
   let rendered=false;
 
   function appendPartSection(part, names){
@@ -1560,16 +1570,24 @@ function buildEntryExerciseSummary(entry, extraClass=''){
       const nm=document.createElement('div');nm.className='view-ex-name';
       const setText=formatSetSummary(setsInfo[name]);
       nm.textContent=name;
-      row.appendChild(nm);
+      const head=document.createElement('div');head.className='view-ex-head';head.appendChild(nm);
+      const ytLink=makeYouTubeLink(name);if(ytLink)head.appendChild(ytLink);
+      row.appendChild(head);
       if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
       list.appendChild(row);
     });
     wrap.appendChild(list);
   }
 
-  entryParts.forEach(part=>appendPartSection(part,exercises.filter(name=>partMap[name]===part)));
-  const uncategorized=exercises.filter(name=>!entryParts.some(part=>partMap[name]===part));
+  sectionParts.forEach(part=>appendPartSection(part,exercises.filter(name=>partMap[name]===part)));
+  const uncategorized=exercises.filter(name=>!sectionParts.some(part=>partMap[name]===part));
   appendPartSection('기타',uncategorized);
+  if(entry.custom){
+    const custom=document.createElement('div');custom.className='rec-custom-summary';
+    const label=document.createElement('strong');label.textContent='직접 입력';
+    const text=document.createElement('span');text.textContent=entry.custom;
+    custom.appendChild(label);custom.appendChild(text);wrap.appendChild(custom);
+  }
   return wrap;
 }
 
@@ -1579,43 +1597,48 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
   const recSetsData={};
   const activeParts=new Set(isCardio?['유산소']:(part?[part]:[]));
   let recSearch='';
+  let loadedPrevKey='';
 
   // ── 이전 운동 불러오기 ──
-  function getPrevEntry(){
-    return findPrevWorkoutEntry(targetKey);
-  }
-
-  const prevEntry=getPrevEntry();
-  if(prevEntry){
-    const [prevKey,prev]=prevEntry;
-    const d=new Date(prevKey+'T00:00:00');
-    const label=`${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')} 불러오기`;
-    const prevBtn=document.createElement('button');
-    prevBtn.style.cssText='width:100%;padding:11px;border-radius:13px;border:1.5px dashed var(--line-strong);background:var(--surface);color:var(--text-2);font-size:.82rem;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:6px';
-    prevBtn.innerHTML='📋 <span>'+label+'</span>';
-    prevBtn.onclick=()=>{
-      const prevParts=(prev.parts||[]).filter(p=>PARTS[p]);
-      activeParts.clear();
-      recSelEx.clear();
-      Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
-      // 이전 기록의 부위만 활성화
-      (prevParts.length?prevParts:(isCardio?['유산소']:[])).forEach(p=>activeParts.add(p));
-      // 이전 기록의 운동만 선택
-      (prev.exercises||[]).forEach(n=>recSelEx.add(n));
-      // 세트 정보 복사 (깊은 복사)
-      Object.entries(prev.sets_info||{}).forEach(([k,v])=>{
-        recSetsData[k]=Array.isArray(v)?v.map(s=>({...s})):[{w:v.w||v.weight||'',r:v.r||v.reps||'',s:parseInt(v.s||v.sets)||1}];
-      });
-      renderChips();renderAll();
-      activeParts.forEach(p=>updateSetsFor(p));
-      prevBtn.style.background='var(--amber)';
-      prevBtn.querySelector('span').textContent='불러오기 완료 ✓';
-      setTimeout(()=>{
-        prevBtn.style.background='var(--surface)';
-        prevBtn.querySelector('span').textContent=label;
-      },2000);
-    };
-    wrap.appendChild(prevBtn);
+  const prevEntries=findPrevWorkoutEntries(targetKey,3,false);
+  if(prevEntries.length){
+    const reviewPrompt=document.createElement('div');reviewPrompt.className='rec-reason';
+    reviewPrompt.textContent='복습한 운동을 선택하세요';
+    wrap.appendChild(reviewPrompt);
+    const prevList=document.createElement('div');prevList.className='prev-load-list';
+    prevEntries.forEach(([prevKey,prev])=>{
+      const d=new Date(prevKey+'T00:00:00');
+      const label=`${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')}`;
+      const prevBtn=document.createElement('button');prevBtn.className='prev-load-btn';
+      prevBtn.textContent=label;prevBtn.title=label+' 불러오기';prevBtn.dataset.label=label;
+      prevBtn.onclick=()=>{
+        const prevParts=(prev.parts||[]).filter(p=>PARTS[p]);
+        activeParts.clear();
+        recSelEx.clear();
+        Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
+        if(loadedPrevKey===prevKey){
+          loadedPrevKey='';
+          if(isCardio)activeParts.add('유산소');
+          prevBtn.classList.remove('loaded');prevBtn.textContent=label;prevBtn.title=label+' 불러오기';
+          renderChips();renderAll();
+          return;
+        }
+        loadedPrevKey=prevKey;
+        prevList.querySelectorAll('.prev-load-btn').forEach(btn=>{
+          const btnLabel=btn.dataset.label||'';
+          btn.classList.remove('loaded');btn.textContent=btnLabel;btn.title=btnLabel+' 불러오기';
+        });
+        (prevParts.length?prevParts:(isCardio?['유산소']:[])).forEach(p=>activeParts.add(p));
+        (prev.exercises||[]).forEach(n=>recSelEx.add(n));
+        Object.assign(recSetsData,copySetsInfo(prev.sets_info));
+        renderChips();renderAll();
+        activeParts.forEach(p=>updateSetsFor(p));
+        prevBtn.classList.add('loaded');
+        prevBtn.textContent='선택 해제';prevBtn.title=label+' 선택 해제';
+      };
+      prevList.appendChild(prevBtn);
+    });
+    wrap.appendChild(prevList);
   }
 
   // 검색창
@@ -1799,6 +1822,9 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
 
   // 부위 칩
   if(!isCardio){
+    const partPrompt=document.createElement('div');partPrompt.className='rec-reason';
+    partPrompt.textContent='운동할 부위를 선택해 기록하세요.';
+    wrap.appendChild(partPrompt);
     const chips=document.createElement('div');chips.className='part-chips';
     renderChips=()=>{
       chips.innerHTML='';
@@ -2192,13 +2218,12 @@ function renderCal(){
     cell.className='cal-day'
       +(key===tk?' is-today':'')
       +(dow===0?' is-sun':dow===6?' is-sat':'')
-      +(!entry&&sched==='근력'&&key!==tk?' is-plan':'')
-      +(!entry&&sched==='유산소'&&key!==tk?' is-plan-cardio':'');
+      +(!entry&&sched?' is-plan':'');
     cell.onclick=()=>{if(data[key])openView(key,d);else openModal(key,d);};
     const num=document.createElement('div');num.className='dn2';num.textContent=d;cell.appendChild(num);
-    if(!entry&&sched&&key!==tk){
+    if(!entry&&sched){
       const pl=document.createElement('div');pl.className='plan-lbl';
-      pl.textContent=sched==='근력'?'근력':'유산소';cell.appendChild(pl);
+      pl.textContent=sched;cell.appendChild(pl);
     }
     if(entry){
       if(entry.parts?.length&&entry.parts[0]!=='휴식'){
@@ -2322,7 +2347,9 @@ function openView(key,d){
         const nm=document.createElement('div');nm.className='view-ex-name';
         const setText=formatSetSummary(setsInfo[name]);
         nm.textContent=name;
-        row.appendChild(nm);
+        const head=document.createElement('div');head.className='view-ex-head';head.appendChild(nm);
+        const ytLink=makeYouTubeLink(name);if(ytLink)head.appendChild(ytLink);
+        row.appendChild(head);
         if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
         exScroll.appendChild(row);
       });
@@ -2346,7 +2373,9 @@ function openView(key,d){
         const nm=document.createElement('div');nm.className='view-ex-name';
         const setText=formatSetSummary(setsInfo[name]);
         nm.textContent=name;
-        row.appendChild(nm);
+        const head=document.createElement('div');head.className='view-ex-head';head.appendChild(nm);
+        const ytLink=makeYouTubeLink(name);if(ytLink)head.appendChild(ytLink);
+        row.appendChild(head);
         if(setText){const sv=document.createElement('div');sv.className='view-ex-sets-inline';sv.textContent=setText;row.appendChild(sv);}
         exScroll.appendChild(row);
       });
@@ -2381,11 +2410,13 @@ function switchToEdit(){
   if(k!==null)openModal(k,day);
 }
 
-function findPrevWorkoutEntry(targetKey){
-  const entries=Object.entries(data)
-    .filter(([k,v])=>k<targetKey&&v?.exercises?.length)
-    .sort(([a],[b])=>b.localeCompare(a));
-  return entries.length?entries[0]:null;
+function findPrevWorkoutEntries(targetKey,limit=3,includeCustom=true){
+  return Object.entries(data)
+    .filter(([k,v])=>k<targetKey&&v&&(
+      v.exercises?.length||(includeCustom&&String(v.custom||'').trim())
+    ))
+    .sort(([a],[b])=>b.localeCompare(a))
+    .slice(0,limit);
 }
 
 function copySetsInfo(src){
@@ -2402,34 +2433,36 @@ function renderModalPrevLoader(targetKey){
   const mount=document.getElementById('modalPrevLoad');
   if(!mount)return;
   mount.innerHTML='';
-  const prevEntry=findPrevWorkoutEntry(targetKey);
-  if(!prevEntry){
+  const prevEntries=findPrevWorkoutEntries(targetKey,3,true);
+  if(!prevEntries.length){
     const empty=document.createElement('div');
     empty.className='prev-load-empty';
     empty.textContent='불러올 이전 운동 기록이 없어요';
     mount.appendChild(empty);
     return;
   }
-  const [prevKey,prev]=prevEntry;
-  const d=new Date(prevKey+'T00:00:00');
-  const label=`📋 ${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')} 불러오기`;
-  const btn=document.createElement('button');
-  btn.className='prev-load-btn';
-  btn.textContent=label;
-  btn.onclick=()=>{
-    selParts=new Set((prev.parts||[]).filter(p=>PARTS[p]));
-    selExercises=new Set(prev.exercises||[]);
-    perExSets=copySetsInfo(prev.sets_info);
-    document.getElementById('doneToggle').checked=true;
-    document.getElementById('exSearch').value='';
-    const results=document.getElementById('exSearchResults');
-    results.classList.add('hidden');results.innerHTML='';
-    renderPartBtns();renderExGrid();
-    btn.textContent='불러오기 완료 ✓';
-    btn.classList.add('loaded');
-    setTimeout(()=>{btn.textContent=label;btn.classList.remove('loaded');},2000);
-  };
-  mount.appendChild(btn);
+  const list=document.createElement('div');list.className='prev-load-list';
+  prevEntries.forEach(([prevKey,prev])=>{
+    const d=new Date(prevKey+'T00:00:00');
+    const label=`${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')}`;
+    const btn=document.createElement('button');btn.className='prev-load-btn';
+    btn.textContent=label;btn.title=label+' 불러오기';
+    btn.onclick=()=>{
+      selParts=new Set((prev.parts||[]).filter(p=>PARTS[p]));
+      selExercises=new Set(prev.exercises||[]);
+      perExSets=copySetsInfo(prev.sets_info);
+      document.getElementById('custInp').value=prev.custom||'';
+      document.getElementById('doneToggle').checked=true;
+      document.getElementById('exSearch').value='';
+      const results=document.getElementById('exSearchResults');
+      results.classList.add('hidden');results.innerHTML='';
+      renderPartBtns();renderExGrid();
+      btn.textContent='불러오기 완료 ✓';btn.classList.add('loaded');
+      setTimeout(()=>{btn.textContent=label;btn.classList.remove('loaded');},2000);
+    };
+    list.appendChild(btn);
+  });
+  mount.appendChild(list);
 }
 
 function openModal(key,d){
@@ -2568,6 +2601,42 @@ let customExercises=JSON.parse(localStorage.getItem('hcCustomEx')||'{}');
 let hiddenExercises=new Set(JSON.parse(localStorage.getItem('hcHiddenEx')||'[]'));
 let exMgmtEditMode=false;
 
+const EX_PART_HINTS={
+  '등':['랫','로우','풀다운','풀업','광배','등운동','시티드로우'],
+  '가슴':['체스트','벤치','펙덱','푸시업','딥스','크로스오버','가슴운동'],
+  '어깨':['숄더','레터럴','리어델트','페이스풀','ohp','어깨운동','로테이션','y레이즈'],
+  '하체':['스쿼트','레그','데드리프트','런지','힙','카프','스텝업','둔근','하체운동','이너타이','아웃타이'],
+  '코어':['코어','복근','플랭크','크런치','버드독','데드버그','롤아웃','브이업'],
+  '팔':['트라이셉스','바이셉스','이두','삼두','킥백','컬','팔운동'],
+  '유산소':['유산소','러닝','자전거','로잉','스텝밀','줄넘기','워킹','트레드밀']
+};
+
+function inferExercisePart(name){
+  const q=normalizeSearchText(name);
+  if(!q)return '';
+  for(const[part,names]of Object.entries(PART_EX)){
+    if(names.some(n=>normalizeSearchText(n)===q))return part;
+  }
+  let bestPart='',bestScore=0;
+  Object.entries(EX_PART_HINTS).forEach(([part,hints])=>{
+    hints.forEach(hint=>{
+      const token=normalizeSearchText(hint);
+      if(q.includes(token)&&token.length>bestScore){bestPart=part;bestScore=token.length;}
+    });
+  });
+  return bestPart;
+}
+
+function suggestExercisePart(name){
+  const suggestion=document.getElementById('exMgmtSuggest');
+  const select=document.getElementById('exMgmtPart');
+  if(!suggestion||!select)return;
+  const part=inferExercisePart(name);
+  suggestion.classList.toggle('show',!!part);
+  suggestion.textContent=part?`추천 부위 · ${part}`:'';
+  if(part)select.value=part;
+}
+
 function toggleExMgmtEdit(){
   exMgmtEditMode=!exMgmtEditMode;
   const btn=document.getElementById('exMgmtEditBtn');
@@ -2644,7 +2713,9 @@ function renderExMgmt(){
       nm.appendChild(fb);
     }
     const badge=document.createElement('span');badge.className='ex-mgmt-part';
-    badge.textContent=part;badge.style.background=PARTS[part]?.color||'#888';
+    const partColor=PARTS[part]?.color||'#888';
+    badge.textContent=part;badge.style.background=partColor;
+    badge.style.color=isLightColor(partColor)?'#10110D':'#fff';
     row.appendChild(nm);row.appendChild(badge);
     if(exMgmtEditMode){
       const del=document.createElement('button');
@@ -2688,6 +2759,8 @@ function addCustomEx(){
   EX_YT[name]=name+' 운동법';
   localStorage.setItem('hcCustomEx',JSON.stringify(customExercises));
   if(nameEl)nameEl.value='';
+  const suggestion=document.getElementById('exMgmtSuggest');
+  if(suggestion){suggestion.textContent='';suggestion.classList.remove('show');}
   renderExMgmt();
 }
 
