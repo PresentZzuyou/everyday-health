@@ -365,6 +365,16 @@ html,body{min-height:100vh;background:var(--bg);color:var(--text);
   font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .prev-load-empty{font-size:.8rem;font-weight:700;color:var(--text-3);text-align:center;
   padding:10px 12px;border:1.5px dashed var(--line);border-radius:13px;margin:-4px 0 14px}
+.rec-suggest-card{background:rgba(255,255,255,.84);border-radius:16px;padding:12px;
+  margin:0 0 14px;display:grid;gap:9px}
+.rec-suggest-title{font-size:.82rem;font-weight:800;color:var(--text);line-height:1.45}
+.rec-suggest-list{display:flex;flex-wrap:wrap;gap:5px}
+.rec-suggest-chip{font-size:.68rem;font-weight:800;color:var(--text);background:var(--bg);
+  border-radius:999px;padding:5px 8px;line-height:1;text-decoration:none}
+.rec-suggest-chip:active{background:var(--lime)}
+.rec-suggest-btn{border:none;border-radius:12px;background:#080A08;color:#fff;
+  padding:10px 12px;font-size:.8rem;font-weight:800;font-family:inherit;cursor:pointer}
+.rec-suggest-btn.applied{background:var(--lime);color:#111}
 .rec-custom-summary{margin-top:12px;padding:12px 0 0;border-top:1px solid var(--line-strong);
   color:var(--text-2);font-size:.82rem;font-weight:600;line-height:1.55;white-space:pre-wrap}
 .rec-custom-summary strong{display:block;margin-bottom:3px;color:var(--text);font-size:.72rem}
@@ -1399,13 +1409,14 @@ function updateRec(){
   }
 
   if(sched==='유산소'){
+    const recommendation=buildWorkoutRecommendation(targetKey,'유산소');
     const col=PARTS['유산소'].color;
     const badge=document.createElement('div');badge.className='rec-badge';
     badge.style.cssText=`background:${col};color:#fff;margin-bottom:6px`;
     badge.textContent='🏃 유산소 30분';el.appendChild(badge);
     const reason=document.createElement('div');reason.className='rec-reason';
     reason.textContent='실내 자전거 또는 아크트레이너 30분!';el.appendChild(reason);
-    el.appendChild(makeDoneBtn(targetKey,'유산소',['실내 자전거','아크트레이너'],true));
+    el.appendChild(makeDoneBtn(targetKey,'유산소',['실내 자전거','아크트레이너'],true,recommendation));
     return;
   }
 
@@ -1438,7 +1449,8 @@ function updateRec(){
     }
   }
 
-  el.appendChild(makeDoneBtn(targetKey,'',[],false));
+  const recommendation=sched?buildWorkoutRecommendation(targetKey,sched):null;
+  el.appendChild(makeDoneBtn(targetKey,sched||'',[],false,recommendation));
 }
 
 // 운동별 사용 빈도 계산
@@ -1450,6 +1462,64 @@ function getExFreqMap(){
   return freq;
 }
 function isFrequentExercise(name){return (getExFreqMap()[name]||0)>=3;}
+
+function inferRecordExercisePart(name, entry){
+  const registered=getExercisePart(name);
+  if(registered)return registered;
+  if(isCardioExercise(name))return '유산소';
+  const inferred=typeof inferExercisePart==='function'?inferExercisePart(name):'';
+  if(inferred)return inferred;
+  const parts=(entry?.parts||[]).filter(p=>p&&p!=='휴식');
+  return parts.length===1?parts[0]:'';
+}
+
+function buildWorkoutRecommendation(targetKey, targetPart){
+  if(!targetPart||!PARTS[targetPart])return null;
+  const entries=Object.entries(data)
+    .filter(([k,v])=>k<targetKey&&v&&v.done!==false&&Array.isArray(v.exercises))
+    .sort(([a],[b])=>b.localeCompare(a));
+  const freq=getExFreqMap();
+  const recMap={};
+
+  entries.forEach(([date,entry],idx)=>{
+    (entry.exercises||[]).forEach(name=>{
+      const p=inferRecordExercisePart(name,entry);
+      if(p!==targetPart)return;
+      if(!recMap[name]){
+        recMap[name]={
+          name,
+          lastDate:date,
+          sets:(entry.sets_info||{})[name]?[...(entry.sets_info[name]||[]).map(s=>({...s}))]:makeDefaultSetInfo(name),
+          score:0
+        };
+      }
+      recMap[name].score+=(freq[name]||0)*3+Math.max(0,30-idx);
+    });
+  });
+
+  let exercises=Object.values(recMap)
+    .sort((a,b)=>b.score-a.score||b.lastDate.localeCompare(a.lastDate))
+    .slice(0,targetPart==='유산소'?2:4);
+
+  if(!exercises.length){
+    exercises=(PART_EX[targetPart]||[]).slice(0,targetPart==='유산소'?2:4).map(name=>({
+      name,
+      lastDate:'',
+      sets:makeDefaultSetInfo(name),
+      score:0
+    }));
+  }
+  if(!exercises.length)return null;
+
+  const setsInfo={};
+  exercises.forEach(ex=>{setsInfo[ex.name]=ex.sets?.length?ex.sets:makeDefaultSetInfo(ex.name);});
+  return {
+    part:targetPart,
+    exercises:exercises.map(ex=>ex.name),
+    setsInfo,
+    title:`오늘은 ${targetPart} 운동일이에요. 최근 기록을 기준으로 추천드려요.`
+  };
+}
 
 // 이모지+이름+유튜브 한 줄 리스트 생성 (read-only or selectable)
 function buildExListRows(exList, selSet, onToggle, partKey){
@@ -1591,13 +1661,59 @@ function buildEntryExerciseSummary(entry, extraClass=''){
   return wrap;
 }
 
-function makeDoneBtn(targetKey, part, exList, isCardio){
+function makeDoneBtn(targetKey, part, exList, isCardio, recommendation=null){
   const wrap=document.createElement('div');
   const recSelEx=new Set();
   const recSetsData={};
   const activeParts=new Set(isCardio?['유산소']:(part?[part]:[]));
   let recSearch='';
   let loadedPrevKey='';
+  let prevListEl=null;
+
+  function clearPrevLoadedState(){
+    loadedPrevKey='';
+    if(!prevListEl)return;
+    prevListEl.querySelectorAll('.prev-load-btn').forEach(btn=>{
+      const btnLabel=btn.dataset.label||'';
+      btn.classList.remove('loaded');
+      btn.textContent=btnLabel;
+      btn.title=btnLabel+' 불러오기';
+    });
+  }
+
+  function applySelection(parts, exercises, setsInfo){
+    activeParts.clear();
+    recSelEx.clear();
+    Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
+    (parts||[]).filter(p=>PARTS[p]).forEach(p=>activeParts.add(p));
+    (exercises||[]).forEach(name=>recSelEx.add(name));
+    Object.assign(recSetsData,copySetsInfo(setsInfo));
+    renderChips();renderAll();
+    [...activeParts].forEach(p=>updateSetsFor(p));
+  }
+
+  if(recommendation&&recommendation.exercises?.length){
+    const suggest=document.createElement('div');suggest.className='rec-suggest-card';
+    const title=document.createElement('div');title.className='rec-suggest-title';
+    title.textContent=recommendation.title;
+    const list=document.createElement('div');list.className='rec-suggest-list';
+    recommendation.exercises.forEach(name=>{
+      const chip=document.createElement('a');chip.className='rec-suggest-chip';chip.textContent=name;
+      chip.href=`https://www.youtube.com/results?search_query=${encodeURIComponent(EX_YT[name]||`${name} 운동법`)}`;
+      chip.target='_blank';chip.rel='noopener';chip.title=`${name} 영상 검색`;
+      list.appendChild(chip);
+    });
+    const btn=document.createElement('button');btn.className='rec-suggest-btn';
+    btn.textContent='추천대로 불러오기';
+    btn.onclick=()=>{
+      clearPrevLoadedState();
+      applySelection([recommendation.part],recommendation.exercises,recommendation.setsInfo);
+      btn.classList.add('applied');
+      btn.textContent='추천 적용됨';
+    };
+    suggest.appendChild(title);suggest.appendChild(list);suggest.appendChild(btn);
+    wrap.appendChild(suggest);
+  }
 
   // ── 이전 운동 불러오기 ──
   const prevEntries=findPrevWorkoutEntries(targetKey,3,false);
@@ -1606,6 +1722,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
     reviewPrompt.textContent='복습한 운동을 선택하세요';
     wrap.appendChild(reviewPrompt);
     const prevList=document.createElement('div');prevList.className='prev-load-list';
+    prevListEl=prevList;
     prevEntries.forEach(([prevKey,prev])=>{
       const d=new Date(prevKey+'T00:00:00');
       const label=`${d.getMonth()+1}/${d.getDate()} ${(prev.parts||[]).join('+')}`;
@@ -1613,11 +1730,11 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
       prevBtn.textContent=label;prevBtn.title=label+' 불러오기';prevBtn.dataset.label=label;
       prevBtn.onclick=()=>{
         const prevParts=(prev.parts||[]).filter(p=>PARTS[p]);
-        activeParts.clear();
-        recSelEx.clear();
-        Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
         if(loadedPrevKey===prevKey){
           loadedPrevKey='';
+          activeParts.clear();
+          recSelEx.clear();
+          Object.keys(recSetsData).forEach(k=>delete recSetsData[k]);
           if(isCardio)activeParts.add('유산소');
           prevBtn.classList.remove('loaded');prevBtn.textContent=label;prevBtn.title=label+' 불러오기';
           renderChips();renderAll();
@@ -1628,11 +1745,7 @@ function makeDoneBtn(targetKey, part, exList, isCardio){
           const btnLabel=btn.dataset.label||'';
           btn.classList.remove('loaded');btn.textContent=btnLabel;btn.title=btnLabel+' 불러오기';
         });
-        (prevParts.length?prevParts:(isCardio?['유산소']:[])).forEach(p=>activeParts.add(p));
-        (prev.exercises||[]).forEach(n=>recSelEx.add(n));
-        Object.assign(recSetsData,copySetsInfo(prev.sets_info));
-        renderChips();renderAll();
-        activeParts.forEach(p=>updateSetsFor(p));
+        applySelection(prevParts.length?prevParts:(isCardio?['유산소']:[]),prev.exercises||[],prev.sets_info);
         prevBtn.classList.add('loaded');
         prevBtn.textContent='선택 해제';prevBtn.title=label+' 선택 해제';
       };
