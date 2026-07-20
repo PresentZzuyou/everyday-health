@@ -1473,10 +1473,21 @@ function inferRecordExercisePart(name, entry){
   return parts.length===1?parts[0]:'';
 }
 
+function getDateWeekdayIndex(key){
+  const date=new Date(key+'T00:00:00');
+  return Number.isNaN(date.getTime())?null:date.getDay();
+}
+
+function isSameWeekdayKey(key,targetKey){
+  const weekday=getDateWeekdayIndex(key);
+  const targetWeekday=getDateWeekdayIndex(targetKey);
+  return weekday!==null&&weekday===targetWeekday;
+}
+
 function buildWorkoutRecommendation(targetKey, targetPart){
   if(!targetPart||!PARTS[targetPart])return null;
   const entries=Object.entries(data)
-    .filter(([k,v])=>k<targetKey&&v&&v.done!==false&&Array.isArray(v.exercises))
+    .filter(([k,v])=>k<targetKey&&isSameWeekdayKey(k,targetKey)&&v&&v.done!==false&&Array.isArray(v.exercises))
     .sort(([a],[b])=>b.localeCompare(a));
   const freq=getExFreqMap();
   const recMap={};
@@ -1517,7 +1528,7 @@ function buildWorkoutRecommendation(targetKey, targetPart){
     part:targetPart,
     exercises:exercises.map(ex=>ex.name),
     setsInfo,
-    title:`오늘은 ${targetPart} 운동일이에요. 최근 기록을 기준으로 추천드려요.`
+    title:`오늘은 ${targetPart} 운동일이에요. 같은 요일의 최근 기록을 기준으로 추천드려요.`
   };
 }
 
@@ -2525,7 +2536,7 @@ function switchToEdit(){
 
 function findPrevWorkoutEntries(targetKey,limit=3,includeCustom=true){
   return Object.entries(data)
-    .filter(([k,v])=>k<targetKey&&v&&(
+    .filter(([k,v])=>k<targetKey&&isSameWeekdayKey(k,targetKey)&&v&&(
       v.exercises?.length||(includeCustom&&String(v.custom||'').trim())
     ))
     .sort(([a],[b])=>b.localeCompare(a))
